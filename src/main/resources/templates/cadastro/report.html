@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Architecture Conceptualization Report</title>
+
+
+	<style>
+		.stakeholder h3 {
+			display: inline-block;
+		}
+
+		table.report {
+			width: 80%;
+			border: 0px;
+			border-collapse: collapse;
+		}
+
+		table.report th,
+		table.report td {
+			padding: 1px;
+			padding: 0.2rem;
+			border: 1px solid;
+		}
+
+		table.report th.number,
+		table.report td.number {
+			text-align: right;
+		}
+
+		table.report th.date,
+		table.report th.icon,
+		table.report td.date,
+		table.report td.icon {
+			text-align: center;
+		}
+
+		table.report thead th {
+			background-color: #aaa;
+			border: 1px solid #000;
+		}
+
+		table.report tbody tr:nth-child(even) {
+			background-color: #eee;
+		}
+
+		table.report tfoot {
+			background-color: #ccc;
+			color: #000;
+			font-weight: bold;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.title {
+			width: 80%;
+			margin: 0 auto;
+		}
+
+		.stakeholder {
+			width: 80%;
+			text-align: left;
+		}
+
+		.stakeholder>h1 {
+			display: inline-block;
+		}
+
+		.grupo {
+			width: 80%;
+		}
+
+		.linha {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.linha>.item {
+			padding-right: 1rem;
+		}
+
+		@media print {
+			* {
+				text-shadow: none;
+				filter: none;
+				-ms-filter: none;
+			}
+			nav {
+				display:none;
+			}
+
+			table.report {
+				width: 100%;
+			}
+
+			main>.title+.container {
+				page-break-before: avoid;
+			}
+
+			main>.container {
+				page-break-before: always;
+			}
+		}
+	</style>
+
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo right">ArchConcept</a>
+			<ul id="nav-mobile" class="left hide-on-med-and-down">
+				<li><a href="/cadastrostakeholder">Stakeholder</a></li>
+				<li><a href="/cadastroconcern">Concern</a></li>
+				<li><a href="/viewpointregistration">Viewpoint</a></li>
+				<li><a href="/problemregistration">Problem</a></li>
+				<li><a href="/objectiveregistration">Objective</a></li>
+				<li><a href="/decisionregistration">Decision</a></li>
+				<li><a href="/tradeoffregistration">Tradeoff</a></li>
+				<li><a href="/search">Search</a></li>
+				<li><a href="/report">Report</a></li>
+			</ul>
+		</div>
+	</nav>
+ 
+	<div id="app-stakeholder">
+		<div class="container">
+			<h2>Architecture Conceptualization Report</h2>
+		</div>
+
+		<div class="container" v-for="st in stakeholders" :key="st.id">
+			<div class="stakeholder">
+				<h3>{{st.nome}}</h3>
+				<span>{{st.type}}</span>
+			</div>
+			<div class="grupo">
+			<h5>Concerns</h5>
+				<table id="concern" class="report responsive">
+					<thead>
+						<tr>
+					<!--    <th>Id</th>   -->
+							<th>Description</th>
+							<th>Priority</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in  st.concerns" :key="c.description">
+					<!--	<td>{{c.id}}</td>  -->
+							<td>{{c.description}}</td>
+							<td>{{c.priority}}</td>
+						</tr>
+						<tr v-if="st.concerns.length == 0"><td colspan="3"> No records </td></tr>
+					</tbody>
+				</table>
+				<br>
+				
+			</div>
+			<div class="grupo">
+			<h5> Problems </h5>
+				<table id="Problem" class="report responsive">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>Area</th>
+							<th>Aspect</th>
+							<th>Risk</th>
+							<th>Oportunity</th>
+							<th>Constraint</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="p in st.problems">
+							<td>{{p.id}}</td>
+							<td>{{p.title}}</td>
+							<td>{{p.area}}</td>
+							<td>{{p.aspects}}</td>
+							<td>{{p.risks}}</td>
+							<td>{{p.oportunities}}</td>
+							<td>{{p.constraints}}</td>
+						</tr>
+						<tr v-if="st.problems.length == 0"><td colspan="7"> No records </td></tr>
+					</tbody>
+				</table>
+				<br>
+				<h5> Objectives </h5>
+				<table id="Objective" class="report responsive"> 
+					<thead>
+						<th>Objective id</th>
+						<th>#Problem</th>
+
+						<th>Description</th>
+						<th>Rationale</th>
+					</thead>
+					<tbody>
+						<tr v-for="o in st.objectives">
+							<td>{{o.id}}</td>
+							<td>{{o.problem}}</td>							
+							<td>{{o.description}}</td>
+							<td>{{o.rationale}}</td>
+						</tr>
+						<tr v-if="st.objectives.length == 0"><td colspan="4"> No records </td></tr>
+					</tbody>
+				</table>
+				<br>
+				<h5> Decisions </h5>
+				<table id="Decision" class="report responsive">
+					<thead>
+						<th>Decision Id</th>
+						<th>#Objective</th>
+						<th>Description</th>
+						<th>Solution</th>
+						<th>Rationale</th>
+					</thead>
+					<tr v-for=" d in st.decisions">
+						<td>{{d.id}}</td> 
+						<td>{{d.objective}}</td>
+						<td>{{d.description}}</td>
+						<td>{{d.solution}}</td>
+						<td>{{d.rationale}}</td>
+					</tr>
+					<tr v-if="st.decisions.length == 0"><td colspan="5"> No records </td></tr>
+				</table>
+				<br>
+				<h5> Tradeoffs </h5>
+				<table id="Tradeoff" class="report responsive">
+					<thead>
+						<th>Tradeoff Id</th>
+						<th>#Decision</th>
+						<th>type</th>
+						<th>description</th>
+						<th>rationale</th>
+					</thead>
+					<tr v-for=" t in st.tradeoffs">
+						<td>{{t.id}}</td>
+						<td>{{t.decision}}</td>
+						<td>{{t.type}}</td>
+						<td>{{t.description}}</td>
+						<td>{{t.rationale}}</td>
+					</tr>
+					<tr v-if="st.tradeoffs.length == 0"><td colspan="5"> No records </td></tr>
+				</table>
+				<br>
+				
+				<h5> Viewpoints </h5>
+				<table id="viewpoint" class="report responsive">
+					<thead>
+						<tr>
+							<th>Viewpoint Id</th>
+							<th>#Concern</th>
+							<th>Rationale</th>
+							<th>Model</th>
+							<th>Conventions</th>
+							<th>Source</th>
+						</tr>
+						
+					</thead>
+					<tbody>
+						<tr v-for="v in  st.viewpoint" :key="c.description">
+														<td>{{v.id}</td>
+							<td>{{v.concern}</td>
+							<td>{{v.rationale}</td>
+							<td>{{v.model}</td>
+							<td>{{v.conventions}</td>
+							<td>{{v.source}</td>
+						</tr>
+						<tr v-if="st.viewpoint.length == 0"><td colspan="6"> No records </td></tr>
+					</tbody>
+				</table>
+				
+			</div>
+
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+	<script type="text/javascript">
+		function formatarJson(stakeholders ) {
+			return stakeholders.map(({ id, nome, type, concerns = [], problems = [] }) => {
+
+				const objectives = problems.flatMap((p = []) => p.objectives).sort((a, b) => a.problem - b.problems == 0 ? a.id - b.id : a.concern - b.concern)
+				const viewpoint = concerns.flatMap((c = []) => c.viewpoint).sort((a, b) => a.concern - b.concern == 0 ? a.id - b.id : a.concern - b.concern)
+				const decisions = objectives.flatMap((o  = [])=> o.decisions).sort((a, b) => a.objective - b.objective == 0 ? a.id - b.id : a.concern - b.concern)
+				const tradeoffs = decisions.flatMap((d = []) => d.tradeoffs).sort((a, b) => a.decision - b.decision == 0 ? a.id - b.id : a.concern - b.concern)
+				return {
+					id,
+					nome,
+					type,
+					concerns,
+					viewpoint,
+					problems,
+					objectives,
+					decisions,
+					tradeoffs
+				}
+			}) 
+		}
+
+		new Vue({
+			el: "#app-stakeholder"
+			, data() {
+				return { stakeholders: [] }
+			},
+			mounted() {
+				this.fetchData()
+			}
+			, methods: {
+				fetchData() {
+					fetch('/api/report')
+						.then((response) => {
+							return response.json()
+						})
+						.then((data) => {
+							this.stakeholders = formatarJson(data)
+							console.log(JSON.stringify(this.stakeholders))
+						}).catch((err) => {
+							console.error(err)
+						});
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

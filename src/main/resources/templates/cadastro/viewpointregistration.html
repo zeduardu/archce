@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+<style type="text/css">
+	table.striped>tbody>tr:nth-child(odd){
+	background-color: rgba(158, 154, 154, 0.5);
+	}
+	form input[type=submit] {
+		color: white;
+	}
+
+</style>
+
+<title>Architecture Conceptualization</title>
+
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">ArchConcept</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="/cadastrostakeholder">Stakeholder</a></li>
+        <li><a href="/cadastroconcern">Concern</a></li>
+        <li><a href="/viewpointregistration">Viewpoint</a></li>
+        <li><a href="/problemregistration">Problem</a></li>
+        <li><a href="/objectiveregistration">Objective</a></li>
+        <li><a href="/decisionregistration">Decision</a></li>
+        <li><a href="/tradeoffregistration">Tradeoff</a></li>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/report">Report</a></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li><a href="/logout">LOGOUT</a></li>
+      </ul>
+    </div>
+  </nav>
+    
+</body>
+
+
+
+</head>
+<body>
+	<h3>Architecture Conceptualization</h3><br/>
+	
+	<h5>Viewpoint Registration</h5>
+	
+     <br/>
+    
+    	<div th:each = "m : ${msg}">
+    		<span th:text = "${m}"></span> 
+       	</div>
+    
+     <br/>
+     
+     <!--
+	
+		<div th:each="c : ${concernobj}">
+		  <div class="row">
+				<p>ID: <span th:text="${c.id}"></span> </p>
+				<p>ID: <span th:text="${c.description}"></span> </p>
+				<p>ID: <span th:text="${c.priority}"></span> </p>
+		  </div>
+
+		</div>
+		
+	-->	
+		
+
+ 
+	<div class="row"> 
+		
+		
+		<form action="salvarviewpoint" id="formviewpoint" method="post" th:object="${viewpointobj}" class="col s12" onsubmit="return validarCampos()? true : false">
+			<div class="row">
+				
+				<div class="input-field col s6">
+					<label for="title" class="active">Title</label> 
+					<input name="title" th:field="*{title}" type="text" id="title" class="validate">
+					
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="rationale" class="active">Rationale</label> 
+					<input name="rationale" th:field="*{rationale}" type="text" id="rationale" class="validate">
+					<input name="id" type="hidden" th:field="*{id}" id="id">
+				</div>
+
+				
+				<div class="input-field col s6">
+					<label for="model" class="active">Models</label> 
+					<input name="model" th:field="*{model}" type="text" id="model" class="validate">
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="conventions" class="active">Conventions</label> 
+					<input name="conventions" th:field="*{conventions}" type="text" id="conventions" class="validate">
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="source" class="active">Source</label> 
+					<input name="source" th:field="*{source}" type="text" id="source" class="validate">
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="concern" class="active">Concern</label>
+					<select multiple class="browser-default" id="concern" name="concern" th:field="*{concern}">
+							<option value="" disabled selected> --[Select]-- </option>
+							<option th:each="c : ${concerns}" th:value="${c.id}" th:text="${c.description}" />
+									
+					</select>
+				</div>
+				
+				
+
+				<input type="submit" value="Add" class="waves-effect waves-light btn">
+				
+			</div>
+
+			
+		</form>
+	</div>
+
+
+	<br/>
+	<br/>
+	
+	<table class="striped">
+	    <thead>
+	        <tr>
+	        	<th> Concern </th>
+	            <th> Rationale </th>
+	            <th> Models </th>
+	            <th> Conventions </th>
+	            <th> Source </th>
+	            <th> Edit </th>
+	            <th> Delete </th>
+	            
+	        
+	        </tr>
+	    </thead>
+	    <tbody>
+		
+	        <tr th:each="view : ${viewpoints}">
+	        	<td th:text="${view.concern.description}">
+	            <td th:text="${view.rationale}">
+	            <td th:text="${view.model}">
+	            <td th:text="${view.conventions}">
+	            <td th:text="${view.source}">
+	            <td><a th:href="@{/editarviewpoint/{idview}(idview=${view.id})}">Edit</a>  </td> 
+	            <td><a th:href="@{/removerviewpoint/{idview}(idview=${view.id})}">Delete</a>  </td>
+	            
+	        </tr>
+	    </tbody>
+	</table>
+	
+ 
+
+	
+	<script type="text/javascript" >
+	  function validarCampos() {
+		  rationale = document.getElementById('rationale').value;
+		  model = document.getElementById('model').value;
+		  conventions = document.getElementById('conventions').value;
+		  conventions = document.getElementById('source').value;
+		  concern = document.getElementById('concern').value;
+		  
+		  
+		  if (rationale === '') {
+			  alert ('Rationale must be informed');
+			  return false;
+		  }
+		  else if (model === '') {
+			  alert ('Model must be informed');
+			  return false;		  
+		  }
+		  else if (conventions === '') {
+			  alert ('Conventions must be informed');
+			  return false;		  
+		  }
+		  else if (source === '') {
+			  alert ('Source must be informed');
+			  return false;		  
+		  }
+		  else if (concern === '') {
+			  alert ('Check if an concern was previously registrated, if so, select one.');
+			  return false;		  
+		  }
+		  
+		  
+		  
+		  
+		  return true; 
+		  
+	  }
+	
+	
+	</script>
+
+</body>
+</html>

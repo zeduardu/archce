@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+<style type="text/css">
+	table.striped>tbody>tr:nth-child(odd){
+	background-color: rgba(158, 154, 154, 0.5);
+	}
+	form input[type=submit] {
+		color: white;
+	}
+
+</style>
+
+<title>Archictecture Conceptualitation</title>
+
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">ArchConcept</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="/cadastrostakeholder">Stakeholder</a></li>
+        <li><a href="/cadastroconcern">Concern</a></li>
+        <li><a href="/viewpointregistration">Viewpoint</a></li>
+        <li><a href="/problemregistration">Problem</a></li>
+        <li><a href="/objectiveregistration">Objective</a></li>
+        <li><a href="/decisionregistration">Decision</a></li>
+        <li><a href="/tradeoffregistration">Tradeoff</a></li>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/report">Report</a></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li><a href="/logout">LOGOUT</a></li>
+      </ul>
+    </div>
+  </nav>
+    
+</body>
+
+
+</head>
+<body>
+	<h3>Architecture Conceptualization</h3><br/>
+	
+	<h5>Decision Registration</h5>
+	
+     <br/>
+    
+    	<div th:each = "m : ${msg}">
+    		<span th:text = "${m}"></span> 
+       	</div>
+    
+     <br/>
+	
+	<!--
+		<div th:each="s : ${stakeholderobj}">
+		  <div class="row">
+				<p>ID: <span th:text="${s.id}"></span> </p>
+				<p>ID: <span th:text="${s.nome}"></span> </p>
+				<p>ID: <span th:text="${s.cargo}"></span> </p>
+		  </div>
+
+		</div>
+		
+	-->	
+	<!--	<a class="waves-effect waves-light btn" href="/cadastrostakeholder">Stakeholder Registration</a>   -->
+
+ 
+	<div class="row"> 
+		
+		
+		<form action="salvardecision" id="decisionobjective" method="post" th:object="${decisionobj}" class="col s12" onsubmit="return validarCampos()? true : false">	
+			
+			<div class="row">
+				
+				<div class="input-field col s6">
+					<label for="description" class="active">Description</label> 
+					<input name="description" th:field="*{description}"  id="description" class="validate">
+					<input name="id" type="hidden" th:field="*{id}" id="id">
+				</div>
+
+				<div class="input-field col s6">
+					<label for="solution" class="active">Solution</label> 
+					<input name="solution" th:field="*{solution}" id="solution" class="validate">
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="rationale" class="active">Rationale</label> 
+					<input name="rationale" th:field="*{rationale}" id="rationale" class="validate">
+				</div>
+				
+				<div class="input-field col s6">
+					<label for="objective" class="active">Objective</label>
+					<select class="browser-default" id="objective" name="objective" th:field="*{objective}">
+							<option value="" disabled selected> --[Select]-- </option>
+							<option th:each="o : ${objectives}" th:value="${o.id}" th:text="${o.description}" />
+									
+					</select>
+				</div>
+
+				
+				<input type="submit" value="Add" class="waves-effect waves-light btn">
+				
+			</div>
+
+			
+		</form>
+	</div>
+
+
+	<br/>
+	<br/>
+	
+	<table class="striped">
+	    <thead>
+	        <tr>
+	        	<th> Objective </th>
+	            <th> Decision Description </th>
+	            <th> Solution </th>
+	            <th> Rationale </th>
+	            <th> Edit </th>
+	            <th> Delete </th>
+	            
+	        
+	        </tr>
+	    </thead>
+	    <tbody>
+		
+	        <tr th:each="decisions : ${decisions}">
+	        	<td th:text="${decisions.objective.description}">
+	            <td th:text="${decisions.description}">
+	            <td th:text="${decisions.solution}">
+	            <td th:text="${decisions.rationale}"> 
+	            <td><a th:href="@{/editardecision/{iddecision}(iddecision=${decisions.id})}">Edit</a>  </td>
+	            <td><a th:href="@{/removerdecision/{iddecision}(iddecision=${decisions.id})}">Delete</a>  </td>
+	      <!--  <td><a th:href="@{/tradeoff/{iddecision}(iddecision=${decisions.id})}">Add Tradeoff</a>  </td> -->
+	        </tr>
+	    </tbody>
+	</table>
+	
+
+
+
+	
+	<script type="text/javascript" >
+	  function validarCampos() {
+		  description = document.getElementById('description').value;
+		  solution = document.getElementById('solution').value;
+		  rationale = document.getElementById('rationale').value;
+		  objective = document.getElementById('objective').value;
+		  
+		  if (description === '') {
+			  alert ('Description must be informed');
+			  return false;
+		  }
+		  else if (solution === '') {
+			  alert ('Solution must be informed');
+			  return false;
+			  
+		  }
+		  
+		  else if (objective === '') {
+			  alert ('Check if an objective was previously registrated, if so, select one.');
+			  return false;			  
+		  }
+		  
+		  return true; 
+		  
+	  }
+	
+	
+	</script>
+
+</body>
+</html>
