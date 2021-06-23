@@ -39,8 +39,7 @@ public class StakeholderController {
 	@Autowired
 	private ReportRepository reportRepository;
 	
-	@Autowired
-	private ReportUtil reportUtil;
+	
 
 /**	antigo inicio
 	@RequestMapping(method=RequestMethod.GET, value="/cadastrostakeholder")
@@ -181,50 +180,7 @@ public class StakeholderController {
 	}
 	 
 	
-	@GetMapping("**/pesquisarstakeholder")
-	public void printPDF(@RequestParam("nomepesquisa") String nomepesquisa,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		List<Stakeholder> stakeholders = new ArrayList<Stakeholder>();
-		
-		if (nomepesquisa != null && !nomepesquisa.isEmpty()) {
-			
-			stakeholders = stakeholderRepository.findStakeholderByName(nomepesquisa);
-			
-		}else {
-			Iterable<Stakeholder> iterator = stakeholderRepository.findAll();
-			for (Stakeholder stakeholder: iterator) {
-				stakeholders.add(stakeholder);
-				
-			}
-		}
-		
-		/* chamado do servico que faz a geracao do relatorio */
-		
-		byte[] pdf = reportUtil.generateReport(stakeholders, "stakeholder", request.getServletContext());
-		
-		/* tamanho da resposta */
-		
-		response.setContentLength(pdf.length);
-		
-		/* definir na resposta o tipo arquivo*/
-		
-		response.setContentType("application/octet-stream");
-		
-		/* definir o cabeçalho da resposta*/
-		
-		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"", "report.pdf");
-		
-		response.setHeader(headerKey, headerValue);
-		
-		/*Finaliza a resposta para o navegador  */
-		
-		response.getOutputStream().write(pdf);
-				
-				
-	}
+
 	
 		
 	
