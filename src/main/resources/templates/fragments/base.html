@@ -57,6 +57,8 @@
                     <li th:class="${#strings.equals(link,'problemregistration')} ? 'active': ''">
                         <a href="/problemregistration">Problem</a>
                     </li>
+                    
+                    
                     <!--
                     <li th:class="${#strings.equals(link,'objectiveregistration')} ? 'active': ''">
                         <a href="/objectiveregistration">Objective</a>
@@ -90,7 +92,11 @@
                     </li>
                     
            -->          
-                    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Reports<i class="material-icons right">arrow_drop_down</i></a></li> 
+                    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Reports<i class="material-icons right">arrow_drop_down</i></a></li>
+                    
+                    <li >
+                        <a href="/logout">LOGOUT</a>
+                    </li> 
                 </ul>
             </div>
         </nav>
