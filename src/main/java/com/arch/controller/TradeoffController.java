@@ -1,12 +1,15 @@
 package com.arch.controller;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
+
+import com.arch.model.Decision;
+import com.arch.model.Objective;
+import com.arch.model.Tradeoff;
+import com.arch.repository.DecisionRepository;
+import com.arch.repository.TradeoffRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,61 +22,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.arch.model.Decision;
-import com.arch.model.Objective;
-import com.arch.model.Tradeoff;
-import com.arch.repository.ConcernRepository;
-import com.arch.repository.DecisionRepository;
-import com.arch.repository.ObjectiveRepository;
-import com.arch.repository.ProblemRepository;
-import com.arch.repository.StakeholderRepository;
-import com.arch.repository.TradeoffRepository;
-import com.arch.repository.ViewpointRepository;
-
 @Controller
 public class TradeoffController {
 
 	@Autowired
-	private StakeholderRepository stakeholderRepository;
-	
-	@Autowired
-	private ConcernRepository concernRepository;
-	
-	@Autowired
-	private ViewpointRepository viewRepository;
-	
-	@Autowired
-	private ObjectiveRepository objectiveRepository;
-	
-	@Autowired
-	private ProblemRepository problemRepository;
-
-	@Autowired
 	private DecisionRepository decisionRepository;
-	
+
 	@Autowired
 	private TradeoffRepository tradeoffRepository;
-	
-	
-	//@GetMapping("/tradeoff/{iddecision}")
-	
+
+	// @GetMapping("/tradeoff/{iddecision}")
+
 	@RequestMapping(method = RequestMethod.GET, value = "**/tradeoffregistration")
-	public ModelAndView tradeoff () {
-		
+	public ModelAndView tradeoff() {
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
-		
-		
+
 		modelAndView.addObject("tradeoffobj", new Tradeoff());
 
-		Iterable<Tradeoff> tradeoffsIt = tradeoffRepository.findAll();		
-				
+		Iterable<Tradeoff> tradeoffsIt = tradeoffRepository.findAll();
+
 		modelAndView.addObject("tradeoff", tradeoffsIt);
-		
+
 		modelAndView.addObject("decisions", decisionRepository.findAll());
-		
+
 		return modelAndView;
 
-		
 		/*
 		 * Optional<Decision> decision = decisionRepository.findById(iddecision);
 		 * 
@@ -85,127 +59,111 @@ public class TradeoffController {
 		 * 
 		 * return modelAndView;
 		 */
-		
+
 	}
-	
-	@RequestMapping(method=RequestMethod.POST, value="**/salvartradeoff")
+
+	// @RequestMapping(method=RequestMethod.POST, value="**/salvartradeoff")
+	@PostMapping("salvartradeoff")
 	public ModelAndView salvarTradeoff(@Valid Tradeoff tradeoff, BindingResult bindingResult) {
-		
-		
-		
-		//problem.setStakeholder(stakeholderRepository.getConcernsPorStakeholder(stakeholder.getId()));
-		
+
+		// problem.setStakeholder(stakeholderRepository.getConcernsPorStakeholder(stakeholder.getId()));
+
 		if (bindingResult.hasErrors()) {
-			ModelAndView modelAndView = new ModelAndView ("cadastro/tradeoffregistration");
-			
+			ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
+
 			Iterable<Tradeoff> tradeoffsIt = tradeoffRepository.findAll();
 			modelAndView.addObject("tradeoffs", tradeoffsIt);
 			modelAndView.addObject("tradeoffobj", tradeoff);
-			
+
 			List<String> msg = new ArrayList<String>();
 			for (ObjectError objectError : bindingResult.getAllErrors()) {
-				msg.add(objectError.getDefaultMessage()); //vem das anotacoes @NotEmpty e outras
+				msg.add(objectError.getDefaultMessage()); // vem das anotacoes @NotEmpty e outras
 			}
-			
+
 			modelAndView.addObject("msg", msg);
 			modelAndView.addObject("decisions", decisionRepository.findAll());
 			return modelAndView;
-			
+
 		}
-		
+
 		tradeoffRepository.save(tradeoff);
 		ModelAndView andView = new ModelAndView("cadastro/tradeoffregistration");
-		
+
 		Iterable<Tradeoff> tradeoffsIt = tradeoffRepository.findAll();
 		andView.addObject("tradeoffs", tradeoffsIt);
-				
+
 		andView.addObject("tradeoffobj", new Tradeoff());
-		
+
 		andView.addObject("decisions", decisionRepository.findAll());
-		
+
 		return andView;
-		
-		
-		
+
 	}
-	
-	
-	//Adicionar tradeoff vinculado ao decision
+
+	// Adicionar tradeoff vinculado ao decision
 	@PostMapping("**/addTradeoffDecision/{iddecision}")
-	public ModelAndView addTradeoffDecision (Tradeoff tradeoff, @PathVariable("iddecision") Long iddecision) {
-		
-		
+	public ModelAndView addTradeoffDecision(Tradeoff tradeoff, @PathVariable("iddecision") Long iddecision) {
+
 		Decision decision = decisionRepository.findById(iddecision).get();
-		
-		if (tradeoff != null && tradeoff.getType().isEmpty() ||
-				tradeoff.getDescription().isEmpty()) {
-			
+
+		if (tradeoff != null && tradeoff.getType().isEmpty() || tradeoff.getDescription().isEmpty()) {
+
 			ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
 			modelAndView.addObject("decisionobj", decision);
 			modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(iddecision));
-			
+
 			List<String> msg = new ArrayList<String>();
 			if (tradeoff.getDescription().isEmpty()) {
-				msg.add("Description must be informed");			
+				msg.add("Description must be informed");
 			}
-			
-						
+
 			modelAndView.addObject("msg", msg);
-			
+
 			return modelAndView;
-			
+
 		}
-		
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
-		
+
 		tradeoff.setDecision(decision);
-		
+
 		tradeoffRepository.save(tradeoff);
-						
+
 		modelAndView.addObject("decisionobj", decision);
 		modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(iddecision));
-		
+
 		return modelAndView;
-		
+
 	}
-	
+
 	@GetMapping("/editartradeoff/{idtradeoff}")
-	public ModelAndView editar (@PathVariable("idtradeoff") Long idtradeoff) {
-	    
-	    
-		 Tradeoff tradeoff = tradeoffRepository.findById(idtradeoff).get();
-		    
-		 ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
-		 modelAndView.addObject("tradeoffobj", tradeoff);
-		 modelAndView.addObject("decisionobj",  tradeoff.getDecision());  
-		 modelAndView.addObject("decisions", decisionRepository.findAll());
-		 modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(tradeoff.getDecision().getId())); 
-		 
-		  
-		 
-		 return modelAndView;
-		
-		    
-	 }
-	
-	
+	public ModelAndView editar(@PathVariable("idtradeoff") Long idtradeoff) {
+
+		Tradeoff tradeoff = tradeoffRepository.findById(idtradeoff).get();
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
+		modelAndView.addObject("tradeoffobj", tradeoff);
+		modelAndView.addObject("decisionobj", tradeoff.getDecision());
+		modelAndView.addObject("decisions", decisionRepository.findAll());
+		modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(tradeoff.getDecision().getId()));
+
+		return modelAndView;
+
+	}
+
 	@GetMapping("/removertradeoff/{idtradeoff}")
-	public ModelAndView removertradeoff (@PathVariable("idtradeoff") Long idtradeoff) {
-	 
+	public ModelAndView removertradeoff(@PathVariable("idtradeoff") Long idtradeoff) {
+
 		tradeoffRepository.deleteById(idtradeoff);
-		
-		
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
 		modelAndView.addObject("tradeoffs", tradeoffRepository.findAll());
 		modelAndView.addObject("tradeoffobj", new Tradeoff());
-		
+
 		modelAndView.addObject("decisions", decisionRepository.findAll());
-		
-				
+
 		return modelAndView;
-	
-		
-		
+
 		/*
 		 * Decision decision =
 		 * tradeoffRepository.findById(idtradeoff).get().getDecision();
@@ -222,10 +180,19 @@ public class TradeoffController {
 		 * 
 		 * return modelAndView;
 		 */
-		
-	
+
 	}
 	
-	
+	@GetMapping(value = "/report_tradeoff")
+	public ModelAndView report() {
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/report_tradeoff");
+
+		Iterable<Tradeoff> tradeoffs = tradeoffRepository.findAll();
+		modelAndView.addObject("tradeoffs", tradeoffs);
+
+		return modelAndView;
+
+	}
+
 }
- 

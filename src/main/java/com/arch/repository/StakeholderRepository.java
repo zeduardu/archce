@@ -20,8 +20,6 @@ public interface StakeholderRepository extends CrudRepository <Stakeholder, Long
 	@Query("select s from Stakeholder s where s.nome like %?1%")
 	List<Stakeholder> findStakeholderByName(String nome);
 	
-	@Query("from Stakeholder as s left join s.concerns as c left join s.problems as p  left join p.objectives as o left join o.decisions as d left join d.tradeoffs as t")
+	@Query("from Stakeholder as s join s.concerns as c join s.problems as p  left join p.objectives as o ")
 	List<Stakeholder> findTodos();
-	
-	
 }

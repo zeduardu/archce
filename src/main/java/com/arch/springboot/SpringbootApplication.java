@@ -12,28 +12,27 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EntityScan(basePackages="com.arch.model")
-@ComponentScan(basePackages= {"com.*"})
-@EnableJpaRepositories(basePackages= {"com.arch.repository"})
+@ComponentScan(basePackages = { "com.arch.*" })
+@EntityScan(basePackages = "com.arch.model")
+@EnableJpaRepositories(basePackages = { "com.arch.repository" })
 @EnableTransactionManagement
 @EnableWebMvc
-public class SpringbootApplication implements WebMvcConfigurer{
+public class SpringbootApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
 	}
-	
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("/login");
 		registry.setOrder(Ordered.LOWEST_PRECEDENCE);
 	}
-	
-	
-	/**  gerar senha criptografada
-	 *   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String result = encoder.encode("123");
-		System.out.println(result); **/
 
+	/**
+	 * gerar senha criptografada BCryptPasswordEncoder encoder = new
+	 * BCryptPasswordEncoder(); String result = encoder.encode("123");
+	 * System.out.println(result);
+	 **/
 
 }

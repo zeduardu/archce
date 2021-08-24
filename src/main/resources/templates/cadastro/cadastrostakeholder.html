@@ -1,112 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-<!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-<style type="text/css">
-	table.striped>tbody>tr:nth-child(odd){
-	background-color: rgba(158, 154, 154, 0.5);
-	}
-	form input[type=submit] {
-		color: white;
-	}
-
-</style>
-
-<title>Architecture Conceptualization</title>
-
-<body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo right">ArchConcept</a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="/cadastrostakeholder">Stakeholder</a></li>
-        <li><a href="/cadastroconcern">Concern</a></li>
-        <li><a href="/viewpointregistration">Viewpoint</a></li>
-        <li><a href="/problemregistration">Problem</a></li>
-        <li><a href="/objectiveregistration">Objective</a></li>
-        <li><a href="/decisionregistration">Decision</a></li>
-        <li><a href="/tradeoffregistration">Tradeoff</a></li>
-        <li><a href="/search">Search</a></li>
-        <li><a href="/report">Report</a></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li><a href="/logout">LOGOUT</a></li>
-      </ul>
-    </div>
-  </nav>
-    
-</body>
-
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
 </head>
+
 <body>
-	<h3>Architecture Conceptualization</h3><br/>
-	
-	<h5>Stakeholders Registration</h5>
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='Stakeholder Registration',link='cadastrostakeholder')">
+		</header>
 
 
-	<div class="row">
-	
-	 <br/>
-    
-    	<div th:each = "m : ${msg}">
-    		<span th:text = "${m}"></span> 
-       	</div>
-    
-     <br/>
-	
-	
-		<form action="salvarstakeholder" id="formstakeholder" method="post" th:object="${stakeholderobj}" class="col s12">
-			<div class="row">
-				
-				<div class="input-field col s6">
-					<label for="nome" class="active">Name</label> 
-					<input name="nome" th:field="*{nome}" id="nome" class="validate" placeholder="Stakeholder's name">
-					<input name="id" type="hidden" th:field="*{id}" id="id"> 
-				</div>
-				
-				
+		<div class="row">
 
-			
-				<div class="input-field col s6" sec:authorize="hasRole('ROLE_ARCH')">
-					<label for="type" class="active">Type</label>
-					<select class="browser-default" th:field="*{type}" id="type">
-							<option th:each = "t : ${T(com.arch.model.StakeholderType).values()}" 
-							th:value="${t.valor}" th:text="${t.nome}">
-					
-					</select> 
-					
-				</div>
-			
+			<br />
 
+			<div th:each="m : ${msg}">
+				<span th:text="${m}"></span>
 			</div>
 
-			<div class="row">
-				<div class="input-field col s6">
-					<input class="waves-effect waves-light btn" type="submit" value="Save">
-											
-					<button class="waves-effect waves-light btn" onclick="document.getElementById('formstakeholder').reset();">New</button>
+			<br />
+
+
+			<form action="#" th:action="@{/salvarstakeholder}" id="formstakeholder" method="post"
+				th:object="${stakeholderobj}" class="col s12">
+				<div class="row">
+
+					<div class="input-field col s6">
+						<label for="nome" class="active">Name</label>
+						<input name="nome" th:field="*{nome}" id="nome" class="validate"
+							type="text">
+						<input name="id" type="hidden" th:field="*{id}" id="id">
+					</div>
+
+					<div class="input-field col s6" sec:authorize="hasRole('ROLE_ARCH')">
+						<label for="type" class="active">Type</label>
+						<select class="browser-default" id="type" th:field="*{type}" >
+							<option value="Acquirer">Acquirer </option>
+							<option value="Builder">Builder </option>
+							<option value="Developer">Developer </option>
+							<option value="Mantainer">Mantainer </option>
+							<option value="Operator">Operator </option>
+							<option value="Owner">Owner </option>
+							<option value="Supplier">Supplier </option>
+							<option value="User">User  </option>
+							
+
+						</select>
+
+					</div>
 				</div>
 
-			</div>
-		</form>
-	</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<label for="concern" class="active">Concern</label>
+						<select multiple th:field="*{concerns}" id="concern" name="concern">
+							<option th:each="c : ${concerns}" th:value="${c.id}" th:text="${c.description}" />
+						</select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-field col s6">
+						<input class="waves-effect waves-light btn" type="submit" value="Save">
+
+						<button class="waves-effect waves-light btn"
+							onclick="document.getElementById('formstakeholder').reset();">New</button>
+					</div>
+
+				</div>
+			</form>
+		</div>
 
 
-	<br/>
-	<br/>
+		<br />
+		<br />
 
-<!--
+		<!--
 	<div class="row">
 		<form action="pesquisarstakeholder" method="post" id="pesquisarstakeholder"
 			th:object="${stakeholderobj}" class="col s12">
@@ -130,32 +101,39 @@
 
 -->
 
-	<br/>
-	<br/>
-	
-		<table class="striped">
-	    <thead>
-	        <tr>
-	            <th> Name </th>
-	            <th> Position </th>
-	            <th> Edit </th>
-	            <th> Delete </th>
-	            
-	        </tr>
-	    </thead>
-	    <tbody>
-		
-	        <tr th:each="stakeholder : ${stakeholders}">
-	            <td><a th:href="@{/concern/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span th:text="${stakeholder.nome}"> Name </span></a></td>
-	            <td><span th:text="${stakeholder.type}"> Type </span></td>
-	            <td><a th:href="@{/editarstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Edit</a>  </td>
-	            <td><a th:href="@{/removerstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Delete</a>  </td>
-	       <!-- <td><a th:href="@{/concern/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span> Add Concern </span></a></td> 
-	            <td><a th:href="@{/problem/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span> Add Problem </span></a></td> -->
-	        </tr>
-	    </tbody>
-	</table>
- 
+		<br />
+		<br />
 
+		<table class="striped">
+			<thead>
+				<tr>
+					
+					<th> Name </th>
+					<th> Type </th>
+					<th> Concerns </th>
+					<th> Edit </th>
+					<th> Delete </th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="stakeholder : ${stakeholders}">
+					<td th:text="${stakeholder.nome}"> Name</td>
+					<td><span th:text="${stakeholder.type}"> Type </span></td>
+					<td th:text="${stakeholder.concernsFormatado}"> Name</td>
+					<td><a th:href="@{/editarstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Edit</a>
+					</td>
+					<td><a th:href="@{/removerstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Delete</a>
+					</td>
+					<!-- <td><a th:href="@{/concern/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span> Add Concern </span></a></td> 
+	            <td><a th:href="@{/problem/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span> Add Problem </span></a></td> -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<footer th:replace="fragments/base.html :: footer"></footer>
 </body>
+
 </html>

@@ -1,56 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org" xmlns:sec="http://thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="UTF-8">
-<!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-<!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-
-<style type="text/css">
-	table.striped>tbody>tr:nth-child(odd){
-	background-color: rgba(158, 154, 154, 0.5);
-	}
-	form input[type=submit] {
-		color: white;
-	}
-
-</style>
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
+</head>
 
 <title>Architecture Conceptualization</title>
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo right">ArchConcept</a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="/cadastrostakeholder">Stakeholder</a></li>
-        <li><a href="/cadastroconcern">Concern</a></li>
-        <li><a href="/viewpointregistration">Viewpoint</a></li>
-        <li><a href="/problemregistration">Problem</a></li>
-        <li><a href="/objectiveregistration">Objective</a></li>
-        <li><a href="/decisionregistration">Decision</a></li>
-        <li><a href="/tradeoffregistration">Tradeoff</a></li>
-        <li><a href="/search">Search</a></li>
-        <li><a href="/report">Report</a></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li><a href="/logout">LOGOUT</a></li>
-      </ul>
-    </div>
-  </nav>
-    
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='',link='welcome')">
+		</header>
+
+	</div>
+	
+	<h3 align="center">Welcome to Architecture Conceptualization</h3><br/>
+
+	<footer th:replace="fragments/base.html :: footer"></footer>
 </body>
-</head>
-
-<h3 align="center">Welcome to Architecture Conceptualization</h3><br/>
-
-
 
 </html>

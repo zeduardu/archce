@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:fragment="headconfig">
+    <meta charset="UTF-8">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection">
+
+
+    <style type="text/css">
+        table.striped>tbody>tr:nth-child(odd) {
+            background-color: rgba(158, 154, 154, 0.5);
+        }
+
+        form input[type=submit] {
+            color: white;
+        }
+    </style>
+
+    <title>Architecture Conceptualization</title>
+
+</head>
+
+<body>
+    <header th:fragment="header (page,link)">
+    
+        <ul id="dropdown1" class="dropdown-content">
+        	<li><a href="/report_stakeholder">Stakeholder</a></li>
+            <li><a href="/report_viewpoint">Viewpoint</a></li>
+            <li><a href="report_problem">Problem</a></li>
+            <li><a href="/report_objective">Objective</a> </li>
+            <li><a href="/report_decision">Decision</a> </li>
+            <li><a href="/report_tradeoff">Tradeoff</a> </li>
+            
+        </ul>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo right">ArchConcept</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                	<li th:class="${#strings.equals(link,'welcome')} ? 'active': ''">
+                    </li>
+                    
+                    <li th:class="${#strings.equals(link,'cadastroconcern')} ? 'active': ''">
+                        <a href="/cadastroconcern">Concern</a>
+                    </li>
+                    
+                    <li th:class="${#strings.equals(link,'cadastrostakeholder')} ? 'active': ''">
+                        <a href="/cadastrostakeholder">Stakeholder</a>
+                    </li>
+                    
+                    <li th:class="${#strings.equals(link,'viewpointregistration')} ? 'active': ''">
+                        <a href="/viewpointregistration">Viewpoint</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'problemregistration')} ? 'active': ''">
+                        <a href="/problemregistration">Problem</a>
+                    </li>
+                    <!--
+                    <li th:class="${#strings.equals(link,'objectiveregistration')} ? 'active': ''">
+                        <a href="/objectiveregistration">Objective</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'decisionregistration')} ? 'active': ''">
+                        <a href="/decisionregistration">Decision</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'tradeoffregistration')} ? 'active': ''">
+                        <a href="/tradeoffregistration">Tradeoff</a>
+                    </li>
+                
+                    <li th:class="${#strings.equals(link,'search')} ? 'active': ''">
+                        <a href="/search">Search</a>
+                    </li>
+                    
+                    -->
+         <!--       <li th:class="${#strings.equals(link,'report')} ? 'active': ''">
+                        <a href="/report">Viewpoint Report</a>
+                    </li>
+                <li th:class="${#strings.equals(link,'report_problem')} ? 'active': ''">
+                    <a href="/report_problem">Problem Report</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'report_objective')} ? 'active': ''">
+                        <a href="/report_objective">Objective Report</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'report_decision')} ? 'active': ''">
+                        <a href="/report_decision">Decision Report</a>
+                    </li>
+                    <li th:class="${#strings.equals(link,'report_tradeoff')} ? 'active': ''">
+                        <a href="/report_tradeoff">Tradeoff Report</a>
+                    </li>
+                    
+           -->          
+                    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Reports<i class="material-icons right">arrow_drop_down</i></a></li> 
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- <h3>Architecture Conceptualization</h3> -->
+
+        <h5 th:text="${page}">Viewpoint Registration</h5>
+
+        <div th:each="m : ${msg}">
+            <span th:text="${m}"></span>
+        </div>
+    </header>
+
+    <footer th:fragment="footer">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems, {});
+                var elems2 = document.querySelectorAll('.dropdown-trigger');
+                var instances2 = M.Dropdown.init(elems2, {});
+            });
+        </script>
+    </footer>
+</body>
+
+</html>

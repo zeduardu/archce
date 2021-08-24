@@ -9,18 +9,18 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Role implements GrantedAuthority {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String nomeRole;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -28,8 +28,6 @@ public class Role implements GrantedAuthority {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	
 
 	public String getNomeRole() {
 		return nomeRole;
@@ -40,8 +38,7 @@ public class Role implements GrantedAuthority {
 	}
 
 	@Override
-	public String getAuthority() { //ROLE_ADMIN, ROLE_GERENTE, ROLE_SECRETARIO
-		// TODO Auto-generated method stub
+	public String getAuthority() { // ROLE_ADMIN, ROLE_GERENTE, ROLE_SECRETARIO
 		return this.nomeRole;
 	}
 

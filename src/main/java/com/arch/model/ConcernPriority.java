@@ -1,19 +1,17 @@
 package com.arch.model;
 
 public enum ConcernPriority {
-	
-	HIGH("High"),
-	MEDIUM("Medium"),
-	LOW("Low");
-	
+
+	HIGH("High"), MEDIUM("Medium"), LOW("Low");
 
 	private String nome;
 	private String valor;
 
-	private ConcernPriority (String nome) {
+	private ConcernPriority(String nome) {
 		this.nome = nome;
-		
+
 	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -21,13 +19,13 @@ public enum ConcernPriority {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-		
+
 	public String getValor() {
-		return valor = this.name();
+		return this.valor;
 	}
+
 	public void setValor(String valor) {
 		this.valor = valor;
 	}
-	
+
 }
