@@ -19,10 +19,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 	private ImplementacaoUserDetailsService implementacaoUserDetailsService;
 
 	@Override // configura as solicitacoes de acesso por http
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // desativa as configurações padrão de memória
+	protected void configure(HttpSecurity https) throws Exception {
+		https.csrf().disable() // desativa as configurações padrão de memória
 				.authorizeRequests() // permitir retringir acessos
-				.antMatchers(HttpMethod.GET, "/").permitAll() // qualquer usuario
+				.antMatchers(HttpMethod.GET, "/**").permitAll() // qualquer usuario
 				// .antMatchers(HttpMethod.GET, "/cadastrostakeholder").hasAnyRole("ADMIN") //só
 				// quem é admin
 
