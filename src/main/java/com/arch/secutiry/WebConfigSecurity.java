@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -50,4 +51,13 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/materialize/**");
 
 	}
+	
+	public class GlobalMvcConfig {
+
+	    public void addViewControllers(ViewControllerRegistry registry) {
+	        registry.addViewController("/login").setViewName("login");
+	        registry.addViewController("/").setViewName("/login");
+	    }
+	}
+	
 }
