@@ -3,6 +3,7 @@ package com.arch.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -18,3 +19,5 @@ public class SelectWebMvcConfig implements WebMvcConfigurer {
         formatterRegistry.addFormatter(new StakeholderFormatter());
     }
 }
+
+

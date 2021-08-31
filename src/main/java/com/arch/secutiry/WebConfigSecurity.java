@@ -52,12 +52,6 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
 	}
 	
-	public class GlobalMvcConfig {
 
-	    public void addViewControllers(ViewControllerRegistry registry) {
-	        registry.addViewController("/login").setViewName("login");
-	        registry.addViewController("/").setViewName("/login");
-	    }
-	}
 	
 }
