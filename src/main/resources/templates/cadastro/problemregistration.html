@@ -40,8 +40,8 @@
 					</div>
 
 					<div class="input-field col s6">
-						<label for="oportunities" class="active">Oportunities</label>
-						<input name="oportunities" th:field="*{oportunities}" id="oportunities" class="validate">
+						<label for="opportunities" class="active">Opportunities</label>
+						<input name="opportunities" th:field="*{oportunities}" id="opportunities" class="validate">
 					</div>
 
 					<div class="input-field col s6">
@@ -76,12 +76,12 @@
 							<h6>Objectives</h6>
 						</div>
 						<div class="input-field col s6">
-							<label for="description" class="active">description</label>
+							<label for="description" class="active">Description</label>
 							<input required name="description" th:field="*{description}" id="description"
 								class="validate">
 						</div>
 						<div class="input-field col s6">
-							<label for="rationale" class="active">rationale</label>
+							<label for="rationale" class="active">Rationale</label>
 							<input required name="rationale" th:field="*{rationale}" id="rationale" class="validate">
 						</div>
 					</div>
@@ -109,8 +109,8 @@
 							<tbody>
 
 								<tr th:each="obj : ${problemobj.objectives}">
-									<td th:text="${obj.description}"> ajudar ... o cliente a decidir </td>
-									<td th:text="${obj.rationale}">bla bla bla</td>
+									<td th:text="${obj.description}"> ajudar </td>
+									<td th:text="${obj.rationale}">ajudar 2</td>
 									<td><a th:href="@{/editarobjective/{id}(id=${obj.id})}">Edit/Add Decisions</a> </td>
 									<td><a th:href="@{/removerObjetivo/{id}(id=${obj.id})}">Delete</a> </td>
 								</tr>
@@ -131,7 +131,7 @@
 							<th> Area </th>
 							<th> Aspects </th>
 							<th> Risks </th>
-							<th> Oportunities </th>
+							<th> Opportunities </th>
 							<th> Constraints </th>
 							<th> Edit </th>
 							<th> Delete </th>

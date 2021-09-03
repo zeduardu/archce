@@ -100,41 +100,7 @@ public class TradeoffController {
 
 	}
 
-	// Adicionar tradeoff vinculado ao decision
-	@PostMapping("**/addTradeoffDecision/{iddecision}")
-	public ModelAndView addTradeoffDecision(Tradeoff tradeoff, @PathVariable("iddecision") Long iddecision) {
 
-		Decision decision = decisionRepository.findById(iddecision).get();
-
-		if (tradeoff != null && tradeoff.getType().isEmpty() || tradeoff.getDescription().isEmpty()) {
-
-			ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
-			modelAndView.addObject("decisionobj", decision);
-			modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(iddecision));
-
-			List<String> msg = new ArrayList<String>();
-			if (tradeoff.getDescription().isEmpty()) {
-				msg.add("Description must be informed");
-			}
-
-			modelAndView.addObject("msg", msg);
-
-			return modelAndView;
-
-		}
-
-		ModelAndView modelAndView = new ModelAndView("cadastro/tradeoffregistration");
-
-		tradeoff.setDecision(decision);
-
-		tradeoffRepository.save(tradeoff);
-
-		modelAndView.addObject("decisionobj", decision);
-		modelAndView.addObject("tradeoffs", tradeoffRepository.getTradeoffPorDecision(iddecision));
-
-		return modelAndView;
-
-	}
 
 	@GetMapping("/editartradeoff/{idtradeoff}")
 	public ModelAndView editar(@PathVariable("idtradeoff") Long idtradeoff) {
@@ -164,22 +130,7 @@ public class TradeoffController {
 
 		return modelAndView;
 
-		/*
-		 * Decision decision =
-		 * tradeoffRepository.findById(idtradeoff).get().getDecision();
-		 * 
-		 * tradeoffRepository.deleteById(idtradeoff);
-		 * 
-		 * 
-		 * ModelAndView modelAndView = new
-		 * ModelAndView("cadastro/decisionregistration");
-		 * modelAndView.addObject("decisionobj", decision);
-		 * modelAndView.addObject("tradeoffs",
-		 * tradeoffRepository.getTradeoffPorDecision(decision.getId()));
-		 * 
-		 * 
-		 * return modelAndView;
-		 */
+
 
 	}
 	

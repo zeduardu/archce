@@ -188,7 +188,7 @@ public class ObjectiveController {
 			decision.getTradeoffs().add(tradeoff);
 		}
 		// objective.setDecisions(null);
-		decisionRepository.save(decision);
+	//	decisionRepository.save(decision);
 		tradeoffRepository.save(tradeoff);
 
 		return initEditar(decision.getObjective());
