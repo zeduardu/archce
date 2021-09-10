@@ -44,7 +44,7 @@
 					</div>
 
 					<div class="input-field col s6">
-						<input type="submit" value="Add" class="waves-effect waves-light btn">
+						<input type="submit" value="Save Decision" class="waves-effect waves-light btn">
 					</div>
 				</div>
 
@@ -58,7 +58,7 @@
 					<th> Description </th>
 					<th> Solution </th>
 					<th> Rationale </th>
-					<th> Edit </th>
+					<th> Edit Decisions / Add Tradeoffs </th>
 					<th> Delete </th>
 				</tr>
 			</thead>
@@ -69,7 +69,7 @@
 					<td th:text="${decisions.description}"></td>
 					<td th:text="${decisions.solution}"></td>
 					<td th:text="${decisions.rationale}"></td>
-					<td><a th:href="@{/editardecision/{iddecision}(iddecision=${decisions.id})}">Edit/Add Tradeoffs</a> </td>
+					<td><a th:href="@{/editardecision/{iddecision}(iddecision=${decisions.id})}">Edit Decision / Add Tradeoffs</a> </td>
 					<td><a th:href="@{/removerdecision/{iddecision}(iddecision=${decisions.id})}">Delete</a> </td>
 					<!--  <td><a th:href="@{/tradeoff/{iddecision}(iddecision=${decisions.id})}">Add Tradeoff</a>  </td> -->
 				</tr>

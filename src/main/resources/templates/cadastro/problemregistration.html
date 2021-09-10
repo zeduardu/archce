@@ -63,8 +63,8 @@
 
 						<input th:if="${ problemobj.id  != null }" type="submit" value="Save Problem"
 							class="waves-effect waves-light btn">
-						<input th:if="${ problemobj.id  == null }" type="submit" value="Add Problem"
-							class="waves-effect waves-light btn">
+				 	<input th:if="${ problemobj.id  == null }" type="submit" value="Add Problem"
+							class="waves-effect waves-light btn">  
 					</div>
 				</div>
 			</form>
@@ -89,7 +89,7 @@
 						<div class=" col s12">
 							<input name="problemId" type="hidden" th:value="${problemobj.id}" id="idproblem">
 							<input name="idObjective" type="hidden" th:field="*{id}" id="idproblem">
-							<input type="submit" value="Add Objective" class="waves-effect waves-light btn">
+							<input type="submit" value="Save Objective" class="waves-effect waves-light btn">
 						</div>
 					</div>
 
@@ -102,16 +102,16 @@
 								<tr>
 									<th>Description </th>
 									<th>Rationale </th>
-									<th> </th>
-									<th> </th>
+									<th>Edit Objectives/Add Decisions </th>
+									<th>Delete </th>
 								</tr>
 							</thead>
 							<tbody>
 
 								<tr th:each="obj : ${problemobj.objectives}">
-									<td th:text="${obj.description}"> ajudar </td>
-									<td th:text="${obj.rationale}">ajudar 2</td>
-									<td><a th:href="@{/editarobjective/{id}(id=${obj.id})}">Edit/Add Decisions</a> </td>
+									<td th:text="${obj.description}">  </td>
+									<td th:text="${obj.rationale}">    </td>
+									<td><a th:href="@{/editarobjective/{id}(id=${obj.id})}">Edit Objective/Add Decisions</a> </td>
 									<td><a th:href="@{/removerObjetivo/{id}(id=${obj.id})}">Delete</a> </td>
 								</tr>
 							</tbody>
@@ -133,7 +133,7 @@
 							<th> Risks </th>
 							<th> Opportunities </th>
 							<th> Constraints </th>
-							<th> Edit </th>
+							<th> Edit Problems / Add Objectives </th>
 							<th> Delete </th>
 						</tr>
 					</thead>
@@ -146,7 +146,7 @@
 							<td th:text="${problem.risks}"></td>
 							<td th:text="${problem.oportunities}"></td>
 							<td th:text="${problem.constraints}"> </td>
-							<td><a th:href="@{/editarproblem/{idproblem}(idproblem=${problem.id})}">Edit/Add Objectives</a> </td>
+							<td><a th:href="@{/editarproblem/{idproblem}(idproblem=${problem.id})}">Edit Problem / Add Objectives</a> </td>
 							<td><a th:href="@{/removerproblem/{idproblem}(idproblem=${problem.id})}">Delete</a> </td>
 							<!--   	<td><a th:href="@{/objective/{idproblem}(idproblem=${problem.id})}">Add Objective</a>  </td>  -->
 						</tr>

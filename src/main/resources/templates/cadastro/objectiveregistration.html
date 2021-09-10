@@ -55,12 +55,18 @@
 					
 					<div class="input-field col s6">
 						<label for="rationale" class="active">Rationale</label>
-						<input name="rationale" th:field="*{rationale}" d="rationale" class="validate">
+						<input name="rationale" th:field="*{rationale}" id="rationale" class="validate">
 					</div>
+					
+					<div class="input-field col s6">
+						<label for="solution" class="active">Solution</label>
+						<input name="solution" th:field="*{solution}" id="solution" class="validate">
+					</div>
+					
 					<div class="input-field col s12">
 						<input name="id" type="hidden" th:field="*{id}" id="decisionid">
 						<input name="objectiveId" type="hidden" th:value="${objectiveobj.id}" id="objetiveId">
-						<input type="submit" value="Add decision" class="waves-effect waves-light btn">
+						<input type="submit" value="Save Decision" class="waves-effect waves-light btn">
 					</div>
 				</form>
 			</div>
@@ -91,7 +97,7 @@
 					<div class="row">
 						<input name="id" type="hidden" th:field="*{id}" id="tradeoffid">
 						<input name="decisionId" type="hidden" th:value="${decision.id}" id="decisionId">
-						<input type="submit" value="Add tradeoff" class="waves-effect waves-light btn">
+						<input type="submit" value="Save Tradeoff" class="waves-effect waves-light btn">
 					</div>
 					
 				</form>
@@ -127,8 +133,8 @@
 							<th>Description </th>
 							<th>Solution </th>
 							<th>Rationale </th>
-							<th> </th>
-							<th> </th>
+							<th>Edit Decisions / Add Tradeoffs </th>
+							<th>Delete </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -136,7 +142,7 @@
 							<td th:text="${decision.description}"> ajudar o cliente de alguma forma </td>
 							<td th:text="${decision.solution}">bla bla bla</td>
 							<td th:text="${decision.rationale}">bla bla bla</td>
-							<td><a th:href="@{/editarDecision/{id}(id=${decision.id})}">Edit/Add Tradeoffs</a> </td>
+							<td><a th:href="@{/editarDecision/{id}(id=${decision.id})}">Edit Decision / Add Tradeoffs</a> </td>
 							<td><a th:href="@{/removerDecision/{id}(id=${decision.id})}">Delete</a> </td>
 						</tr>
 					</tbody>
@@ -150,7 +156,7 @@
 					<th> Problem </th>
 					<th> Description </th>
 					<th> Rationale </th>
-					<th> Edit </th>
+					<th> Edit Objectives / Add Decisions </th>
 					<th> Delete </th>
 				</tr>
 			</thead>
@@ -159,7 +165,7 @@
 					<td><span th:text="${objective.problem.title}"> Problem </span></td>
 					<td><span th:text="${objective.description}"> Description </span></td>
 					<td><span th:text="${objective.rationale}"> Rationale </span></td>
-					<td><a th:href="@{/editarobjective/{idobjective}(idobjective=${objective.id})}">Edit/Add Decisions</a> </td>
+					<td><a th:href="@{/editarobjective/{idobjective}(idobjective=${objective.id})}">Edit Objective / Add Decisions</a> </td>
 					<td><a th:href="@{/removerobjective/{idobjective}(idobjective=${objective.id})}">Delete</a>
 					</td>
 				</tr>
