@@ -1,19 +1,11 @@
 package com.arch.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import static java.util.stream.StreamSupport.stream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import com.arch.model.Concern;
-import com.arch.model.Stakeholder;
-import com.arch.model.Viewpoint;
-import com.arch.repository.ConcernRepository;
-import com.arch.repository.StakeholderRepository;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.arch.model.Concern;
+import com.arch.model.Problem;
+import com.arch.model.Stakeholder;
+import com.arch.repository.ConcernRepository;
+import com.arch.repository.StakeholderRepository;
 
 @Controller
 public class StakeholderController {
@@ -138,6 +136,14 @@ public class StakeholderController {
 
 		}
 		st.getConcerns().clear();
+		
+		for (Problem p : st.getProblems()){
+
+		      if (p.getStakeholders() != null) {
+		        p.getStakeholders().remove(st);
+		      }
+		    }
+		st.getProblems().clear();
 
 		stakeholderRepository.deleteById(idstakeholder);
 

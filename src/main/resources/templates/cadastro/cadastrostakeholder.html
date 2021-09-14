@@ -63,7 +63,7 @@
 
 				<div class="row">
 					<div class="input-field col s6">
-						<input class="waves-effect waves-light btn" type="submit" value="Save">
+						<input class="waves-effect waves-light btn" type="submit" value="Save Stakeholder">
 
 				<!-- 		<button class="waves-effect waves-light btn" 
 							onclick="document.getElementById('formstakeholder').reset();">New</button>   -->
@@ -121,7 +121,7 @@
 				<tr th:each="stakeholder : ${stakeholders}">
 					<td th:text="${stakeholder.nome}"> Name</td>
 					<td><span th:text="${stakeholder.type}"> Type </span></td>
-					<td th:text="${stakeholder.concernsFormatado}"> Name</td>
+					<td th:text="${stakeholder.concernsFormatado}"> Concerns</td>
 					<td><a th:href="@{/editarstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Edit</a>
 					</td>
 					<td><a th:href="@{/removerstakeholder/{idstakeholder}(idstakeholder=${stakeholder.id})}">Delete</a>

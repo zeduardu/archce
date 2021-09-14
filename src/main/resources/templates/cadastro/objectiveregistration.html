@@ -46,7 +46,7 @@
 			<div class="row" th:if="${  objectiveobj.id  != null }">
 				<form action="#" th:action="@{/salvarDecision}" id="formDecision" method="post" th:object="${decision}">
 					<div class=" col s12">
-						<h6 align=center>Decision</h6>
+						<h6 align=center><b>Decision</b></h6>
 					</div>
 					<div class="input-field col s6">
 						<label for="description" class="active">Description</label>
@@ -74,7 +74,7 @@
 			<div class="row" th:if="${  decision.id  != null }">
 				<form action="#" th:action="@{/salvarTradeoff}" id="formTradeoff" method="post" th:object="${tradeoff}">
 					<div class=" col s12">
-						<h6 align=center>Tradeoff</h6>
+						<h6 align=center><b>Tradeoff</b></h6>
 					</div>
 					<div class="input-field col s6">
 						<label for="type" class="active">Type</label>
@@ -103,7 +103,7 @@
 				</form>
 				<div class="row">
 					<table class=" col s12 striped">
-						<caption><strong>Tradeoff</strong> </caption>
+						<caption><strong><b>Tradeoff</b></strong> </caption>
 						<thead>
 							<tr>
 								<th>Type </th>
@@ -127,7 +127,7 @@
 			</div>
 			<div class="row">
 				<table class="striped col s12">
-					<caption><strong>Decisions</strong> </caption>
+					<caption><strong><b>Decisions</b></strong> </caption>
 					<thead>
 						<tr>
 							<th>Description </th>

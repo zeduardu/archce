@@ -172,7 +172,7 @@ public class ObjectiveController {
 			objective.getDecisions().add(decision);
 		}
 		// objective.setDecisions(null);
-		objectiveRepository.save(objective);
+//		objectiveRepository.save(objective);
 		decisionRepository.save(decision);
 
 		return initEditar(objective);

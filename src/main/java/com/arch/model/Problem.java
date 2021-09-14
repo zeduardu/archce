@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -36,7 +40,7 @@ public class Problem implements Serializable {
 	private String constraints;
 
 	@JsonIdentityReference(alwaysAsId = true)
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "problem_stakeholder", joinColumns = @JoinColumn(name = "id_stakeholder"), inverseJoinColumns = @JoinColumn(name = "id_concern"))
 	private List<Stakeholder> stakeholders;
 

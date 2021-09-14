@@ -63,7 +63,7 @@
 
 						<input th:if="${ problemobj.id  != null }" type="submit" value="Save Problem"
 							class="waves-effect waves-light btn">
-				 	<input th:if="${ problemobj.id  == null }" type="submit" value="Add Problem"
+				 	<input th:if="${ problemobj.id  == null }" type="submit" value="Save Problem"
 							class="waves-effect waves-light btn">  
 					</div>
 				</div>
@@ -97,7 +97,7 @@
 				<div class="row">
 					<div class=" col s12">
 						<table class="col s12 striped">
-							<caption><strong>Objectives</strong> </caption>
+							<caption><strong><b>Objectives</b></strong> </caption>
 							<thead>
 								<tr>
 									<th>Description </th>
@@ -124,7 +124,8 @@
 		<div class="row">
 			<div class=" col s12">
 				<table class="striped">
-					<caption><strong>Problems</strong></caption>
+					
+					<caption><strong><b>Problems</b></strong></caption>
 					<thead>
 						<tr>
 							<th> Title </th>
@@ -133,6 +134,7 @@
 							<th> Risks </th>
 							<th> Opportunities </th>
 							<th> Constraints </th>
+							
 							<th> Edit Problems / Add Objectives </th>
 							<th> Delete </th>
 						</tr>
@@ -146,6 +148,7 @@
 							<td th:text="${problem.risks}"></td>
 							<td th:text="${problem.oportunities}"></td>
 							<td th:text="${problem.constraints}"> </td>
+							
 							<td><a th:href="@{/editarproblem/{idproblem}(idproblem=${problem.id})}">Edit Problem / Add Objectives</a> </td>
 							<td><a th:href="@{/removerproblem/{idproblem}(idproblem=${problem.id})}">Delete</a> </td>
 							<!--   	<td><a th:href="@{/objective/{idproblem}(idproblem=${problem.id})}">Add Objective</a>  </td>  -->
