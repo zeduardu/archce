@@ -38,9 +38,13 @@
         </ul>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo right">ArchConcept</a>
+                <a href="/welcome" class="brand-logo right">ArchConcept</a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                 	<li th:class="${#strings.equals(link,'welcome')} ? 'active': ''">
+                    </li>
+                    
+                    <li th:class="${#strings.equals(link,'welcome')} ? 'active': ''">
+                        <a href="/welcome">Home</a>
                     </li>
                     
                     <li th:class="${#strings.equals(link,'cadastroconcern')} ? 'active': ''">
