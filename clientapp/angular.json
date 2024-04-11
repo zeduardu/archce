@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "archce:build:production"
+              "buildTarget": "archce:build:production"
             },
             "development": {
-              "browserTarget": "archce:build:development"
+              "buildTarget": "archce:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "archce:build"
+            "buildTarget": "archce:build"
           }
         },
         "test": {
