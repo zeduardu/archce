@@ -1,12 +1,12 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {StepperModule} from "primeng/stepper";
-import {ButtonModule} from "primeng/button";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
-import {InputTextModule} from "primeng/inputtext";
-import {EditorModule} from "primeng/editor";
-import {CustomizedEditorComponent} from "./component/customized-editor/customized-editor.component";
-import {PreviewPlanComponent} from "./component/preview-plan/preview-plan.component";
-import {JsonPipe} from "@angular/common";
+import { JsonPipe } from "@angular/common";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { ButtonModule } from "primeng/button";
+import { EditorModule } from "primeng/editor";
+import { InputTextModule } from "primeng/inputtext";
+import { StepperModule } from "primeng/stepper";
+import { CustomizedEditorComponent } from "./component/customized-editor/customized-editor.component";
+import { PreviewPlanComponent } from "./component/preview-plan/preview-plan.component";
 
 @Component({
   selector: 'app-elaboration',
