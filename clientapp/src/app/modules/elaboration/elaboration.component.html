@@ -1,11 +1,47 @@
-<p-stepper>
+<p-stepper [orientation]="(screenWidth <= 768) ? 'vertical' : 'horizontal'">
   <p-stepperPanel header="Preparing the efforts">
     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-      <div class="flex flex-column h-12rem">
-
-        <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-          Content I
+      <div class="flex flex-column">
+        <div class="border-2 border-dashed surface-border border-round surface-ground">
+          <h1>Architecture Elaboration Plan</h1>
+          <p></p>
+          <form [formGroup]="archPlanForm">
+            <div class="flex flex-row justify-content-around p-3">
+              <div>
+                <div class="flex flex-column">
+                  <label for="entity">Entity:</label>
+                  <input id="entity" type="text" pInputText formControlName="entity"/>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label>Background:</label>
+                  <app-customized-editor id="background" formControlName="background"></app-customized-editor>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label>Purpose:</label>
+                  <app-customized-editor id="purpose" formControlName="purpose"></app-customized-editor>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label>Scope and Objectives:</label>
+                  <app-customized-editor id="scope" formControlName="scope"></app-customized-editor>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label for="approach">Approach:</label>
+                  <p-editor id="approach" formControlName="approach"></p-editor>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label for="resources">Resources and Schedule:</label>
+                  <p-editor id="resources" formControlName="resources"></p-editor>
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label for="riskandmitigation">Risks and Contingencies:</label>
+                  <p-editor id="riskandmitigation" formControlName="riskandmitigation"></p-editor>
+                </div>
+              </div>
+              <div>
+                <app-preview-plan [archPlanForm]="archPlanForm"></app-preview-plan>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="flex pt-4 justify-content-end">
