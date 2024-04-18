@@ -1,4 +1,3 @@
-import { JsonPipe } from "@angular/common";
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
@@ -6,7 +5,12 @@ import { EditorModule } from "primeng/editor";
 import { InputTextModule } from "primeng/inputtext";
 import { StepperModule } from "primeng/stepper";
 import { CustomizedEditorComponent } from "./component/customized-editor/customized-editor.component";
-import { PreviewPlanComponent } from "./component/preview-plan/preview-plan.component";
+import { PreviewPlanComponent } from "./component/preparing-efforts/preview-plan/preview-plan.component";
+import { ArchitecturePlan } from 'src/app/data/types/architecture-plan';
+import { Subject } from 'rxjs';
+import {
+  ArchElaborationPlanFormComponent
+} from "./component/preparing-efforts/arch-elaboration-plan-form/arch-elaboration-plan-form.component";
 
 @Component({
   selector: 'app-elaboration',
@@ -17,32 +21,20 @@ import { PreviewPlanComponent } from "./component/preview-plan/preview-plan.comp
     ReactiveFormsModule,
     InputTextModule,
     EditorModule,
-    CustomizedEditorComponent,
     PreviewPlanComponent,
-    JsonPipe
+    CustomizedEditorComponent,
+    ArchElaborationPlanFormComponent
   ],
   templateUrl: './elaboration.component.html',
-  styleUrl: './elaboration.component.css'
+  styleUrl: './elaboration.component.css',
 })
-export class ElaborationComponent implements OnInit{
+export class ElaborationComponent implements OnInit {
   public screenWidth: any;
-  archPlanForm = this.formBuilder.group({
-    entity: [''],
-    background: [''],
-    purpose: [''],
-    scope: [''],
-    approach: [''],
-    resources:[''],
-    schedule: [''],
-    riskandmitigation: [''],
-    conclusion: [''],
-  })
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-      this.screenWidth = window.innerWidth;
+    this.screenWidth = window.innerWidth;
   }
 
   @HostListener('window:resize', ['$event.target'])

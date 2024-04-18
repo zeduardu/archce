@@ -1,0 +1,12 @@
+#archPlanFormPreview{
+
+}
+
+#archPlanFormPreview:hover{
+    cursor: text;
+}
+
+#archPlanFormPreview.zoomed {
+  transform: scale(0.9);
+  transition: transform 0.5s;
+}

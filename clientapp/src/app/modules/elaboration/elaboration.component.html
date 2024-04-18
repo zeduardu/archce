@@ -1,91 +1,95 @@
-<p-stepper [orientation]="(screenWidth <= 768) ? 'vertical' : 'horizontal'">
+<p-stepper [orientation]="screenWidth <= 768 ? 'vertical' : 'horizontal'">
+  <!-- Of the 4 steps this is the first -->
   <p-stepperPanel header="Preparing the efforts">
     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-      <div class="flex flex-column">
-        <div class="border-2 border-dashed surface-border border-round surface-ground">
-          <h1>Architecture Elaboration Plan</h1>
-          <p></p>
-          <form [formGroup]="archPlanForm">
-            <div class="flex flex-row justify-content-around p-3">
-              <div>
-                <div class="flex flex-column">
-                  <label for="entity">Entity:</label>
-                  <input id="entity" type="text" pInputText formControlName="entity"/>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label>Background:</label>
-                  <app-customized-editor id="background" formControlName="background"></app-customized-editor>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label>Purpose:</label>
-                  <p-editor id="purpose" formControlName="purpose"></p-editor>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label>Scope and Objectives:</label>
-                  <p-editor id="scope" formControlName="scope"></p-editor>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label for="approach">Approach:</label>
-                  <p-editor id="approach" formControlName="approach"></p-editor>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label for="resources">Resources and Schedule:</label>
-                  <p-editor id="resources" formControlName="resources"></p-editor>
-                </div>
-                <div class="flex flex-column mt-2">
-                  <label for="riskandmitigation">Risks and Contingencies:</label>
-                  <p-editor id="riskandmitigation" formControlName="riskandmitigation"></p-editor>
-                </div>
-              </div>
-              <div>
-                <app-preview-plan [archPlanForm]="archPlanForm"></app-preview-plan>
-              </div>
-            </div>
-          </form>
-        </div>
+      <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
+        <h1>Architecture Elaboration Plan</h1>
+        <p class="text-justify">Identify the need for architecture elaboration based on project requirements. Formulate
+          a team comprising roles like architect, developers, and domain experts. Clearly define the scope of the
+          architecture elaboration. Establish specific objectives and expected outcomes. Allocate responsibilities to
+          team members and roles. Develop a detailed plan outlining tasks, activities, and timelines.
+        </p>
+        <app-arch-elaboration-plan-form></app-arch-elaboration-plan-form>
       </div>
       <div class="flex pt-4 justify-content-end">
         <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()"/>
       </div>
     </ng-template>
   </p-stepperPanel>
+  <!-- Of the 4 steps this is the second -->
   <p-stepperPanel header="Designing the viewpoints">
     <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
-      <div class="flex flex-column h-12rem">
-        <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-          Content II
-        </div>
+      <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
+        <h1>Architecture Viewpoints</h1>
+        <p class="text-justify">
+          This step involves the identification, adaptation, or creation of specific
+          perspectives or viewpoints through which the architecture of a system or
+          entity can be comprehensively understood and communicated. It involves identifying
+          relevant stakeholders, and their concerns, and tailoring viewpoints to
+          address those concerns. These viewpoints provide lenses through which different
+          stakeholders can understand and analyze the architecture, promoting a
+          comprehensive and well-rounded view that accommodates diverse perspectives.
+        </p>
       </div>
       <div class="flex pt-4 justify-content-between">
-        <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()"/>
-        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()"/>
+        <p-button
+          label="Back"
+          icon="pi pi-arrow-left"
+          (onClick)="prevCallback.emit()"
+        />
+        <p-button
+          label="Next"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          (onClick)="nextCallback.emit()"
+        />
       </div>
     </ng-template>
   </p-stepperPanel>
+  <!-- Of the 4 steps this is tirth -->
   <p-stepperPanel header="Developing the views">
-    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+    <ng-template
+      pTemplate="content"
+      let-prevCallback="prevCallback"
+      let-nextCallback="nextCallback"
+      let-index="index"
+    >
       <div class="flex flex-column h-12rem">
         <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
+        >
           Content III
         </div>
       </div>
       <div class="flex pt-4 justify-content-start">
-        <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()"/>
+        <p-button
+          label="Back"
+          icon="pi pi-arrow-left"
+          (onClick)="prevCallback.emit()"
+        />
       </div>
     </ng-template>
   </p-stepperPanel>
+  <!-- Of the 4 steps this is fourth and last -->
   <p-stepperPanel header="Coordinating the usage">
-    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
+    <ng-template
+      pTemplate="content"
+      let-prevCallback="prevCallback"
+      let-index="index"
+    >
       <div class="flex flex-column h-12rem">
         <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
+        >
           Content III
         </div>
       </div>
       <div class="flex pt-4 justify-content-start">
-        <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()"/>
+        <p-button
+          label="Back"
+          icon="pi pi-arrow-left"
+          (onClick)="prevCallback.emit()"
+        />
       </div>
     </ng-template>
   </p-stepperPanel>

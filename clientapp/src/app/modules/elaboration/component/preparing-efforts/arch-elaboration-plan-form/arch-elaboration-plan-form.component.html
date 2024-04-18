@@ -1,0 +1,48 @@
+<div class="grid">
+  <div id="archPlanForm" class="col-12 lg:col-5">
+    <form [formGroup]="archPlanForm">
+      <div class="flex flex-column">
+        <label for="entity">Entity:</label>
+        <input id="entity" type="text" pInputText formControlName="entity"/>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label>Background:</label>
+        <app-customized-editor id="background" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="background"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label>Purpose:</label>
+        <app-customized-editor id="purpose" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="purpose"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label>Scope and Objectives:</label>
+        <app-customized-editor id="scope" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="scope"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label for="approach">Approach:</label>
+        <app-customized-editor id="approach" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="approach"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label for="resources">Resources and Schedule:</label>
+        <app-customized-editor id="resources" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="resourcesandschedule"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label for="riskandmitigation">Risks and Mitigations:</label>
+        <app-customized-editor id="riskandmitigation" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="riskandmitigation"></app-customized-editor>
+      </div>
+      <div class="flex flex-column mt-2">
+        <label for="conclusion">Conclusion:</label>
+        <app-customized-editor id="conclusion" [passedFormGroup]="archPlanForm"
+                               passedFormControlName="conclusion"></app-customized-editor>
+      </div>
+    </form>
+  </div>
+  <div id="archPlanFormPreview" class="col-12 lg:col-7 zoomed">
+    <app-preview-plan></app-preview-plan>
+  </div>
+</div>
