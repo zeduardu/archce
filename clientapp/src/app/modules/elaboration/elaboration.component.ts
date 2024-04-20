@@ -6,11 +6,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { StepperModule } from "primeng/stepper";
 import { CustomizedEditorComponent } from "./component/customized-editor/customized-editor.component";
 import { PreviewPlanComponent } from "./component/preparing-efforts/preview-plan/preview-plan.component";
-import { ArchitecturePlan } from 'src/app/data/types/architecture-plan';
+import { Entity } from 'src/app/data/types/entity';
 import { Subject } from 'rxjs';
 import {
   ArchElaborationPlanFormComponent
 } from "./component/preparing-efforts/arch-elaboration-plan-form/arch-elaboration-plan-form.component";
+import {
+  DesigningViewpointsFormComponent
+} from "./component/designing-viewpoints/designing-viewpoints-form/designing-viewpoints-form.component";
 
 @Component({
   selector: 'app-elaboration',
@@ -23,7 +26,8 @@ import {
     EditorModule,
     PreviewPlanComponent,
     CustomizedEditorComponent,
-    ArchElaborationPlanFormComponent
+    ArchElaborationPlanFormComponent,
+    DesigningViewpointsFormComponent
   ],
   templateUrl: './elaboration.component.html',
   styleUrl: './elaboration.component.css',

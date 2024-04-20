@@ -1,7 +1,7 @@
 <p-stepper [orientation]="screenWidth <= 768 ? 'vertical' : 'horizontal'">
   <!-- Of the 4 steps this is the first -->
   <p-stepperPanel header="Preparing the efforts">
-    <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+    <ng-template let-index="index" let-nextCallback="nextCallback" pTemplate="content">
       <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
         <h1>Architecture Elaboration Plan</h1>
         <p class="text-justify">Identify the need for architecture elaboration based on project requirements. Formulate
@@ -12,15 +12,15 @@
         <app-arch-elaboration-plan-form></app-arch-elaboration-plan-form>
       </div>
       <div class="flex pt-4 justify-content-end">
-        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()"/>
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
       </div>
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is the second -->
   <p-stepperPanel header="Designing the viewpoints">
-    <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+    <ng-template let-index="index" let-nextCallback="nextCallback" let-prevCallback="prevCallback" pTemplate="content">
       <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
-        <h1>Architecture Viewpoints</h1>
+        <h1>Architecture Viewpoint</h1>
         <p class="text-justify">
           This step involves the identification, adaptation, or creation of specific
           perspectives or viewpoints through which the architecture of a system or
@@ -30,29 +30,21 @@
           stakeholders can understand and analyze the architecture, promoting a
           comprehensive and well-rounded view that accommodates diverse perspectives.
         </p>
+        <app-designing-viewpoints-form></app-designing-viewpoints-form>
       </div>
       <div class="flex pt-4 justify-content-between">
-        <p-button
-          label="Back"
-          icon="pi pi-arrow-left"
-          (onClick)="prevCallback.emit()"
-        />
-        <p-button
-          label="Next"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-          (onClick)="nextCallback.emit()"
-        />
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
       </div>
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is tirth -->
   <p-stepperPanel header="Developing the views">
     <ng-template
-      pTemplate="content"
-      let-prevCallback="prevCallback"
-      let-nextCallback="nextCallback"
       let-index="index"
+      let-nextCallback="nextCallback"
+      let-prevCallback="prevCallback"
+      pTemplate="content"
     >
       <div class="flex flex-column h-12rem">
         <div
@@ -63,9 +55,9 @@
       </div>
       <div class="flex pt-4 justify-content-start">
         <p-button
-          label="Back"
-          icon="pi pi-arrow-left"
           (onClick)="prevCallback.emit()"
+          icon="pi pi-arrow-left"
+          label="Back"
         />
       </div>
     </ng-template>
@@ -73,9 +65,9 @@
   <!-- Of the 4 steps this is fourth and last -->
   <p-stepperPanel header="Coordinating the usage">
     <ng-template
-      pTemplate="content"
-      let-prevCallback="prevCallback"
       let-index="index"
+      let-prevCallback="prevCallback"
+      pTemplate="content"
     >
       <div class="flex flex-column h-12rem">
         <div
@@ -86,9 +78,9 @@
       </div>
       <div class="flex pt-4 justify-content-start">
         <p-button
-          label="Back"
-          icon="pi pi-arrow-left"
           (onClick)="prevCallback.emit()"
+          icon="pi pi-arrow-left"
+          label="Back"
         />
       </div>
     </ng-template>

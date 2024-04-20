@@ -1,12 +1,9 @@
 import { JsonPipe, NgIf } from '@angular/common';
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
-import { ArchitecturePlan } from 'src/app/data/types/architecture-plan';
-import { ElaborationComponent } from '../../../elaboration.component';
-import {ArchElaborationPlanFormComponent} from "../arch-elaboration-plan-form/arch-elaboration-plan-form.component";
+import { Entity } from 'src/app/data/types/entity';
+import { ArchElaborationPlanFormComponent } from '../arch-elaboration-plan-form/arch-elaboration-plan-form.component';
 
 @Component({
   selector: 'app-preview-plan',
@@ -16,7 +13,7 @@ import {ArchElaborationPlanFormComponent} from "../arch-elaboration-plan-form/ar
   styleUrl: './preview-plan.component.css',
 })
 export class PreviewPlanComponent implements OnInit, OnDestroy {
-  archPlan: ArchitecturePlan | null = null;
+  archPlan: Entity | null = null;
   unsubscribe$ = new Subject<void>();
 
   constructor(

@@ -1,0 +1,14 @@
+<div class="grid">
+  <div id="archPlanForm" class="col-12 lg:col-5">
+    <form [formGroup]="designingViewpointsForm">
+      <div class="flex flex-column">
+        <label for="entity">Entity:</label>
+        <p>{{ entityField }}</p>
+      </div>
+      <p-button></p-button>
+    </form>
+  </div>
+  <div id="archPlanFormPreview" class="col-12 lg:col-7 zoomed">
+    <app-designing-viewpoints-preview></app-designing-viewpoints-preview>
+  </div>
+</div>

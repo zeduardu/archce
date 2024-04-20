@@ -1,4 +1,4 @@
-export interface ArchitecturePlan {
+export interface Entity {
   entity: string;
   background: string;
   purpose: string;
