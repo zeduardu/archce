@@ -12,6 +12,7 @@ import { Viewpoint } from '../../../../../data/types/viewpoint';
 import { CustomizedEditorComponent } from '../../customized-editor/customized-editor.component';
 import { PreviewPlanComponent } from '../../preparing-efforts/preview-plan/preview-plan.component';
 import { DesigningViewpointsPreviewComponent } from '../designing-viewpoints-preview/designing-viewpoints-preview.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-designing-viewpoints-form',
@@ -23,6 +24,7 @@ import { DesigningViewpointsPreviewComponent } from '../designing-viewpoints-pre
     FormsModule,
     InputTextModule,
     ReactiveFormsModule,
+    ButtonModule
   ],
   templateUrl: './designing-viewpoints-form.component.html',
   styleUrl: './designing-viewpoints-form.component.css',

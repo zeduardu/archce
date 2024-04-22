@@ -4,17 +4,22 @@
   "configurations": [
     {
       "name": "ng serve",
-      "type": "msedge",
+      "type": "firefox",
+      "firefoxExecutable": "/home/zeduardu/Applications/firefox/firefox-bin",
       "request": "launch",
+      "reAttach": true,
+      "url": "http://localhost:4200/index.html",
       "preLaunchTask": "npm: start",
-      "url": "http://localhost:4200/"
-    },
-    {
-      "name": "ng test",
-      "type": "msedge",
-      "request": "launch",
-      "preLaunchTask": "npm: test",
-      "url": "http://localhost:9876/debug.html"
+      "pathMappings": [
+        {
+          "url": "webpack:///src",
+          "path": "${workspaceFolder}/src"
+        },
+        {
+          "url": "http://localhost:4200/",
+          "path": "${workspaceFolder}"
+        }
+      ]
     }
   ]
 }
