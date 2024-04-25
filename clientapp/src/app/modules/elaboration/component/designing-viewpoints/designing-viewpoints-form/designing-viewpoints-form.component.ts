@@ -5,9 +5,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Subject } from 'rxjs';
 import { EntityService } from 'src/app/data/service/entity.service';
 import { Viewpoint } from '../../../../../data/types/viewpoint';
@@ -19,14 +21,17 @@ import { DesigningViewpointsPreviewComponent } from '../designing-viewpoints-pre
   selector: 'app-designing-viewpoints-form',
   standalone: true,
   imports: [
+    NgIf,
     NgFor,
     DesigningViewpointsPreviewComponent,
     PreviewPlanComponent,
     CustomizedEditorComponent,
     FormsModule,
-    InputTextModule,
     ReactiveFormsModule,
-    ButtonModule
+    ButtonModule,
+    InputTextModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   templateUrl: './designing-viewpoints-form.component.html',
   styleUrl: './designing-viewpoints-form.component.css',
@@ -34,22 +39,9 @@ import { DesigningViewpointsPreviewComponent } from '../designing-viewpoints-pre
 export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
   designingViewpointsForm = this.formBuilder.group({
     entity: [''],
-    viewpoints: this.formBuilder.array([
-      this.formBuilder.group({
-        name: [''],
-        overview: [''],
-        concerns: [''],
-        stakeholders: [''],
-        stakeholdersPerspectives: [''],
-        problemPitfalls: [''],
-        applicability: [''],
-        views: [''],
-        models: [''],
-      }),
-    ]),
+    viewpoints: this.formBuilder.array([]),
   });
-  viewpoint: Viewpoint = {
-  };
+  _viewpoint: Viewpoint = {};
   viewpoint$ = new Subject<Viewpoint>();
   unsubscribe$ = new Subject<void>();
   entityField: string | undefined = '';
@@ -74,18 +66,19 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
   }
 
   onArchPlanFormChange(data: any) {
-    this.viewpoint = { ...this.viewpoint, ...data };
-    this.viewpoint$.next(this.viewpoint);
+    this._viewpoint = { ...this._viewpoint, ...data };
+    this.viewpoint$.next(this._viewpoint);
   }
 
   get viewpoints() {
     return this.designingViewpointsForm.get('viewpoints') as FormArray;
   }
 
-  addViewpoint() {
+  addViewpoint(name: string) {
+    console.log('addViewpoint');
     this.viewpoints.push(
       this.formBuilder.group({
-        name: [''],
+        name: [name],
         overview: [''],
         concerns: [''],
         stakeholders: [''],
@@ -96,5 +89,9 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
         models: [''],
       })
     );
+  }
+
+  removeViewpoint(index: number) {
+    this.viewpoints.removeAt(index);
   }
 }
