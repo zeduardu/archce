@@ -4,8 +4,58 @@
       <div class="flex flex-column">
         <label for="entity">Entity:</label>
         <p>{{ entityField }}</p>
+        <div formArrayName="viewpoints">
+          <h2>Viewpoints</h2>
+          <p-button
+            label="Add another viewpoint"
+            icon="pi pi-plus"
+            (click)="addViewpoint()"
+          ></p-button>
+          <div
+            *ngFor="let viewpoint of viewpoints.controls; let i = index"
+            class="m-2 p-2 border-1 border-solid surface-border border-round"
+          >
+            <div class="field">
+              <label for="name-{{ i }}">Name:</label>
+              <input
+                id="name-{{ i }}"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                [formControlName]="i"
+              />
+            </div>
+            <div class="field">
+              <label for="overview-{{ i }}">Overview:</label>
+              <input
+                id="overview-{{ i }}"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                [formControlName]="i"
+              />
+            </div>
+            <div class="field">
+              <label for="stakeholders-{{ i }}">Stakeholders:</label>
+              <input
+                id="stakeholders-{{ i }}"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                [formControlName]="i"
+              />
+            </div>
+            <div class="field">
+              <label for="stakeholderPerspectives-{{ i }}"
+                >Stakeholder Perspectives:</label
+              >
+              <input
+                id="stakeholderPerspectives-{{ i }}"
+                type="text"
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                [formControlName]="i"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <p-button></p-button>
     </form>
   </div>
   <div id="archPlanFormPreview" class="col-12 lg:col-7 zoomed">
