@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -5,15 +6,15 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { Viewpoint } from '@models/viewpoint';
+import { CustomizedEditorComponent } from '@modules/elaboration/component/customized-editor/customized-editor.component';
+import { EntityService } from '@services/entity.service';
+import { ViewpointService } from '@services/viewpoint.service';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputTextModule } from 'primeng/inputtext';
 import { Subject } from 'rxjs';
-import { EntityService } from 'src/app/data/service/entity.service';
-import { Viewpoint } from '../../../../../data/types/viewpoint';
-import { CustomizedEditorComponent } from '../../customized-editor/customized-editor.component';
 import { PreviewPlanComponent } from '../../preparing-efforts/preview-plan/preview-plan.component';
 import { DesigningViewpointsPreviewComponent } from '../designing-viewpoints-preview/designing-viewpoints-preview.component';
 
@@ -41,7 +42,6 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
     entity: [''],
     viewpoints: this.formBuilder.array([]),
   });
-  _viewpoint: Viewpoint = {};
   viewpoint$ = new Subject<Viewpoint>();
   unsubscribe$ = new Subject<void>();
   entityField: string | undefined = '';
@@ -49,6 +49,7 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private entityService: EntityService,
+    private viewpointService: ViewpointService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -66,8 +67,13 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
   }
 
   onArchPlanFormChange(data: any) {
-    this._viewpoint = { ...this._viewpoint, ...data };
-    this.viewpoint$.next(this._viewpoint);
+    this.viewpointService.viewpoint = {
+      ...this.viewpointService.viewpoint,
+      ...data,
+    };
+    if (this.viewpointService.viewpoint) {
+      this.viewpoint$.next(this.viewpointService.viewpoint);
+    }
   }
 
   get viewpoints() {

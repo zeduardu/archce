@@ -2,7 +2,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
-import { Entity } from 'src/app/data/types/entity';
+import { Entity } from 'src/app/data/models/entity';
 import { ArchElaborationPlanFormComponent } from '../arch-elaboration-plan-form/arch-elaboration-plan-form.component';
 
 @Component({

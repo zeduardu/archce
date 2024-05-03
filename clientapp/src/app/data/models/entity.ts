@@ -1,3 +1,5 @@
+import { Stakeholder } from "./stakeholder";
+
 export interface Entity {
   entity: string;
   background: string;

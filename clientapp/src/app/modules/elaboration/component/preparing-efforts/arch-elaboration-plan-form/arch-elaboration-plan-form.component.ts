@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomizedEditorComponent } from '../../customized-editor/customized-editor.component';
-import { Entity } from '../../../../../data/types/entity';
+import { Entity } from '../../../../../data/models/entity';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PreviewPlanComponent } from '../preview-plan/preview-plan.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { EntityService } from 'src/app/data/service/entity.service';
+import { EntityService } from '@services/entity.service';
 
 @Component({
   selector: 'app-arch-elaboration-plan-form',

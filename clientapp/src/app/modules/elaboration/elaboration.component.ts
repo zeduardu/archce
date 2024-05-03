@@ -6,7 +6,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { StepperModule } from "primeng/stepper";
 import { CustomizedEditorComponent } from "./component/customized-editor/customized-editor.component";
 import { PreviewPlanComponent } from "./component/preparing-efforts/preview-plan/preview-plan.component";
-import { Entity } from 'src/app/data/types/entity';
+import { Entity } from 'src/app/data/models/entity';
 import { Subject } from 'rxjs';
 import {
   ArchElaborationPlanFormComponent
