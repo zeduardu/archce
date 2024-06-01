@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "clientapp"
+		},
+		{
+			"path": "api"
+		},
+		{
+			"path": "documentation"
+		}
+	],
+	"settings": {
+		"java.format.settings.url": "eclipse-formatter.xml"
+	}
+}
