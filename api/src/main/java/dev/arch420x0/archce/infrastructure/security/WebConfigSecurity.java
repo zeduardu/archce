@@ -10,11 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
-public class WebConfigSecurity {
+public class WebConfigSecurity implements WebMvcConfigurer {
 
   @Bean // Cria autenticação do usuário com banco de dados ou em memória
   protected AuthenticationManager authenticationManager(HttpSecurity http, ImplementacaoUserDetailsService implementacaoUserDetailsService) throws Exception {
@@ -52,5 +54,14 @@ public class WebConfigSecurity {
   @Bean // Ignora url específicas
   public WebSecurityCustomizer webSecurityCustomizer() {
     return web -> web.ignoring().requestMatchers("/materialize/**");
+  }
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    WebMvcConfigurer.super.addCorsMappings(registry);
+    registry.addMapping("/api/**")
+      .allowedOrigins("http://localhost:4200")
+      .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+      .allowCredentials(true);
   }
 }
