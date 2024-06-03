@@ -1,14 +1,15 @@
-import { Entity } from "./entity";
+import { EntityInterest } from "./entity-interest";
+import {Concern} from "@models/concern";
 
 export interface Viewpoint {
-  entity: Entity;
-  title: string;
+  name: string;
   overview: string;
-  concerns: string;
-  stakeholders: string;
-  stakeholdersPerspectives: string;
+  concerns: Concern[];
+  aspects: string;
+  model: string;
+  view: string;
+  examples: string;
   problemPitfalls: string;
   applicability: string;
   views: string;
-  models: string;
 }

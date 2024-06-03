@@ -1,8 +1,8 @@
-import { Entity } from "./entity";
+import { EntityInterest } from "./entity-interest";
 import { StakeholderType } from "./stakeholder-type";
 
 export interface Stakeholder {
   name: string;
   type: StakeholderType;
-  entities: Entity[];
+  entities: EntityInterest[];
 }
