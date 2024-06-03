@@ -6,8 +6,7 @@ export interface EntityInterest {
   background: string;
   purpose: string;
   scope: string;
-  objectives: Objective[];
   approach: string;
-  resourcesandschedule: string;
-  riskandmitigation: string;
+  schedule: string;
+  milestones: string;
 }

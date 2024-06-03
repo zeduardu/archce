@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BaseService {
-  protected baseUrl: string = 'http://localhost:4200/api/v1'; // Replace with your API URL
+  protected baseUrl: string = 'http://localhost:8080/api/v1'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
 

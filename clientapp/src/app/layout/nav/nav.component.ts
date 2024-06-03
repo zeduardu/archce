@@ -32,6 +32,7 @@ export class NavComponent implements OnInit {
         items: [
           {
             label: 'Entity of Interest',
+            routerLink: '/manage-eoi',
           },
         ],
       },
