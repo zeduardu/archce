@@ -6,7 +6,7 @@
     <div id="preview-box" class="p-3 border-1 border-solid border-gray-100 bg-white border-round">
 
       <div id="title" class="">
-        <h1>{{ this.archPlan.entity }}</h1>
+        <h1>{{ this.archPlan.name }}</h1>
       </div>
 
       <div id="backgroundHeader" class="bg-gray-100 border-solid border-1 border-round flex justify-content-center">
@@ -38,11 +38,6 @@
         <p>Risk and Mitigation</p>
       </div>
       <div id="riskandmitigationContent" [innerHTML]="this.archPlan.riskandmitigation"></div>
-
-      <div id="conclusionHeader" class="bg-gray-100 border-solid border-1 border-round flex justify-content-center">
-        <p>Conclusion</p>
-      </div>
-      <div id="conclusionContent" [innerHTML]="this.archPlan.conclusion"></div>
     </div>
   </div>
 </div>

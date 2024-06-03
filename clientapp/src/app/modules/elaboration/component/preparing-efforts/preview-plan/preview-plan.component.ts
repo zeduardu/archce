@@ -2,7 +2,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
-import { Entity } from 'src/app/data/models/entity';
+import { EntityInterest } from '@models/entity-interest';
 import { ArchElaborationPlanFormComponent } from '../arch-elaboration-plan-form/arch-elaboration-plan-form.component';
 
 @Component({
@@ -13,7 +13,7 @@ import { ArchElaborationPlanFormComponent } from '../arch-elaboration-plan-form/
   styleUrl: './preview-plan.component.css',
 })
 export class PreviewPlanComponent implements OnInit, OnDestroy {
-  archPlan: Entity | null = null;
+  archPlan: EntityInterest | null = null;
   unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -22,12 +22,12 @@ export class PreviewPlanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.elaborationComponent.archPlan$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data) => {
-        this.archPlan = data;
-        this.changeDetectorRef.detectChanges();
-      });
+    // this.elaborationComponent.archPlan$
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((data) => {
+    //     this.archPlan = data;
+    //     this.changeDetectorRef.detectChanges();
+    //   });
   }
 
   ngOnDestroy(): void {

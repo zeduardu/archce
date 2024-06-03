@@ -1,19 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "primeng/button";
-import { EditorModule } from "primeng/editor";
-import { InputTextModule } from "primeng/inputtext";
-import { StepperModule } from "primeng/stepper";
-import { CustomizedEditorComponent } from "./component/customized-editor/customized-editor.component";
-import { PreviewPlanComponent } from "./component/preparing-efforts/preview-plan/preview-plan.component";
-import { Entity } from 'src/app/data/models/entity';
-import { Subject } from 'rxjs';
-import {
-  ArchElaborationPlanFormComponent
-} from "./component/preparing-efforts/arch-elaboration-plan-form/arch-elaboration-plan-form.component";
-import {
-  DesigningViewpointsFormComponent
-} from "./component/designing-viewpoints/designing-viewpoints-form/designing-viewpoints-form.component";
+import { ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { EditorModule } from 'primeng/editor';
+import { InputTextModule } from 'primeng/inputtext';
+import { StepperModule } from 'primeng/stepper';
+import { CustomizedEditorComponent } from './component/customized-editor/customized-editor.component';
+import { ArchElaborationPlanFormComponent } from './component/preparing-efforts/arch-elaboration-plan-form/arch-elaboration-plan-form.component';
+import { PreviewPlanComponent } from './component/preparing-efforts/preview-plan/preview-plan.component';
+import { DesigningViewpointsFormComponent } from './component/designing-viewpoints/designing-viewpoints-form/designing-viewpoints-form.component';
 
 @Component({
   selector: 'app-elaboration',

@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Viewpoint } from '@models/viewpoint';
 import { CustomizedEditorComponent } from '@modules/elaboration/component/customized-editor/customized-editor.component';
-import { EntityService } from '@services/entity.service';
 import { ViewpointService } from '@services/viewpoint.service';
 import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -48,14 +47,13 @@ export class DesigningViewpointsFormComponent implements OnInit, OnDestroy {
   viewpointName: string | undefined = '';
 
   constructor(
-    private entityService: EntityService,
     private viewpointService: ViewpointService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.entityField = this.entityService.entity?.entity;
+    // this.entityField = this.entityService.entity?.name;
     this.designingViewpointsForm.valueChanges.subscribe((data) => {
       this.onArchPlanFormChange(data);
     });
