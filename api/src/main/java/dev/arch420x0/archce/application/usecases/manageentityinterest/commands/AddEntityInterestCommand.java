@@ -1,8 +1,7 @@
-package dev.arch420x0.archce.application.usecase.manageentityinterest.commands;
+package dev.arch420x0.archce.application.usecases.manageentityinterest.commands;
 
 import dev.arch420x0.archce.application.interfaces.EntityInterestRepository;
-import dev.arch420x0.archce.application.models.AddEntityInterestReq;
-import dev.arch420x0.archce.application.models.AddEntityInterestRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestReq;
 import dev.arch420x0.archce.domain.entities.EntityInterest;
 import org.springframework.stereotype.Component;
 

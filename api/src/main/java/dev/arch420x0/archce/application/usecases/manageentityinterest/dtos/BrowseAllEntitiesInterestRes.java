@@ -1,13 +1,13 @@
-package dev.arch420x0.archce.application.models;
-import java.util.List;
+package dev.arch420x0.archce.application.usecases.manageentityinterest.dtos;
+import java.io.Serializable;
 
-import dev.arch420x0.archce.infrastructure.shortbus.Response;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class BrowseAllEntitiesInterestRes extends Response<List<BrowseAllEntitiesInterestRes>> {
+public class BrowseAllEntitiesInterestRes implements Serializable {
+  private Long id;
   private String name;
   private String background;
   private String purpose;

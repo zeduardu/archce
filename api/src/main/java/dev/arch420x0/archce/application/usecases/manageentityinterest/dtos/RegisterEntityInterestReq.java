@@ -1,4 +1,4 @@
-package dev.arch420x0.archce.application.models;
+package dev.arch420x0.archce.application.usecases.manageentityinterest.dtos;
 
 import dev.arch420x0.archce.application.interfaces.RequestModel;
 import lombok.Getter;

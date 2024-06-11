@@ -1,4 +1,4 @@
-package dev.arch420x0.archce.application.usecase.manageentityinterest.commands;
+package dev.arch420x0.archce.application.usecases.manageentityinterest.commands;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import dev.arch420x0.archce.application.interfaces.EntityInterestRepository;
 import dev.arch420x0.archce.application.interfaces.RequestModel;
-import dev.arch420x0.archce.application.models.BrowseAllEntitiesInterestRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.BrowseAllEntitiesInterestRes;
 import dev.arch420x0.archce.domain.entities.EntityInterest;
 
 @Component
@@ -24,6 +24,7 @@ public class BrowseAllEntitiesInterestCommand {
             entities.stream().map(
                 entity -> {
                     BrowseAllEntitiesInterestRes res = new BrowseAllEntitiesInterestRes();
+                    res.setId(entity.getId());
                     res.setName(entity.getName());
                     res.setBackground(entity.getBackground());
                     res.setPurpose(entity.getPurpose());

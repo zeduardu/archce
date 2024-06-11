@@ -1,10 +1,10 @@
-package dev.arch420x0.archce.application.usecase.manageentityinterest;
+package dev.arch420x0.archce.application.usecases.manageentityinterest;
 
 import dev.arch420x0.archce.application.interfaces.RequestModel;
-import dev.arch420x0.archce.application.models.AddEntityInterestReq;
-import dev.arch420x0.archce.application.models.BrowseAllEntitiesInterestReq;
-import dev.arch420x0.archce.application.usecase.manageentityinterest.commands.AddEntityInterestCommand;
-import dev.arch420x0.archce.application.usecase.manageentityinterest.commands.BrowseAllEntitiesInterestCommand;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestReq;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.BrowseAllEntitiesInterestReq;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.commands.AddEntityInterestCommand;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.commands.BrowseAllEntitiesInterestCommand;
 import dev.arch420x0.archce.infrastructure.shortbus.RequestHandler;
 import org.springframework.stereotype.Service;
 
