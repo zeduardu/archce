@@ -1,23 +1,18 @@
 package dev.arch420x0.archce.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import dev.arch420x0.archce.domain.common.BaseAuditableEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-import dev.arch420x0.archce.domain.common.BaseAuditableEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
 @Getter
+@Setter
+@ToString
+@AllArgsConstructor
 @Entity
 public class Objective extends BaseAuditableEntity implements Serializable {
 
@@ -25,19 +20,23 @@ public class Objective extends BaseAuditableEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String description;
+
 	private String rationale;
+
 	@JsonIdentityReference(alwaysAsId = true)
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "problem_id"))
 	private Problem problem;
-    @OneToMany(mappedBy = "objective", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "objective", cascade = CascadeType.ALL)
+	@ToString.Exclude
 	private List<Decision> decisions;
+
 	@ManyToOne
 	private EntityInterest entityInterest;
 
-	@Override
-	public String toString() {
-		return "Objective [id=" + getId() + ", description=" + description + ", rationale=" + rationale + "]";
+	public Objective() {
+
 	}
 
 	@Override

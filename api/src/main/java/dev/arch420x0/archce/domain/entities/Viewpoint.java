@@ -6,92 +6,56 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.hibernate.proxy.HibernateProxy;
+
+import dev.arch420x0.archce.domain.common.BaseAuditableEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
 @Entity
-public class Viewpoint implements Serializable {
-
+public class Viewpoint extends BaseAuditableEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String title;
-	private String rationale;
-	private String model;
-	private String conventions;
-	private String source;
+	private String name;
 
-	/**
-	 * @Lob private byte[] fileUP;
-	 * 
-	 *      public byte[] getFileUP() { return fileUP; }
-	 * 
-	 *      public void setFileUP(byte[] fileUP) { this.fileUP = fileUP; }
-	 **/
+	private String overview;
+
 	@ManyToMany(mappedBy = "viewpoints", fetch = FetchType.EAGER)
 	private List<Concern> concerns;
 
-	public Long getId() {
-		return id;
-	}
+	// Stakeholder perspectives:
+	// In the report/document get stakeholder perspectives from concerns entity if exist.
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
+	//TODO In the future add "Aspects" field to store a listing of the aspects refining the above concerns [ISO/IEC/IEEE 42010:2022, per 8.1 item c)] or encompassing potential concerns.
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	// Typical stakeholders:
+	// In the report/document get a listing of the stakeholders expected to be users or audiences
+	// for views prepared using this architecture viewpoint [ISO/IEC/IEEE 42010:2022, per 8.1 item d)]
 
-	public String getRationale() {
-		return rationale;
-	}
+	// (B.2.9 - Specification of model kinds) The architecture viewpoint identifies each model kind [ISO/IEC/IEEE 42010:2022, per 8.1 item d)].
+	private String model;
 
-	public void setRationale(String rationale) {
-		this.rationale = rationale;
-	}
+	// For each model kind used, describe its conventions, language or modelling techniques. These are
+	// key modelling resources which the specification of the architecture viewpoint makes available that
+	// establish the vocabularies for constructing the architecture views.
+	private String conventions;
 
-	public String getModel() {
-		return model;
-	}
+	private String rationale;
 
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getConventions() {
-		return conventions;
-	}
-
-	public void setConventions(String conventions) {
-		this.conventions = conventions;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	public List<Concern> getConcerns() {
-		return concerns;
-	}
+	// Identify the sources for this specification, if any, including author, history,
+	// literature references and prior art [per 8.1 item g)].
+	private String source;
 
 	public String getConcernsFormatado() {
 		if (concerns == null) {
@@ -107,10 +71,6 @@ public class Viewpoint implements Serializable {
 
 	}
 
-	public void setConcerns(List<Concern> concerns) {
-		this.concerns = concerns;
-	}
-
 	public String getTypicalStakeholders() {
 		if (this.concerns == null) {
 			return "";
@@ -120,20 +80,27 @@ public class Viewpoint implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public final boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
+		Class<?> oEffectiveClass = o instanceof HibernateProxy
+				? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+				: o.getClass();
+		Class<?> thisEffectiveClass = this instanceof HibernateProxy
+				? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+				: this.getClass();
+		if (thisEffectiveClass != oEffectiveClass)
+			return false;
+		Viewpoint viewpoint = (Viewpoint) o;
+		return getId() != null && Objects.equals(getId(), viewpoint.getId());
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Viewpoint other = (Viewpoint) obj;
-		return Objects.equals(id, other.id);
+	public final int hashCode() {
+		return this instanceof HibernateProxy
+				? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
+				: getClass().hashCode();
 	}
-
 }

@@ -1,32 +1,25 @@
 package dev.arch420x0.archce.domain.entities;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import dev.arch420x0.archce.domain.common.BaseAuditableEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-public class Concern {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class Concern extends BaseAuditableEntity implements Serializable {
 
 	private String description;
-
-//	private String priority;
 
 	@JsonIdentityReference(alwaysAsId = true)
 	@ManyToMany
@@ -46,14 +39,6 @@ public class Concern {
 		this.stakeholders = stakeholders;
 	}
 
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -70,38 +55,11 @@ public class Concern {
 		this.viewpoints = viewpoints;
 	}
 
-/**	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-	
-**/
-
 	public String getTypicalStakeholders() {
 		if (this.stakeholders == null) {
 			return "";
 		}
 		return this.stakeholders.stream().map(st -> st.getNome()).distinct().sorted().collect(Collectors.joining(","));
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Concern other = (Concern) obj;
-		return Objects.equals(id, other.id);
 	}
 
 }
