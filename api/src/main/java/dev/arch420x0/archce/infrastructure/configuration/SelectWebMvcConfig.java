@@ -1,5 +1,7 @@
-package dev.arch420x0.archce.application.config;
+package dev.arch420x0.archce.infrastructure.configuration;
 
+import dev.arch420x0.archce.application.common.ConcernFormatter;
+import dev.arch420x0.archce.application.common.StakeholderFormatter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

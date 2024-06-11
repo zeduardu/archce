@@ -1,4 +1,4 @@
-package dev.arch420x0.archce.application.config;
+package dev.arch420x0.archce.application.common;
 
 import java.text.ParseException;
 import java.util.Locale;
