@@ -1,0 +1,54 @@
+@startuml
+
+class EntityInterest {
+    - name: String
+    - background: String
+    - purpose: String
+    - scope: String
+    - objectives: Objective[]
+    - stakeholders: Stakeholder[]
+    - approach: String
+    - schedule: String
+    - milestones: Milestone[]
+    - metrics: Metric[]
+}
+
+class Objective {
+    - description: String
+    - rationale: String
+    - problem: Problem
+    - decisions: Decision[]
+    - entityInterest: EntityInterest
+}
+
+class Viewpoint {
+    - name: String
+    - overview: String
+    - concerns: Concern[]
+    - conventions: String
+    - rationale: String
+    - source: String
+}
+
+class Concern {
+    - matter: String
+    - viewpoint: Viewpoint[]
+    - stakeholders: Stakeholder[]
+}
+
+class Stakeholder {
+    - nome: String
+    - type: String
+    - concerns: Concern[]
+    - problems: Problem[]
+    - entityInterest: EntityInterest
+}
+
+class Views {}
+
+EntityInterest "1" -- "1..*" Objective
+EntityInterest "1" -- "*" Stakeholder
+Viewpoint "1" -- "1..*" Concern : > frames
+Stakeholder "*" -- "*" Concern
+
+@enduml
