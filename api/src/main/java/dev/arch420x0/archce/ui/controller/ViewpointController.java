@@ -1,29 +1,36 @@
 package dev.arch420x0.archce.ui.controller;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
+import dev.arch420x0.archce.application.usecases.manageviewpoint.ManageViewpointUseCase;
+import dev.arch420x0.archce.application.usecases.manageviewpoint.dtos.ViewpointRequest;
+import dev.arch420x0.archce.application.usecases.manageviewpoint.dtos.ViewpointResponse;
+import dev.arch420x0.archce.domain.entities.Concern;
+import dev.arch420x0.archce.domain.entities.Viewpoint;
+import dev.arch420x0.archce.persistence.repositories.ConcernRepository;
+import dev.arch420x0.archce.persistence.repositories.ViewpointRepository;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import dev.arch420x0.archce.persistence.repositories.ConcernRepository;
-import dev.arch420x0.archce.persistence.repositories.ViewpointRepository;
-import jakarta.validation.Valid;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+import static org.springframework.http.ResponseEntity.status;
 
-import dev.arch420x0.archce.domain.entities.Concern;
-import dev.arch420x0.archce.domain.entities.Viewpoint;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
+@RestController
+@RequestMapping("/api/v1/viewpoints")
+@Tag(name = "viewpoints", description = "Software architecture viewpoints API")
 @Controller
 public class ViewpointController {
+	private final ManageViewpointUseCase manageViewpointUseCase;
 
 	/**
 	 * Pagina cadastro de viewpoint
@@ -36,7 +43,11 @@ public class ViewpointController {
 	@Autowired
 	private ViewpointRepository viewpointRepository;
 
-	@GetMapping("/viewpointregistration")
+  public ViewpointController(ManageViewpointUseCase manageViewpointUseCase) {
+    this.manageViewpointUseCase = manageViewpointUseCase;
+  }
+
+  @GetMapping("/viewpointregistration")
 	public ModelAndView inicio() {
 
 		ModelAndView modelAndView = new ModelAndView(CADASTRO_VIEWPOINTREGISTRATION);
@@ -146,4 +157,8 @@ public class ViewpointController {
 
 	}
 
+	@PostMapping(produces = {"application/json"}, consumes = {"application/json"})
+	public ResponseEntity<ViewpointResponse> addViewpoint(@Parameter(description = "Objective of entity of interest") @Valid @RequestBody ViewpointRequest request) {
+		return status(HttpStatus.CREATED).body(manageViewpointUseCase.addViewpoint(request));
+	}
 }

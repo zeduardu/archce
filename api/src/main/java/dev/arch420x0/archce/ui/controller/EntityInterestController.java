@@ -1,13 +1,13 @@
 package dev.arch420x0.archce.ui.controller;
 
-import dev.arch420x0.archce.application.models.AddEntityInterestReq;
-import dev.arch420x0.archce.application.models.AddEntityInterestRes;
-import dev.arch420x0.archce.application.models.BrowseAllEntitiesInterestReq;
-import dev.arch420x0.archce.application.models.BrowseAllEntitiesInterestRes;
-import dev.arch420x0.archce.application.models.ReadEntityInterestByIdRes;
-import dev.arch420x0.archce.application.models.RegisterEntityInterestReq;
-import dev.arch420x0.archce.application.usecase.manageentityinterest.ManageEntityInterestUseCase;
-import dev.arch420x0.archce.application.usecase.registerentityinterest.RegisterEntityInterestUseCase;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestReq;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.BrowseAllEntitiesInterestReq;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.BrowseAllEntitiesInterestRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.ReadEntityInterestByIdRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.RegisterEntityInterestReq;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.ManageEntityInterestUseCase;
+import dev.arch420x0.archce.application.usecases.registerentityinterest.RegisterEntityInterestUseCase;
 import dev.arch420x0.archce.domain.entities.EntityInterest;
 import dev.arch420x0.archce.ui.EntityInterestModelAssembler;
 import io.swagger.v3.oas.annotations.Operation;

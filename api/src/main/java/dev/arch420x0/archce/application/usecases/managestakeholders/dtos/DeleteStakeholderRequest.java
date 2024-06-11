@@ -1,0 +1,6 @@
+package dev.arch420x0.archce.application.usecases.managestakeholders.dtos;
+
+import dev.arch420x0.archce.infrastructure.shortbus.Request;
+
+public record DeleteStakeholderRequest(Long id) implements Request<Long> {
+}

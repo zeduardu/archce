@@ -1,32 +1,43 @@
 package dev.arch420x0.archce.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dev.arch420x0.archce.persistence.repositories.DecisionRepository;
-import dev.arch420x0.archce.persistence.repositories.ObjectiveRepository;
-import dev.arch420x0.archce.persistence.repositories.ProblemRepository;
-import dev.arch420x0.archce.persistence.repositories.TradeoffRepository;
-import jakarta.validation.Valid;
-
+import dev.arch420x0.archce.application.usecases.manageobjective.dtos.*;
+import dev.arch420x0.archce.application.usecases.manageobjective.ManageObjectiveUseCase;
 import dev.arch420x0.archce.domain.entities.Decision;
 import dev.arch420x0.archce.domain.entities.Objective;
 import dev.arch420x0.archce.domain.entities.Problem;
 import dev.arch420x0.archce.domain.entities.Tradeoff;
-
+import dev.arch420x0.archce.infrastructure.shortbus.Response;
+import dev.arch420x0.archce.persistence.repositories.DecisionRepository;
+import dev.arch420x0.archce.persistence.repositories.ObjectiveRepository;
+import dev.arch420x0.archce.persistence.repositories.ProblemRepository;
+import dev.arch420x0.archce.persistence.repositories.TradeoffRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.status;
+
 @Controller
+@RestController
+@RequestMapping("/api/v1/objectives")
+@Tag(name = "objectives", description = "The objectives API")
 public class ObjectiveController {
+	private final ManageObjectiveUseCase manageObjectiveUseCase;
 
 	@Autowired
 	private ObjectiveRepository objectiveRepository;
@@ -40,7 +51,11 @@ public class ObjectiveController {
 	@Autowired
 	private ProblemRepository problemRepository;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/objectiveregistration")
+  public ObjectiveController(ManageObjectiveUseCase manageObjectiveUseCase) {
+    this.manageObjectiveUseCase = manageObjectiveUseCase;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/objectiveregistration")
 	public ModelAndView objectives() {
 
 		ModelAndView modelAndView = new ModelAndView("cadastro/objectiveregistration");
@@ -56,11 +71,11 @@ public class ObjectiveController {
 		return modelAndView;
 
 		/*
-		 * Optional<Problem> problem = problemRepository.findById(idproblem);
+		 * Optional<Problem> problemId = problemRepository.findById(idproblem);
 		 * 
 		 * ModelAndView modelAndView = new
 		 * ModelAndView("cadastro/objectiveregistration");
-		 * modelAndView.addObject("problemobj", problem.get());
+		 * modelAndView.addObject("problemobj", problemId.get());
 		 * modelAndView.addObject("objectives",
 		 * objectiveRepository.getObjectivePorProblem(idproblem));
 		 * 
@@ -72,7 +87,7 @@ public class ObjectiveController {
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarobjective")
 	public ModelAndView salvarObjective(@Valid Objective objective, BindingResult bindingResult) {
 
-		// problem.setStakeholder(stakeholderRepository.getConcernsPorStakeholder(stakeholder.getId()));
+		// problemId.setStakeholder(stakeholderRepository.getConcernsPorStakeholder(stakeholder.getId()));
 
 		if (bindingResult.hasErrors()) {
 			ModelAndView modelAndView = new ModelAndView("cadastro/objectiveregistration");
@@ -106,7 +121,7 @@ public class ObjectiveController {
 
 	}
 
-	// Adicionar objective vinculado ao problem
+	// Adicionar objective vinculado ao problemId
 	@PostMapping("/addObjectiveProblem/{idproblem}")
 	public ModelAndView addObjectiveProblem(Objective objective, @PathVariable("idproblem") Long idproblem) {
 
@@ -271,5 +286,77 @@ public class ObjectiveController {
 		return modelAndView;
 
 	}
-	
+
+	/**
+	 * GET /api/v1/objectives : Get all objectives
+	 * @return List of objectives
+	 */
+	@Operation(
+		summary = "Get all objectives",
+		responses = {
+			@ApiResponse(responseCode = "200", description = "For successful fetch.", content = {
+				@Content(mediaType = "application/json", schema = @Schema(implementation = BrowseAllObjectivesRes.class))
+			})
+		}
+	)
+	@GetMapping
+	public ResponseEntity<List<BrowseAllObjectivesRes>> getAllObjectives() {
+		return status(HttpStatus.OK).body(
+			(List<BrowseAllObjectivesRes>)this.manageObjectiveUseCase.handle(new BrowseAllObjectivesReq())
+		);
+	}
+
+	/**
+	 * GET /api/v1/objectives/{entityInterestId} : Get all objectives by "Entity of Interest"
+	 * @param entityInterestId
+	 * @return List of objectives
+	 */
+	@Operation(
+		summary = "Get all objectives by 'Entity of Interest'",
+		responses = {
+			@ApiResponse(responseCode = "200", description = "For successful fetch.", content = {
+				@Content(mediaType = "application/json", schema = @Schema(implementation = BrowseByEntityInterestIdObjectivesRes.class))
+			})
+		}
+	)
+	@GetMapping("/entity-interest/{entityInterestId}")
+	public ResponseEntity<List<BrowseByEntityInterestIdObjectivesRes>> getAllObjectivesByEntityInterestId(@Parameter(description = "Entity of interest ID") @Valid @PathVariable Long entityInterestId) {
+		Object response = this.manageObjectiveUseCase.handle(new BrowseByEntityInterestIdObjectivesReq(entityInterestId));
+		if (response == null) return status(HttpStatus.NOT_FOUND).body(null);
+		return status(HttpStatus.OK).body((List<BrowseByEntityInterestIdObjectivesRes>) response);
+	}
+
+	/**
+	 * POST /api/v1/objectives : Add a objective into "Entity of Interest"
+	 *
+	 * @param request
+	 * @return
+	 */
+	@PostMapping(produces = {"application/json"}, consumes = {"application/json"})
+	public ResponseEntity<AddObjectiveRes> createObjective(@Parameter(description = "Objective of entity of interest") @Valid @RequestBody AddObjectiveReq request) {
+		return status(HttpStatus.CREATED).body(
+			(AddObjectiveRes) this.manageObjectiveUseCase.handle(request)
+		);
+	}
+
+	/**
+	 * PUT /api/v1/objectives/{id} : Delete an objective
+	 *
+	 * @param id
+	 * @return {@link DeleteObjectiveRes}
+	 */
+	@Operation(
+		summary = "Delete an objective",
+		responses = {
+			@ApiResponse(responseCode = "200", description = "For successful delete.", content = {
+				@Content(mediaType = "application/json", schema = @Schema(implementation = EditObjectiveRes.class))
+			})
+		}
+	)
+	@DeleteMapping("/{id}")
+	public ResponseEntity<DeleteObjectiveRes> deleteObjectiveResResponseEntity (@Parameter(description = "Objective ID") @Valid @PathVariable Long id) {
+		return status(HttpStatus.OK).body(
+			(DeleteObjectiveRes) this.manageObjectiveUseCase.handle(new DeleteObjectiveReq(id))
+		);
+	}
 }

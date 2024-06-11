@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import dev.arch420x0.archce.application.models.AddEntityInterestRes;
+import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestRes;
 import dev.arch420x0.archce.domain.entities.EntityInterest;
 import dev.arch420x0.archce.ui.controller.EntityInterestController;
 
