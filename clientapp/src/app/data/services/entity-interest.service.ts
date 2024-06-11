@@ -3,19 +3,19 @@ import { EntityInterest } from '@models/entity-interest';
 import { BaseService } from 'src/app/core/service/base.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BrowseAllEntitiesInterestRes } from '@models/BrowseAllEntitiesInterestRes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntityInterestService extends BaseService {
-  public entityInterest: EntityInterest | null = null;
 
   constructor(http: HttpClient) {
     super(http);
   }
 
-  getEntitiesInterest(): Observable<EntityInterest[]> {
-    return this.get<EntityInterest[]>('entities-interest');
+  getEntitiesInterest(): Observable<BrowseAllEntitiesInterestRes[]> {
+    return this.get<BrowseAllEntitiesInterestRes[]>('entities-interest');
   }
 
   getEntityInterest(id: number): Observable<EntityInterest> {

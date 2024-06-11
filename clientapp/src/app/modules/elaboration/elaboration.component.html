@@ -1,6 +1,8 @@
+<p-toast/>
+<p-confirmDialog [style]="{ width: '450px' }"/>
 <p-stepper [orientation]="screenWidth <= 768 ? 'vertical' : 'horizontal'">
   <!-- Of the 4 steps this is the first -->
-  <p-stepperPanel header="Preparing the efforts">
+  <p-stepperPanel id="preparing-efforts-task" header="Preparing the efforts">
     <ng-template let-index="index" let-nextCallback="nextCallback" pTemplate="content">
       <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
         <h1>Architecture Elaboration Plan</h1>
@@ -9,7 +11,195 @@
           architecture elaboration. Establish specific objectives and expected outcomes. Allocate responsibilities to
           team members and roles. Develop a detailed plan outlining tasks, activities, and timelines.
         </p>
-        <app-arch-elaboration-plan-form></app-arch-elaboration-plan-form>
+        <div class="grid">
+          <div id="form-preparing-efforts-task" class="col-12 lg:col-5">
+            <div class="field">
+              <label for="selectEntityInterest">Start selecting enitity of interest</label>
+              <p-dropdown id="selectEntityInterest" [options]="entitiesOfInterest"
+                          [(ngModel)]="selectedEntityOfInterest"
+                          optionLabel="name" [showClear]="true" placeholder="Select a Entity of interest"
+                          (onChange)="fillObjectivesByEntityInterestId($event.value)"/>
+            </div>
+            <p-panel header="Entity Context">
+              <div class="field">
+                <label for="name">Name</label>
+                <input pInputText id="name" [(ngModel)]="entityOfInterest.name" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="background">Background</label>
+                <input pInputText id="background" [(ngModel)]="entityOfInterest.background" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="purpose">Purpose</label>
+                <input pInputText id="purpose" [(ngModel)]="entityOfInterest.purpose" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="scope">Sco[e</label>
+                <input pInputText id="scope" [(ngModel)]="entityOfInterest.scope" required class="w-full"/>
+              </div>
+            </p-panel>
+            <p-panel header="Entity Objectives" styleClass="mt-3">
+              <div class="py-2 flex justify-content-end">
+                <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                          (click)="openNewObjectiveDialog()" [disabled]="!selectedEntityOfInterest"/>
+              </div>
+              <p-table [value]="objectives" [rows]="10" [paginator]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-objective>
+                  <tr>
+                    <td>{{ objective.description }}</td>
+                    <td>
+                      <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                severity="success"
+                                (click)="editObjective(objective)"/>
+                      <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteObjective(objective)"/>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between">
+                    In total there are
+                    {{ objectives ? objectives.length : 0 }}
+                    objective(s).
+                  </div>
+                </ng-template>
+              </p-table>
+              <p-dialog [(visible)]="objectiveDialog" header="Entity of Interest Objectives Details" [modal]="true"
+                        styleClass="p-fluid">
+                <ng-template pTemplate="content">
+                  <div class="field">
+                    <label>Entity of Interest:</label>
+                    <div>{{ selectedEntityOfInterest.name }}</div>
+                  </div>
+                  <div class="field">
+                    <label for="name">Description</label>
+                    <input pInputText id="input-entity-interest-name" [(ngModel)]="objective.description" required/>
+                  </div>
+                  <div class="field">
+                    <label for="description">Rationale</label>
+                    <input pInputText id="description" [(ngModel)]="objective.rationale" required/>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideObjectiveDialog()"/>
+                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addObjective()"/>
+                </ng-template>
+              </p-dialog>
+            </p-panel>
+            <p-panel header="Stakeholders" styleClass="mt-3">
+              <div id="buttonOpenStakeholderDialog" class="py-2 flex justify-content-end">
+                <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                          (click)="openNewStakeholderDialog()" [disabled]="!selectedEntityOfInterest"/>
+              </div>
+              <p-table id="tableStakeholderByEoI" [value]="stakeholders" [rows]="10" [paginator]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stakeholder>
+                  <tr>
+                    <td>{{ stakeholder.name }}</td>
+                    <td>
+                      <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                severity="success"
+                                (click)="editObjective(stakeholder)"/>
+                      <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteObjective(stakeholder)"/>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between">
+                    In total there are
+                    {{ stakeholders ? stakeholders.length : 0 }}
+                    objective(s).
+                  </div>
+                </ng-template>
+              </p-table>
+            </p-panel>
+            <p-panel header="Approach" styleClass="mt-3">
+              <label>Techniques, methods and tools:</label>
+              <p-editor [(ngModel)]="entityOfInterest.approach" [style]="{ height: '160px' }">
+                <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+              <select title="TextAlign" class="ql-align"></select>
+            </span>
+                </ng-template>
+              </p-editor>
+              <small id="username-help"> Tip: Clearly define </small>
+            </p-panel>
+            <p-panel header="Progress Navigator" styleClass="mt-3">
+              <div class="field">
+                <label for="editorSchedule">Schedule:</label>
+                <p-editor id="editorSchedule" [(ngModel)]="entityOfInterest.schedule" [style]="{ height: '160px' }">
+                  <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+              <select title="TextAlign" class="ql-align"></select>
+            </span>
+                  </ng-template>
+                </p-editor>
+              </div>
+              <div class="field">
+                <label for="editorMilestones">Milestones:</label>
+                <p-editor id="editorMilestones" [(ngModel)]="entityOfInterest.milestones" [style]="{ height: '160px' }">
+                  <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+              <select title="TextAlign" class="ql-align"></select>
+            </span>
+                  </ng-template>
+                </p-editor>
+              </div>
+            </p-panel>
+          </div>
+          <div id="preview-preparing-efforts-task" class="col-12 lg:col-7 zoomed">
+            <div *ngIf="selectedEntityOfInterest" class="border-1 bg-white p-3">
+              <h1>{{ selectedEntityOfInterest.name }}</h1>
+              <h2>Background</h2>
+              <div id="backgroundContent" [innerHTML]="this.entityOfInterest.background"></div>
+              <h2>Purpose</h2>
+              <div id="purposeContent" [innerHTML]="this.entityOfInterest.purpose"></div>
+              <h2>Scope</h2>
+              <div id="scopeContent" [innerHTML]="this.entityOfInterest.scope"></div>
+              <h2>Objectives</h2>
+              <ul>
+                <li *ngFor="let objective of objectives">{{ objective.description }}</li>
+              </ul>
+              <h2>Stakeholders</h2>
+              <ul>
+                <li *ngFor="let stakeholder of stakeholders">{{ stakeholder.name }}</li>
+              </ul>
+              <h2>Approach</h2>
+              <div id="approachContent" [innerHTML]="this.entityOfInterest.approach"></div>
+              <h2>Schedule</h2>
+              <div id="scheduleContent" [innerHTML]="this.entityOfInterest.schedule"></div>
+              <h2>Milestones</h2>
+              <div id="milestonesContent" [innerHTML]="this.entityOfInterest.milestones"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="flex pt-4 justify-content-end">
         <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
@@ -17,9 +207,9 @@
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is the second -->
-  <p-stepperPanel header="Designing the viewpoints">
+  <p-stepperPanel id="designing-viewpoints-task" header="Designing the viewpoints">
     <ng-template let-index="index" let-nextCallback="nextCallback" let-prevCallback="prevCallback" pTemplate="content">
-      <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
+      <div id="stepper2-content" class="border-2 border-dashed surface-border border-round surface-ground p-3">
         <h1>Architecture Viewpoint</h1>
         <p class="text-justify">
           This step involves the identification, adaptation, or creation of specific
@@ -30,16 +220,92 @@
           stakeholders can understand and analyze the architecture, promoting a
           comprehensive and well-rounded view that accommodates diverse perspectives.
         </p>
-        <app-designing-viewpoints-form></app-designing-viewpoints-form>
+        <div class="grid">
+          <div id="archPlanForm" class="col-12 lg:col-5">
+            <div>
+              <label>Entity:</label>
+              <p>{{ entityOfInterest.name }}</p>
+            </div>
+            <div class="py-2 flex justify-content-end">
+              <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2" (click)="openNewViewpointDialog()"/>
+            </div>
+            <p-table [value]="viewpoints" [paginator]="true" [rows]="5">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-viewpoint>
+                <tr>
+                  <td>{{ viewpoint.name }}</td>
+                  <td>
+                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"/>
+                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"/>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+            <p-dialog id="viewpoint-form" header="Viewpoints details" [(visible)]="viewpointDialog">
+
+            </p-dialog>
+<!--            <form>-->
+<!--              <div class="flex flex-column">-->
+<!--                <h2>Viewpoints</h2>-->
+
+<!--                <div formArrayName="viewpoints">-->
+<!--                  <div class="mt-3">-->
+<!--                    Add viewpoint puting the viewpoint name and click on the button.-->
+<!--                  </div>-->
+<!--                  <ng-container>-->
+<!--                    <div class="mt-1 mb-1 p-2 border-1 border-solid border-round">-->
+<!--                      <div class="field">-->
+<!--                        <h2></h2>-->
+<!--                      </div>-->
+<!--                      <div class="field">-->
+<!--                        <label for="overview">Overview:</label>-->
+<!--                        <input-->
+<!--                          id="overview"-->
+<!--                          type="text"-->
+<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+<!--                        />-->
+<!--                      </div>-->
+<!--                      <div class="field">-->
+<!--                        <label for="stakeholders">Stakeholders:</label>-->
+<!--                        <input-->
+<!--                          id="stakeholders"-->
+<!--                          type="text"-->
+<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+<!--                        />-->
+<!--                      </div>-->
+<!--                      <div class="field">-->
+<!--                        <label for="stakeholderPerspectives"-->
+<!--                        >Stakeholder Perspectives:</label-->
+<!--                        >-->
+<!--                        <input-->
+<!--                          id="stakeholderPerspectives"-->
+<!--                          type="text"-->
+<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+<!--                        />-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </ng-container>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </form>-->
+          </div>
+          <div id="design-viewpoint-preview" class="col-12 lg:col-7 zoomed">
+          </div>
+        </div>
       </div>
-      <div class="flex pt-4 justify-content-between">
+      <div id="stepper2-footer" class="flex pt-4 justify-content-between">
         <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
         <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
       </div>
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is tirth -->
-  <p-stepperPanel header="Developing the views">
+  <p-stepperPanel id="developing-views-task" header="Developing the views">
     <ng-template
       let-index="index"
       let-nextCallback="nextCallback"
@@ -63,7 +329,7 @@
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is fourth and last -->
-  <p-stepperPanel header="Coordinating the usage">
+  <p-stepperPanel id="coordinating-usage-task" header="Coordinating the usage">
     <ng-template
       let-index="index"
       let-prevCallback="prevCallback"

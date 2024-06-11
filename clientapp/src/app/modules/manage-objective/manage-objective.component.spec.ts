@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewPlanComponent } from './preview-plan.component';
+import { ManageObjectiveComponent } from './manage-objective.component';
 
-describe('PreviewPlanComponent', () => {
-  let component: PreviewPlanComponent;
-  let fixture: ComponentFixture<PreviewPlanComponent>;
+describe('ManageObjectiveComponent', () => {
+  let component: ManageObjectiveComponent;
+  let fixture: ComponentFixture<ManageObjectiveComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PreviewPlanComponent]
+      imports: [ManageObjectiveComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PreviewPlanComponent);
+    fixture = TestBed.createComponent(ManageObjectiveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -54,7 +54,8 @@
           <p-tableHeaderCheckbox />
         </th>
         <th pSortableColumn="name" style="min-width: 15rem">
-          Name <p-sortIcon field="name" />
+          Name
+          <p-sortIcon field="name" />
         </th>
         <th>Actions</th>
       </tr>
@@ -122,7 +123,11 @@
       </div>
       <div class="field">
         <label for="background">Background</label>
-        <p-editor id="background" [(ngModel)]="entityInterest.background" [style]="{ height: '160px' }">
+        <p-editor
+          id="background"
+          [(ngModel)]="entityInterest.background"
+          [style]="{ height: '160px' }"
+        >
           <ng-template pTemplate="header">
             <span class="ql-formats">
               <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -155,7 +160,11 @@
       </div>
       <div class="field">
         <label for="purpose">Purpose</label>
-        <p-editor id="purpose" [(ngModel)]="entityInterest.purpose" [style]="{ height: '160px' }">
+        <p-editor
+          id="purpose"
+          [(ngModel)]="entityInterest.purpose"
+          [style]="{ height: '160px' }"
+        >
           <ng-template pTemplate="header">
             <span class="ql-formats">
               <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -188,7 +197,11 @@
       </div>
       <div class="field">
         <label for="scope">Scope</label>
-        <p-editor id="scope" [(ngModel)]="entityInterest.scope" [style]="{ height: '160px' }">
+        <p-editor
+          id="scope"
+          [(ngModel)]="entityInterest.scope"
+          [style]="{ height: '160px' }"
+        >
           <ng-template pTemplate="header">
             <span class="ql-formats">
               <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -220,20 +233,69 @@
         </p-editor>
       </div>
       <div class="field">
-        <label for="approach">Approach</label>
-        <textarea
+        <label for="approach">
+          Approach
+          <i
+            class="pi pi-info-circle"
+            [pTooltip]="tooltipContent"
+          ></i>
+        </label>
+        <ng-template #tooltipContent>
+          <div class="text-xs text-justify">
+            <p>Approach</p>
+            <p>
+              Select or develop the requisite architecture elaboration
+              techniques, methods, and tools, while identifying, selecting,
+              developing, or modifying architecture frameworks, viewpoints,
+              modeling templates, view generation methods, and metamodels,
+              ensuring all choices align with architecture governance and
+              management directions and support the purpose, scope, and
+              objectives of the architecture elaboration plan.
+            </p>
+          </div>
+        </ng-template>
+        <p-editor
           id="approach"
-          pInputTextarea
           [(ngModel)]="entityInterest.approach"
-          required
-          rows="3"
-          cols="20"
+          [style]="{ height: '160px' }"
         >
-        </textarea>
+          <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button
+                type="button"
+                class="ql-italic"
+                aria-label="Italic"
+              ></button>
+              <button
+                type="button"
+                class="ql-underline"
+                aria-label="Underline"
+              ></button>
+              <button
+                value="ordered"
+                aria-label="Ordered List"
+                type="button"
+                class="ql-list"
+              ></button>
+              <button
+                value="bullet"
+                aria-label="Unordered List"
+                type="button"
+                class="ql-list"
+              ></button>
+              <select title="TextAlign" class="ql-align"></select>
+            </span>
+          </ng-template>
+        </p-editor>
       </div>
       <div class="field">
         <label for="schedule">Schedule</label>
-        <p-editor id="schedule" [(ngModel)]="entityInterest.schedule" [style]="{ height: '160px' }">
+        <p-editor
+          id="schedule"
+          [(ngModel)]="entityInterest.schedule"
+          [style]="{ height: '160px' }"
+        >
           <ng-template pTemplate="header">
             <span class="ql-formats">
               <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -266,7 +328,11 @@
       </div>
       <div class="field">
         <label for="milestones">Milestones</label>
-        <p-editor id="milestones" [(ngModel)]="entityInterest.milestones" [style]="{ height: '160px' }">
+        <p-editor
+          id="milestones"
+          [(ngModel)]="entityInterest.milestones"
+          [style]="{ height: '160px' }"
+        >
           <ng-template pTemplate="header">
             <span class="ql-formats">
               <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -312,7 +378,7 @@
         label="Save"
         icon="pi pi-check"
         [text]="true"
-        (click)="saveProduct()"
+        (click)="addEntityInterest()"
       />
     </ng-template>
   </p-dialog>

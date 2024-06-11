@@ -1,6 +1,7 @@
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowseAllEntitiesInterestRes } from '@models/BrowseAllEntitiesInterestRes';
 import { EntityInterest } from '@models/entity-interest';
 import { EntityInterestService } from '@services/entity-interest.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,6 +21,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-manage-entity-interest',
@@ -43,7 +45,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     NgIf,
     InputTextareaModule,
     RippleModule,
-    EditorModule
+    EditorModule,
+    TooltipModule,
   ],
   providers: [MessageService, ConfirmationService, EntityInterestService],
   templateUrl: './manage-entity-interest.component.html',
@@ -52,11 +55,11 @@ import { ToolbarModule } from 'primeng/toolbar';
 export class ManageEntityInterestComponent {
   eoiDialog: boolean = false;
 
-  entitiesInterest!: EntityInterest[];
+  entitiesInterest!: BrowseAllEntitiesInterestRes[];
 
   entityInterest!: EntityInterest;
 
-  selectedEsoI!: EntityInterest[] | null;
+  selectedEsoI!: BrowseAllEntitiesInterestRes[] | null;
 
   submitted: boolean = false;
 
@@ -148,7 +151,7 @@ export class ManageEntityInterestComponent {
     this.submitted = false;
   }
 
-  saveProduct() {
+  addEntityInterest() {
     this.submitted = true;
 
     if (this.entityInterest.name?.trim()) {
@@ -163,13 +166,22 @@ export class ManageEntityInterestComponent {
           life: 3000,
         });
       } else {
-        this.entitiesInterest.push(this.entityInterest);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Product Created',
-          life: 3000,
-        });
+        this.entityInterestService
+          .createEntityInterest(this.entityInterest)
+          .subscribe({
+            next: (data) => {
+              this.entitiesInterest.push(data);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Product Created',
+                life: 3000,
+              });
+            },
+            error: (error) => {
+              console.error(error);
+            },
+          });
       }
 
       this.entitiesInterest = [...this.entitiesInterest];

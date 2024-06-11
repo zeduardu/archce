@@ -1,12 +1,9 @@
 import {
   Component,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
+  OnInit
 } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
-import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { RegisterEntityInterestComponent } from '../../shared/component/register-entity-interest/register-entity-interest.component';
 
 @Component({
@@ -34,6 +31,10 @@ export class NavComponent implements OnInit {
             label: 'Entity of Interest',
             routerLink: '/manage-eoi',
           },
+          {
+            label: 'Objective(s) of EoI',
+            routerLink: '/manage-obj',
+          }
         ],
       },
       {
