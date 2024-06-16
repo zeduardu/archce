@@ -1,14 +1,32 @@
-<h1>ArchCE</h1>
-<div class="grid">
+<div class="grid grid-nogutter p-2">
   <div class="col-12">
-    <p-card header="Conceptualization"></p-card>
+    <h1>ArchCE</h1>
+    <p class="text-justify">ArchCE is a software tool designed to facilitate the execution of guidelines pertaining to
+      the conceptualization and elaboration phases of the ISO/IEC/IEEE 42020 Architecture Process. It is intended to be
+      used in conjunction with another tool, ArchConcept, to create a unified application for the conceptualization and
+      design of software architectures.</p>
   </div>
-  <div class="col-12">
-    <p-card header="Elaboration">
-      <p>Within the ISO/IEC/IEEE 42020 standard, the Architecture Elaboration process focuses on taking the high-level architectural concepts developed during conceptualization and translating them into more detailed specifications. It essentially bridges the gap between the initial ideas and the technical implementation.</p>
+  <div class="col-12 py-1">
+    <p-card header="Conceptualization">
+      <p>Implementing a framework based on the 10 activities and the 100 tasks of the Architecture Conceptualization
+        process. As there are numerous activities and tasks in that process, the goal of the tool is to receive data
+        from the user, inputs with information of the conceptualization, i.e., stakeholders, concerns, and objectives.
+        These data are inputs for the construction of the architecture conceptualization artifacts, such as the
+        architecture conceptualization status report, the problem space definition report and others. The tool assists
+        in carrying out these activities and tasks in practice, regardless of the domain area.</p>
       <ng-template pTemplate="footer">
-        <!-- <p-button label="Execute process" icon="pi pi-external-link" (click)="openLink('https://www.ibm.com/cloud/architecture/architectural-design/')" class="p-button-text"></p-button> -->
-        <p-button label="Execute process" icon="pi pi-external-link" class="p-button-text" routerLink="/elaboration"></p-button>
+        <p-button label="Execute process" icon="pi pi-external-link" class="p-button-text" disabled="true"></p-button>
+      </ng-template>
+    </p-card>
+  </div>
+  <div class="col-12 py-1">
+    <p-card header="Elaboration">
+      <p>Within the ISO/IEC/IEEE 42020 standard, the Architecture Elaboration process focuses on taking the high-level
+        architectural concepts developed during conceptualization and translating them into more detailed
+        specifications. It essentially bridges the gap between the initial ideas and the technical implementation.</p>
+      <ng-template pTemplate="footer">
+        <p-button label="Execute process" icon="pi pi-external-link" class="p-button-text"
+                  routerLink="/arch/elaboration"></p-button>
       </ng-template>
     </p-card>
   </div>
