@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Baron Neue';
+  src: url('../../assets/fonts/baron-neue/Baron_Neue.otf');
+}
+
+.baron-font {
+  font-family: 'Baron Neue', serif;
+}
+
+.c_style {
+  background: rgb(13,166,214);
+  background: linear-gradient(0deg, rgba(13,166,214,1) 30%, rgba(13,214,202,1) 75%, rgba(13,214,188,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

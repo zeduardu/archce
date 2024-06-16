@@ -1,3 +1,4 @@
+import { SplashComponent } from './splash/splash.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '@modules/home/home.component';
@@ -9,11 +10,12 @@ import {ManageViewpointComponent} from "@modules/manage-viewpoint/manage-viewpoi
 import {ManageConcernComponent} from "@modules/manage-concern/manage-concern.component";
 
 const routes: Routes = [
+  { path: '', component: SplashComponent },
   {
-    path: '',
+    path: 'arch',
     component: ContentLayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'elaboration', component: ElaborationComponent },
       { path: 'manage-eoi', component: ManageEntityInterestComponent },
       { path: 'manage-obj', component: ManageObjectiveComponent },
