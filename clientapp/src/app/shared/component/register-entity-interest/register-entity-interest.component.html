@@ -1,3 +1,4 @@
+<p-toast />
 <p-dialog
   header="Register enitity of interest"
   [modal]="true"
@@ -9,10 +10,10 @@
 >
   <!--Header-->
   <span class="p-text-secondary block mb-5"
-    >Register a subject of an architecture description</span
+  >Register a subject of an architecture description</span
   >
   <span class="p-text-secondary block mb-5 text-justify"
-    >The subject could be a wide range of entities within the information
+  >The subject could be a wide range of entities within the information
     systems domain, including enterprises, organizations, solutions, systems
     (both software and hardware-based), subsystems, processes, business models,
     data structures, applications, information technology infrastructures,
@@ -21,63 +22,59 @@
     and collections of applications.</span
   >
   <!--Content-->
-  <form [formGroup]="entityFormGroup">
-    <div formGroupName="entityContext">
-      <div class="flex flex-column">
-        <label for="entity">Entity name:</label>
-        <input id="entity" type="text" pInputText formControlName="name"/>
-      </div>
-      <div class="flex flex-column mt-2">
-        <label for="background">Background:</label>
-        <p-editor id="background" formControlName="background" [style]="{ height: '160px' }">
-          <ng-template pTemplate="header">
-                  <span class="ql-formats">
-                    <button type="button" class="ql-bold" aria-label="Bold"></button>
-                    <button type="button" class="ql-italic" aria-label="Italic"></button>
-                    <button type="button" class="ql-underline" aria-label="Underline"></button>
-                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-                    <select title="TextAlign" class="ql-align"></select>
-                  </span>
-          </ng-template>
-        </p-editor>
-      </div>
-      <div class="flex flex-column mt-2">
-        <label for="purpose">Purpose:</label>
-        <p-editor id="purpose" formControlName="purpose" [style]="{ height: '160px' }">
-          <ng-template pTemplate="header">
-                    <span class="ql-formats">
-                      <button type="button" class="ql-bold" aria-label="Bold"></button>
-                      <button type="button" class="ql-italic" aria-label="Italic"></button>
-                      <button type="button" class="ql-underline" aria-label="Underline"></button>
-                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-                      <select title="TextAlign" class="ql-align"></select>
-                    </span>
-          </ng-template>
-        </p-editor>
-      </div>
-      <div class="flex flex-column mt-2">
-        <label for="scope">Scope:</label>
-        <p-editor id="scope" formControlName="scope" [style]="{ height: '160px' }">
-          <ng-template pTemplate="header">
-                  <span class="ql-formats">
-                    <button type="button" class="ql-bold" aria-label="Bold"></button>
-                    <button type="button" class="ql-italic" aria-label="Italic"></button>
-                    <button type="button" class="ql-underline" aria-label="Underline"></button>
-                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-                    <select title="TextAlign" class="ql-align"></select>
-                  </span>
-          </ng-template>
-        </p-editor>
-      </div>
-    </div>
-  </form>
+  <div>
+    <label for="entity">Entity name:</label>
+    <input id="entity" type="text" pInputText [(ngModel)]="entityOfInterest.name"/>
+  </div>
+<!--  <div>-->
+<!--    <label for="background">Background:</label>-->
+<!--    <p-editor id="background" [(ngModel)]="entityOfInterest.background" [style]="{ height: '160px' }">-->
+<!--      <ng-template pTemplate="header">-->
+<!--                  <span class="ql-formats">-->
+<!--                    <button type="button" class="ql-bold" aria-label="Bold"></button>-->
+<!--                    <button type="button" class="ql-italic" aria-label="Italic"></button>-->
+<!--                    <button type="button" class="ql-underline" aria-label="Underline"></button>-->
+<!--                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>-->
+<!--                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>-->
+<!--                    <select title="TextAlign" class="ql-align"></select>-->
+<!--                  </span>-->
+<!--      </ng-template>-->
+<!--    </p-editor>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <label for="purpose">Purpose:</label>-->
+<!--    <p-editor id="purpose" [(ngModel)]="entityOfInterest.purpose" [style]="{ height: '160px' }">-->
+<!--      <ng-template pTemplate="header">-->
+<!--                    <span class="ql-formats">-->
+<!--                      <button type="button" class="ql-bold" aria-label="Bold"></button>-->
+<!--                      <button type="button" class="ql-italic" aria-label="Italic"></button>-->
+<!--                      <button type="button" class="ql-underline" aria-label="Underline"></button>-->
+<!--                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>-->
+<!--                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>-->
+<!--                      <select title="TextAlign" class="ql-align"></select>-->
+<!--                    </span>-->
+<!--      </ng-template>-->
+<!--    </p-editor>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <label for="scope">Scope:</label>-->
+<!--    <p-editor id="scope" [(ngModel)]="entityOfInterest.scope" [style]="{ height: '160px' }">-->
+<!--      <ng-template pTemplate="header">-->
+<!--                  <span class="ql-formats">-->
+<!--                    <button type="button" class="ql-bold" aria-label="Bold"></button>-->
+<!--                    <button type="button" class="ql-italic" aria-label="Italic"></button>-->
+<!--                    <button type="button" class="ql-underline" aria-label="Underline"></button>-->
+<!--                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>-->
+<!--                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>-->
+<!--                    <select title="TextAlign" class="ql-align"></select>-->
+<!--                  </span>-->
+<!--      </ng-template>-->
+<!--    </p-editor>-->
+<!--  </div>-->
 
   <!--Footer-->
   <div class="flex justify-content-end gap-2">
-    <p-button label="Cancel" severity="secondary" (click)="closeDialog()" />
-    <p-button label="Save" (click)="save()" />
+    <p-button label="Cancel" severity="secondary" (click)="closeDialog()"/>
+    <p-button label="Save" (click)="save()"/>
   </div>
 </p-dialog>

@@ -5,4 +5,5 @@ export interface Stakeholder {
   id: number;
   name: string;
   type: string;
+  entityInterest: EntityInterest | null;
 }

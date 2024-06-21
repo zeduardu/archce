@@ -6,6 +6,7 @@ export interface Viewpoint {
   name: string;
   overview: string;
   concerns: Concern[];
+  model: string;
   conventions: string;
   rationale: string;
   sources: string;

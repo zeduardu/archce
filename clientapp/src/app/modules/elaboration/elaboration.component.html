@@ -1,10 +1,10 @@
-<p-toast/>
-<p-confirmDialog [style]="{ width: '450px' }"/>
+<p-toast />
+<p-confirmDialog [style]="{ width: '450px' }" />
 <p-stepper [orientation]="screenWidth <= 768 ? 'vertical' : 'horizontal'">
   <!-- Of the 4 steps this is the first -->
   <p-stepperPanel id="preparing-efforts-task" header="Preparing the efforts">
     <ng-template let-index="index" let-nextCallback="nextCallback" pTemplate="content">
-      <div class="border-2 border-dashed surface-border border-round surface-ground p-3">
+      <div id="stepper1-content" class="border-2 border-dashed surface-border border-round surface-ground p-3">
         <h1>Architecture Elaboration Plan</h1>
         <p class="text-justify">Identify the need for architecture elaboration based on project requirements. Formulate
           a team comprising roles like architect, developers, and domain experts. Clearly define the scope of the
@@ -14,34 +14,34 @@
         <div class="grid">
           <div id="form-preparing-efforts-task" class="col-12 lg:col-5">
             <div class="field">
-              <label for="selectEntityInterest">Start selecting enitity of interest</label>
+              <label for="selectEntityInterest" class="font-bold">Start selecting enitity of interest:</label>
               <p-dropdown id="selectEntityInterest" [options]="entitiesOfInterest"
-                          [(ngModel)]="selectedEntityOfInterest"
-                          optionLabel="name" [showClear]="true" placeholder="Select a Entity of interest"
-                          (onChange)="fillObjectivesByEntityInterestId($event.value)"/>
+                [(ngModel)]="selectedEntityOfInterest" optionLabel="name" [showClear]="true"
+                placeholder="Select a Entity of interest" (onChange)="fillObjectivesByEntityInterestId($event.value)" />
             </div>
             <p-panel header="Entity Context">
               <div class="field">
-                <label for="name">Name</label>
-                <input pInputText id="name" [(ngModel)]="entityOfInterest.name" required class="w-full"/>
+                <label for="name">Name:</label>
+                <input pInputText id="name" [(ngModel)]="entityOfInterest.name" required class="w-full" />
               </div>
               <div class="field">
-                <label for="background">Background</label>
-                <input pInputText id="background" [(ngModel)]="entityOfInterest.background" required class="w-full"/>
+                <label for="background">Background:</label>
+                <input pInputText id="background" [(ngModel)]="entityOfInterest.background" required class="w-full" />
               </div>
               <div class="field">
-                <label for="purpose">Purpose</label>
-                <input pInputText id="purpose" [(ngModel)]="entityOfInterest.purpose" required class="w-full"/>
+                <label for="purpose">Purpose:</label>
+                <input pInputText id="purpose" [(ngModel)]="entityOfInterest.purpose" required class="w-full" />
               </div>
               <div class="field">
-                <label for="scope">Sco[e</label>
-                <input pInputText id="scope" [(ngModel)]="entityOfInterest.scope" required class="w-full"/>
+                <label for="scope">Scope:</label>
+                <input pInputText id="scope" [(ngModel)]="entityOfInterest.scope" required class="w-full" />
               </div>
             </p-panel>
             <p-panel header="Entity Objectives" styleClass="mt-3">
               <div class="py-2 flex justify-content-end">
                 <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
-                          (click)="openNewObjectiveDialog()" [disabled]="!selectedEntityOfInterest"/>
+                  (click)="openNewObjectiveDialog();" onKeyDown="doSomething();" tabindex="0"
+                  [disabled]="!selectedEntityOfInterest" />
               </div>
               <p-table [value]="objectives" [rows]="10" [paginator]="true">
                 <ng-template pTemplate="header">
@@ -55,10 +55,9 @@
                     <td>{{ objective.description }}</td>
                     <td>
                       <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                                severity="success"
-                                (click)="editObjective(objective)"/>
+                        severity="success" (click)="editObjective(objective)" />
                       <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                                (click)="deleteObjective(objective)"/>
+                        (click)="deleteObjective(objective)" />
                     </td>
                   </tr>
                 </ng-template>
@@ -71,7 +70,7 @@
                 </ng-template>
               </p-table>
               <p-dialog [(visible)]="objectiveDialog" header="Entity of Interest Objectives Details" [modal]="true"
-                        styleClass="p-fluid">
+                styleClass="p-fluid">
                 <ng-template pTemplate="content">
                   <div class="field">
                     <label>Entity of Interest:</label>
@@ -79,23 +78,23 @@
                   </div>
                   <div class="field">
                     <label for="name">Description</label>
-                    <input pInputText id="input-entity-interest-name" [(ngModel)]="objective.description" required/>
+                    <input pInputText id="input-entity-interest-name" [(ngModel)]="objective.description" required />
                   </div>
                   <div class="field">
                     <label for="description">Rationale</label>
-                    <input pInputText id="description" [(ngModel)]="objective.rationale" required/>
+                    <input pInputText id="description" [(ngModel)]="objective.rationale" required />
                   </div>
                 </ng-template>
                 <ng-template pTemplate="footer">
-                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideObjectiveDialog()"/>
-                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addObjective()"/>
+                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideObjectiveDialog()" />
+                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addObjective()" />
                 </ng-template>
               </p-dialog>
             </p-panel>
             <p-panel header="Stakeholders" styleClass="mt-3">
               <div id="buttonOpenStakeholderDialog" class="py-2 flex justify-content-end">
                 <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
-                          (click)="openNewStakeholderDialog()" [disabled]="!selectedEntityOfInterest"/>
+                  (click)="openNewStakeholderDialog()" [disabled]="!selectedEntityOfInterest" />
               </div>
               <p-table id="tableStakeholderByEoI" [value]="stakeholders" [rows]="10" [paginator]="true">
                 <ng-template pTemplate="header">
@@ -109,10 +108,9 @@
                     <td>{{ stakeholder.name }}</td>
                     <td>
                       <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                                severity="success"
-                                (click)="editObjective(stakeholder)"/>
+                        severity="success" disabled="true" (click)="editObjective(stakeholder)" />
                       <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                                (click)="deleteObjective(stakeholder)"/>
+                        disabled="true" (click)="deleteObjective(stakeholder)" />
                     </td>
                   </tr>
                 </ng-template>
@@ -124,19 +122,41 @@
                   </div>
                 </ng-template>
               </p-table>
+              <p-dialog id="stakeholderDialog" [(visible)]="stakeholderDialog"
+                header="Entity of Interest Stakeholder Details" [modal]="true" styleClass="p-fluid">
+                <ng-template pTemplate="content">
+                  <div class="field">
+                    <label>Entity of Interest:</label>
+                    <div>{{ selectedEntityOfInterest.name }}</div>
+                  </div>
+                  <div class="field">
+                    <label for="input-stakeholder-name">Stakeholder name:</label>
+                    <input pInputText id="input-stakeholder-name" [(ngModel)]="stakeholder.name" required />
+                  </div>
+                  <div class="field">
+                    <label for="dropdown-stakeholder-type">Stakeholder type:</label>
+                    <p-listbox id="dropdown-stakeholder-type" [options]="stakeholderTypes"
+                      [(ngModel)]="stakeholder.type" />
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideStakeholderDialog" />
+                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addStakeholder()" />
+                </ng-template>
+              </p-dialog>
             </p-panel>
             <p-panel header="Approach" styleClass="mt-3">
               <label>Techniques, methods and tools:</label>
               <p-editor [(ngModel)]="entityOfInterest.approach" [style]="{ height: '160px' }">
                 <ng-template pTemplate="header">
-            <span class="ql-formats">
-              <button type="button" class="ql-bold" aria-label="Bold"></button>
-              <button type="button" class="ql-italic" aria-label="Italic"></button>
-              <button type="button" class="ql-underline" aria-label="Underline"></button>
-              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-              <select title="TextAlign" class="ql-align"></select>
-            </span>
+                  <span class="ql-formats">
+                    <button type="button" class="ql-bold" aria-label="Bold"></button>
+                    <button type="button" class="ql-italic" aria-label="Italic"></button>
+                    <button type="button" class="ql-underline" aria-label="Underline"></button>
+                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                    <select title="TextAlign" class="ql-align"></select>
+                  </span>
                 </ng-template>
               </p-editor>
               <small id="username-help"> Tip: Clearly define </small>
@@ -146,14 +166,14 @@
                 <label for="editorSchedule">Schedule:</label>
                 <p-editor id="editorSchedule" [(ngModel)]="entityOfInterest.schedule" [style]="{ height: '160px' }">
                   <ng-template pTemplate="header">
-            <span class="ql-formats">
-              <button type="button" class="ql-bold" aria-label="Bold"></button>
-              <button type="button" class="ql-italic" aria-label="Italic"></button>
-              <button type="button" class="ql-underline" aria-label="Underline"></button>
-              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-              <select title="TextAlign" class="ql-align"></select>
-            </span>
+                    <span class="ql-formats">
+                      <button type="button" class="ql-bold" aria-label="Bold"></button>
+                      <button type="button" class="ql-italic" aria-label="Italic"></button>
+                      <button type="button" class="ql-underline" aria-label="Underline"></button>
+                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                      <select title="TextAlign" class="ql-align"></select>
+                    </span>
                   </ng-template>
                 </p-editor>
               </div>
@@ -161,14 +181,14 @@
                 <label for="editorMilestones">Milestones:</label>
                 <p-editor id="editorMilestones" [(ngModel)]="entityOfInterest.milestones" [style]="{ height: '160px' }">
                   <ng-template pTemplate="header">
-            <span class="ql-formats">
-              <button type="button" class="ql-bold" aria-label="Bold"></button>
-              <button type="button" class="ql-italic" aria-label="Italic"></button>
-              <button type="button" class="ql-underline" aria-label="Underline"></button>
-              <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
-              <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
-              <select title="TextAlign" class="ql-align"></select>
-            </span>
+                    <span class="ql-formats">
+                      <button type="button" class="ql-bold" aria-label="Bold"></button>
+                      <button type="button" class="ql-italic" aria-label="Italic"></button>
+                      <button type="button" class="ql-underline" aria-label="Underline"></button>
+                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                      <select title="TextAlign" class="ql-align"></select>
+                    </span>
                   </ng-template>
                 </p-editor>
               </div>
@@ -201,8 +221,8 @@
           </div>
         </div>
       </div>
-      <div class="flex pt-4 justify-content-end">
-        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
+      <div id="stepper1-footer" class="flex pt-4 justify-content-end">
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next" />
       </div>
     </ng-template>
   </p-stepperPanel>
@@ -222,132 +242,125 @@
         </p>
         <div class="grid">
           <div id="archPlanForm" class="col-12 lg:col-5">
+            <div class="mb-3">
+              <p-fieldset legend="Entity of Interest">
+                <p>{{ entityOfInterest.name }}</p>
+              </p-fieldset>
+            </div>
             <div>
-              <label>Entity:</label>
-              <p>{{ entityOfInterest.name }}</p>
-            </div>
-            <div class="py-2 flex justify-content-end">
-              <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2" (click)="openNewViewpointDialog()"/>
-            </div>
-            <p-table [value]="viewpoints" [paginator]="true" [rows]="5">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-viewpoint>
-                <tr>
-                  <td>{{ viewpoint.name }}</td>
-                  <td>
-                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"/>
-                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"/>
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-            <p-dialog id="viewpoint-form" header="Viewpoints details" [(visible)]="viewpointDialog">
+              <p-fieldset legend="Viewpoints">
+                <div class="py-2 flex justify-content-end">
+                  <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                    (click)="openNewViewpointDialog()" onkeydown="doSomething();" />
+                </div>
+                <p-table [value]="viewpoints" [paginator]="true" [rows]="5">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Name</th>
+                      <th>Overview</th>
+                      <th>Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-viewpoint>
+                    <tr>
+                      <td>{{ viewpoint.name }}</td>
+                      <td>{{ viewpoint.overview }}</td>
+                      <td>
+                        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                          severity="success" />
+                        <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" />
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <p-dialog id="viewpoint-form" [(visible)]="viewpointDialog" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                  <!-- Start with concerns () -->
+                  <p-fieldset legend="Concerns">
 
-            </p-dialog>
-<!--            <form>-->
-<!--              <div class="flex flex-column">-->
-<!--                <h2>Viewpoints</h2>-->
+                  </p-fieldset>
+                </p-dialog>
+              </p-fieldset>
+            </div>
+            <!--            <form>-->
+            <!--              <div class="flex flex-column">-->
+            <!--                <h2>Viewpoints</h2>-->
 
-<!--                <div formArrayName="viewpoints">-->
-<!--                  <div class="mt-3">-->
-<!--                    Add viewpoint puting the viewpoint name and click on the button.-->
-<!--                  </div>-->
-<!--                  <ng-container>-->
-<!--                    <div class="mt-1 mb-1 p-2 border-1 border-solid border-round">-->
-<!--                      <div class="field">-->
-<!--                        <h2></h2>-->
-<!--                      </div>-->
-<!--                      <div class="field">-->
-<!--                        <label for="overview">Overview:</label>-->
-<!--                        <input-->
-<!--                          id="overview"-->
-<!--                          type="text"-->
-<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
-<!--                        />-->
-<!--                      </div>-->
-<!--                      <div class="field">-->
-<!--                        <label for="stakeholders">Stakeholders:</label>-->
-<!--                        <input-->
-<!--                          id="stakeholders"-->
-<!--                          type="text"-->
-<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
-<!--                        />-->
-<!--                      </div>-->
-<!--                      <div class="field">-->
-<!--                        <label for="stakeholderPerspectives"-->
-<!--                        >Stakeholder Perspectives:</label-->
-<!--                        >-->
-<!--                        <input-->
-<!--                          id="stakeholderPerspectives"-->
-<!--                          type="text"-->
-<!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
-<!--                        />-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </ng-container>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </form>-->
+            <!--                <div formArrayName="viewpoints">-->
+            <!--                  <div class="mt-3">-->
+            <!--                    Add viewpoint puting the viewpoint name and click on the button.-->
+            <!--                  </div>-->
+            <!--                  <ng-container>-->
+            <!--                    <div class="mt-1 mb-1 p-2 border-1 border-solid border-round">-->
+            <!--                      <div class="field">-->
+            <!--                        <h2></h2>-->
+            <!--                      </div>-->
+            <!--                      <div class="field">-->
+            <!--                        <label for="overview">Overview:</label>-->
+            <!--                        <input-->
+            <!--                          id="overview"-->
+            <!--                          type="text"-->
+            <!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+            <!--                        />-->
+            <!--                      </div>-->
+            <!--                      <div class="field">-->
+            <!--                        <label for="stakeholders">Stakeholders:</label>-->
+            <!--                        <input-->
+            <!--                          id="stakeholders"-->
+            <!--                          type="text"-->
+            <!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+            <!--                        />-->
+            <!--                      </div>-->
+            <!--                      <div class="field">-->
+            <!--                        <label for="stakeholderPerspectives"-->
+            <!--                        >Stakeholder Perspectives:</label-->
+            <!--                        >-->
+            <!--                        <input-->
+            <!--                          id="stakeholderPerspectives"-->
+            <!--                          type="text"-->
+            <!--                          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"-->
+            <!--                        />-->
+            <!--                      </div>-->
+            <!--                    </div>-->
+            <!--                  </ng-container>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </form>-->
           </div>
           <div id="design-viewpoint-preview" class="col-12 lg:col-7 zoomed">
           </div>
         </div>
       </div>
       <div id="stepper2-footer" class="flex pt-4 justify-content-between">
-        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
-        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back" />
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next" />
       </div>
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is tirth -->
   <p-stepperPanel id="developing-views-task" header="Developing the views">
-    <ng-template
-      let-index="index"
-      let-nextCallback="nextCallback"
-      let-prevCallback="prevCallback"
-      pTemplate="content"
-    >
+    <ng-template let-index="index" let-nextCallback="nextCallback" let-prevCallback="prevCallback" pTemplate="content">
       <div class="flex flex-column h-12rem">
         <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
-        >
+          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
           Content III
         </div>
       </div>
       <div class="flex pt-4 justify-content-start">
-        <p-button
-          (onClick)="prevCallback.emit()"
-          icon="pi pi-arrow-left"
-          label="Back"
-        />
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back" />
       </div>
     </ng-template>
   </p-stepperPanel>
   <!-- Of the 4 steps this is fourth and last -->
   <p-stepperPanel id="coordinating-usage-task" header="Coordinating the usage">
-    <ng-template
-      let-index="index"
-      let-prevCallback="prevCallback"
-      pTemplate="content"
-    >
+    <ng-template let-index="index" let-prevCallback="prevCallback" pTemplate="content">
       <div class="flex flex-column h-12rem">
         <div
-          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium"
-        >
+          class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
           Content III
         </div>
       </div>
       <div class="flex pt-4 justify-content-start">
-        <p-button
-          (onClick)="prevCallback.emit()"
-          icon="pi pi-arrow-left"
-          label="Back"
-        />
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back" />
       </div>
     </ng-template>
   </p-stepperPanel>

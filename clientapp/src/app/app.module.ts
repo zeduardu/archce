@@ -6,7 +6,7 @@ import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from "./modules/home/home.component";
+import { HomeComponent } from "@modules/home/home.component";
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

@@ -22,18 +22,22 @@ export class NavComponent implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-fw pi-home',
-        routerLink: ['/'],
+        routerLink: ['/arch'],
       },
       {
         label: 'Manage',
         items: [
           {
             label: 'Entity of Interest',
-            routerLink: '/manage-eoi',
+            routerLink: '/arch/manage-eoi',
           },
           {
             label: 'Objective(s) of EoI',
-            routerLink: '/manage-obj',
+            routerLink: '/arch/manage-obj',
+          },
+          {
+            label: 'Architecture Viewpoints',
+            routerLink: '/arch/manage-vpt',
           }
         ],
       },

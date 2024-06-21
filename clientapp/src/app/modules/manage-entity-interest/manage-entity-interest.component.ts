@@ -59,6 +59,18 @@ export class ManageEntityInterestComponent {
 
   entityInterest!: EntityInterest;
 
+  emptyEntityInterest: EntityInterest = {
+    id: 0,
+    name: '',
+    background: '',
+    purpose: '',
+    scope: '',
+    approach: '',
+    schedule: '',
+    milestones: '',
+    stakeholders: [],
+  };
+
   selectedEsoI!: BrowseAllEntitiesInterestRes[] | null;
 
   submitted: boolean = false;
@@ -78,16 +90,7 @@ export class ManageEntityInterestComponent {
   }
 
   addNewEntityInterest(): void {
-    this.entityInterest = {
-      id: 0,
-      name: '',
-      background: '',
-      purpose: '',
-      scope: '',
-      approach: '',
-      schedule: '',
-      milestones: '',
-    };
+    this.entityInterest = this.emptyEntityInterest;
     this.submitted = false;
     this.eoiDialog = true;
   }
@@ -126,16 +129,7 @@ export class ManageEntityInterestComponent {
         this.entitiesInterest = this.entitiesInterest.filter(
           (val) => val.id !== entityInterest.id,
         );
-        this.entityInterest = {
-          id: 0,
-          name: '',
-          background: '',
-          purpose: '',
-          scope: '',
-          approach: '',
-          schedule: '',
-          milestones: '',
-        };
+        this.entityInterest = this.emptyEntityInterest;
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -186,16 +180,7 @@ export class ManageEntityInterestComponent {
 
       this.entitiesInterest = [...this.entitiesInterest];
       this.eoiDialog = false;
-      this.entityInterest = {
-        id: 0,
-        name: '',
-        background: '',
-        purpose: '',
-        scope: '',
-        approach: '',
-        schedule: '',
-        milestones: '',
-      };
+      this.entityInterest = this.emptyEntityInterest;
     }
   }
 

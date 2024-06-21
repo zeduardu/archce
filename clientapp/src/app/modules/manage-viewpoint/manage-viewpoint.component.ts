@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {SharedModule} from "primeng/api";
@@ -7,6 +7,7 @@ import {Viewpoint} from "@models/viewpoint";
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {EntityInterest} from "@models/entity-interest";
 
 @Component({
   selector: 'app-manage-viewpoint',
@@ -24,6 +25,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
   styleUrl: './manage-viewpoint.component.css',
 })
 export class ManageViewpointComponent implements OnInit {
+  @Input()
+  selectedEntityOfInterest!: EntityInterest;
+
   viewpoint!: Viewpoint;
   viewpoints!: Viewpoint[];
   ngOnInit(): void {
@@ -31,7 +35,31 @@ export class ManageViewpointComponent implements OnInit {
       id: 0,
       name: '',
       overview: '',
-      concerns: [],
+      concerns: [
+        {
+          id: 0,
+          matter: '',
+          stakeholders: [
+            {
+              id: 0,
+              name: '',
+              type: '',
+              entityInterest: {
+                id: 0,
+                name: '',
+                background: '',
+                purpose: '',
+                scope: '',
+                approach: '',
+                schedule: '',
+                milestones: '',
+                stakeholders: [],
+              },
+            },
+          ],
+        },
+      ],
+      model: '',
       conventions: '',
       rationale: '',
       sources: '',

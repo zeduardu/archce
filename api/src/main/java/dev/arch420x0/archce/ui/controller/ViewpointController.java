@@ -158,7 +158,7 @@ public class ViewpointController {
 	}
 
 	@PostMapping(produces = {"application/json"}, consumes = {"application/json"})
-	public ResponseEntity<ViewpointResponse> addViewpoint(@Parameter(description = "Objective of entity of interest") @Valid @RequestBody ViewpointRequest request) {
+	public ResponseEntity<ViewpointResponse> addViewpoint(@Parameter(description = "New viewpoint of entity of interest") @Valid @RequestBody ViewpointRequest request) {
 		return status(HttpStatus.CREATED).body(manageViewpointUseCase.addViewpoint(request));
 	}
 }

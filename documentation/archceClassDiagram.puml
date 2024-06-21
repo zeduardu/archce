@@ -25,6 +25,7 @@ class Viewpoint {
     - name: String
     - overview: String
     - concerns: Concern[]
+    - model: String
     - conventions: String
     - rationale: String
     - source: String

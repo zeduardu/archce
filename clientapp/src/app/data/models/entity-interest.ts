@@ -1,4 +1,4 @@
-import { Objective } from "@models/objective";
+import { Stakeholder } from "./stakeholder";
 
 export interface EntityInterest {
   id: number
@@ -9,4 +9,6 @@ export interface EntityInterest {
   approach: string;
   schedule: string;
   milestones: string;
+
+  stakeholders: Stakeholder[];
 }

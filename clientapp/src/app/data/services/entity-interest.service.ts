@@ -14,8 +14,8 @@ export class EntityInterestService extends BaseService {
     super(http);
   }
 
-  getEntitiesInterest(): Observable<BrowseAllEntitiesInterestRes[]> {
-    return this.get<BrowseAllEntitiesInterestRes[]>('entities-interest');
+  getEntitiesInterest(): Observable<EntityInterest[]> {
+    return this.get<EntityInterest[]>('entities-interest');
   }
 
   getEntityInterest(id: number): Observable<EntityInterest> {
@@ -35,5 +35,15 @@ export class EntityInterestService extends BaseService {
 
   deleteEntityInterest(id: number): Observable<any> {
     return this.delete(`entities-interest/${id}`);
+  }
+
+  registerEntityInterest(entityInterest: EntityInterest): Observable<EntityInterest> {
+    const newEntityOfInterest = {
+      name: entityInterest.name,
+      background: '',
+      purpose: '',
+      scope: '',
+    };
+    return this.post<EntityInterest>('entities-interest/register-entity', newEntityOfInterest);
   }
 }

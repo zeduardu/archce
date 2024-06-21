@@ -1,14 +1,10 @@
 export enum StakeholderType {
-  'End User',
-  'Operator',
-  'Acquirer',
-  'Owner',
-  'Supplier',
-  'Architect',
-  'Developer',
-  'Builder',
-  'Maintainer',
-  'Redulator',
-  'Taxpayer',
-  'Certifying Agency'
+  USER = "User",
+  OPERATOR = "Operator",
+  ACQUIRER = "Acquirer",
+  OWNER = "Owner",
+  SUPPLIER = "Supplier",
+  DEVELOPER = "Developer",
+  BUILDER = "Builder",
+  MAINTAINER = "Mantainer",
 }

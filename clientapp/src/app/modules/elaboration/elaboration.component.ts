@@ -1,17 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnInit,
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { EditorModule } from 'primeng/editor';
 import { InputTextModule } from 'primeng/inputtext';
@@ -39,6 +27,11 @@ import { ViewpointService } from '@services/viewpoint.service';
 import { Subject } from 'rxjs';
 import { Viewpoint } from '@models/viewpoint';
 import { ToolbarModule } from 'primeng/toolbar';
+import { StakeholderType } from '@models/stakeholder-type';
+import { ListboxModule } from 'primeng/listbox';
+import { RouterLink } from '@angular/router';
+import { FieldsetModule } from 'primeng/fieldset';
+import {ManageViewpointComponent} from "@modules/manage-viewpoint/manage-viewpoint.component";
 
 @Component({
   selector: 'app-elaboration',
@@ -61,6 +54,9 @@ import { ToolbarModule } from 'primeng/toolbar';
     FormsModule,
     InputGroupModule,
     ToolbarModule,
+    ListboxModule,
+    RouterLink,
+    FieldsetModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './elaboration.component.html',
@@ -74,27 +70,68 @@ export class ElaborationComponent implements OnInit {
   entitiesOfInterest!: BrowseAllEntitiesInterestRes[];
   selectedEntityOfInterest!: EntityInterest;
   entityOfInterest!: EntityInterest;
+  emptyEntityOfInterest: EntityInterest = {
+    id: 0,
+    name: '',
+    background: '',
+    purpose: '',
+    scope: '',
+    approach: '',
+    schedule: '',
+    milestones: '',
+    stakeholders: [],
+  };
 
   objectiveSubmitted: boolean = false;
   objectiveDialog: boolean = false;
   objectives!: BrowseByEntityInterestIdObjectivesRes[];
   objective!: Objective;
 
+  stakeholder!: Stakeholder;
   stakeholders!: Stakeholder[];
+  stakeholderDialog: boolean = false;
+  stakeholderSubmitted: boolean = false;
+  stakeholderTypes!: string[];
+  emptyStakeholder: Stakeholder = {
+    id: 0,
+    name: '',
+    type: '',
+    entityInterest: this.emptyEntityOfInterest,
+  };
 
   viewpointDialog: boolean = false;
   viewpointSubmitted: boolean = false;
   viewpoint!: Viewpoint;
   viewpoints!: Viewpoint[];
+  emptyViewpoint: Viewpoint = {
+    id: 0,
+    name: '',
+    overview: '',
+    concerns: [
+      {
+        id: 0,
+        matter: '',
+        stakeholders: [
+          {
+            id: 0,
+            name: '',
+            type: '',
+            entityInterest: this.emptyEntityOfInterest,
+          },
+        ],
+      },
+    ],
+    model: '',
+    conventions: '',
+    rationale: '',
+    sources: '',
+  };
 
   designingViewpointsForm = this.formBuilder.group({
     entity: [''],
     viewpoints: this.formBuilder.array([]),
   });
   viewpoint$ = new Subject<Viewpoint>();
-  unsubscribe$ = new Subject<void>();
-  entityField: string | undefined = '';
-  viewpointName: string | undefined = '';
 
   constructor(
     private entityInterestService: EntityInterestService,
@@ -109,25 +146,33 @@ export class ElaborationComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    this.entityOfInterest = {
-      id: 0,
-      name: '',
-      background: '',
-      purpose: '',
-      scope: '',
-      approach: '',
-      schedule: '',
-      milestones: '',
-    };
+
+    //TODO: First understand the purpose of this line, if it is not necessary, remove it
+    this.entityOfInterest = this.emptyEntityOfInterest;
+
+    //TODO: First understand the purpose of this line, if it is not necessary, remove it
+    this.viewpoint = this.emptyViewpoint;
+
     this.entityInterestService.getEntitiesInterest().subscribe({
       next: (data) => {
         this.entitiesOfInterest = data;
       },
     });
-    // this.entityField = this.entityService.entity?.name;
+
     this.designingViewpointsForm.valueChanges.subscribe((data) => {
       this.onArchPlanFormChange(data);
     });
+
+    this.stakeholderTypes = [
+      StakeholderType.ACQUIRER,
+      StakeholderType.BUILDER,
+      StakeholderType.DEVELOPER,
+      StakeholderType.MAINTAINER,
+      StakeholderType.OPERATOR,
+      StakeholderType.OWNER,
+      StakeholderType.SUPPLIER,
+      StakeholderType.USER,
+    ];
   }
 
   activeIndexChange(index: number) {
@@ -190,25 +235,25 @@ export class ElaborationComponent implements OnInit {
     };
   }
 
-  openNewStakeholderDialog() {}
+  openNewStakeholderDialog() {
+    this.stakeholderDialog = true;
+    this.stakeholderSubmitted = false;
+    this.stakeholder = this.emptyStakeholder;
+  }
 
   openNewViewpointDialog() {
     this.viewpointDialog = true;
     this.viewpointSubmitted = false;
-    this.viewpoint = {
-      id: 0,
-      name: '',
-      overview: '',
-      concerns: [],
-      conventions: '',
-      rationale: '',
-      sources: ''
-    }
   }
 
   hideObjectiveDialog() {
     this.objectiveDialog = false;
     this.objectiveSubmitted = false;
+  }
+
+  hideStakeholderDialog() {
+    this.stakeholderDialog = false;
+    this.stakeholderSubmitted = false;
   }
 
   addObjective() {
@@ -298,10 +343,58 @@ export class ElaborationComponent implements OnInit {
     });
   }
 
+  addStakeholder() {
+    this.stakeholderSubmitted = true;
+
+    if (this.stakeholder.name?.trim()) {
+      if (this.stakeholder.id) {
+        this.stakeholders[
+          this.findStakeholderById(this.stakeholder.id.toString())
+        ] = this.stakeholder;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Stakeholder updated',
+          life: 3000,
+        });
+      } else {
+        this.stakeholder.entityInterest = this.selectedEntityOfInterest;
+        this.stakeholderService.addStakeholder(this.stakeholder).subscribe({
+          next: (stakeholder) => {
+            this.stakeholders = [...this.stakeholders, stakeholder];
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Stakeholder created',
+              life: 3000,
+            });
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
+      this.stakeholderDialog = false;
+      this.stakeholder = this.emptyStakeholder;
+    }
+  }
+
   findIndexById(id: string): number {
     let index = -1;
     for (let i = 0; i < this.objectives.length; i++) {
       if (this.objectives[i].id.toString() === id) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
+  }
+
+  findStakeholderById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.stakeholders.length; i++) {
+      if (this.stakeholders[i].id.toString() === id) {
         index = i;
         break;
       }

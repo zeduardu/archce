@@ -1,0 +1,33 @@
+<p-fieldset legend="Concerns">
+  <form [formGroup]="registerForm">
+    <div formArrayName="concerns">
+      <div *ngFor="let concern of concerns.controls; let i=index" class="my-3 p-3 bg-gray-100 border-2 border-dashed border-gray-300">
+        <div class="field">
+          <label for="input-matter-{{ i }}">Matter:</label>
+          <input id="input-matter-{{ i }}" pInputText class="w-full" />
+        </div>
+        <div class="field">
+          <label for="input-stakeholder-{{ i }}">Stakeholders:</label>
+          <p-listbox [options]="selectedEnityOfInterest.stakeholders" optionLabel="name"/>
+          <div class="mt-2 flex justify-content-end">
+            <p-button label="Add Stakeholder" [outlined]="true" icon="pi pi-plus" (onClick)="openDialogAddStakeholder()" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-3 flex justify-content-end">
+      <p-button label="New concern" icon="pi pi-plus" (onClick)="addConcern()"/>
+    </div>
+  </form>
+</p-fieldset>
+<p-dialog
+    header="Stakeholder Details"
+    [(visible)]="dialogAddStakeholder"
+    [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false">
+    <span>Stkaholders are parties with direct or indirect in an entity</span>
+
+</p-dialog>
