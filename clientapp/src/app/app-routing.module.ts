@@ -9,6 +9,7 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 import { ElaborationComponent } from './modules/elaboration/elaboration.component';
 import { SplashComponent } from './splash/splash.component';
 import { RegisterViewpointComponent } from '@shared/component/register-viewpoint/register-viewpoint.component';
+import { RegisterStakeholderComponent } from '@modules/register/register-stakeholder/register-stakeholder.component';
 
 const routes: Routes = [
   { path: '', component: SplashComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'manage-obj', component: ManageObjectiveComponent },
       { path: 'manage-vpt', component: ManageViewpointComponent },
       { path: 'manage-cer', component: ManageConcernComponent },
-      { path: 'register-vpt', component: RegisterViewpointComponent },
+      { path: 'register/viewpoint', component: RegisterViewpointComponent },
+      { path: 'register', loadChildren: () => import('./modules/register/register.module').then(m => m.RegisterModule)}
     ],
   },
 ];

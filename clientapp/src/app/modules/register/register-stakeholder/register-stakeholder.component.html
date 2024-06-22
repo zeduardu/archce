@@ -1,0 +1,53 @@
+<div class="surface-card p-4 shadow-2 border-round">
+  <div class="text-3xl font-medium text-900 mb-3">Stakeholder Details</div>
+  <div class="font-medium text-500 mb-3">
+    Stakeholders are parties with direct or indirect interests in an entity.
+    Among the stakeholders are those parties that have influence or control over
+    and those who are impacted by an entity.
+  </div>
+  <div
+    style="height: 150px"
+    class="border-2 border-dashed surface-border"
+    *ngIf="selectedEntityOfInterest"
+  >
+    <div class="field">
+      <label for="input-eoi">Entity of Interest:</label>
+      <input
+        id="input-eoi"
+        pInputText
+        [disabled]="true"
+        [(ngModel)]="selectedEntityOfInterest.name"
+      />
+    </div>
+    <div class="field">
+      <label for="input-stakeholder-name">Stakeholder name:</label>
+      <input
+        pInputText
+        id="input-stakeholder-name"
+        [(ngModel)]="stakeholder.name"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="dropdown-stakeholder-type">Stakeholder type:</label>
+      <p-listbox
+        id="dropdown-stakeholder-type"
+        [options]="stakeholderTypes"
+        [(ngModel)]="stakeholder.type"
+      />
+    </div>
+    <div class="py-2 flex justify-content-end">
+      <p-button
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        [text]="true"
+        (onClick)="addStakeholder()"
+      />
+    </div>
+  </div>
+  <div *ngIf="!selectedEntityOfInterest" class="border-2 border-dashed border-gray-300 bg-gray-100 flex justify-content-center align-items-center h-10rem">
+    <p class="text-500 text-2xl">No entity of interest has been associated with this stakeholder registration.</p>
+  </div>
+</div>
+<p-toast />

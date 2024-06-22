@@ -52,6 +52,11 @@ export class NavComponent implements OnInit {
               this.showDialog = true;
             },
           },
+          {
+            label: 'Register stakeholder',
+            icon: 'pi pi-users',
+            routerLink: '/arch/register/stakeholder',
+          }
         ],
       },
     ];
