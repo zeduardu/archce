@@ -10,3 +10,126 @@
   transform: scale(0.9);
   transition: transform 0.5s;
 }
+
+.form-matrix-table {
+  width: 100%;
+  border-spacing: 0;
+  text-align: left
+}
+
+.form-matrix-headers {
+  position: relative;
+  font-size: .75em;
+  font-weight: 500;
+  padding: 12px
+}
+
+.form-matrix-headers.form-matrix-column-headers {
+  text-align: center;
+  border-top: 1px solid #c3cad8
+}
+
+.form-matrix-values {
+  text-align: center;
+  padding: 0;
+  position: relative
+}
+
+.JotFormBuilder #stage .form-matrix-values {
+  pointer-events: none
+}
+
+.form-matrix-headers,.form-matrix-values {
+  border-left: 1px solid;
+  border-bottom: 1px solid
+}
+
+.form-matrix-column-headers:last-child {
+  border-radius: 0 4px 0 0
+}
+
+.isSelected .form-matrix-column-headers:nth-last-of-type(2) {
+  border-right: 1px solid #c3cad8;
+  border-radius: 0 4px 0 0
+}
+
+.form-matrix-value-tr:nth-child(2) .form-matrix-row-headers {
+  border-top: 1px solid #c3cad8;
+  border-radius: 4px 0 0 0
+}
+
+.form-matrix-column_0 {
+  border-radius: 4px 0 0
+}
+
+.form-matrix-column_0:last-child {
+  border-radius: 4px 4px 0 0
+}
+
+.form-matrix-table td:last-child,.form-matrix-table th:last-child {
+  border-right: 1px solid
+}
+
+.form-matrix-table tr:last-child td,.form-matrix-table tr:last-child th {
+  border-bottom: 1px solid
+}
+
+.form-matrix-table tr:last-child .form-matrix-row-headers {
+  border-radius: 0 0 0 4px
+}
+
+.form-matrix-table tr:last-child td:last-of-type,.form-matrix-table tr:last-child td:last-of-type .form-dropdown,.form-matrix-table tr:last-child td:last-of-type .form-textbox {
+  border-radius: 0 0 4px
+}
+
+.form-matrix-table tr:not([role=group])+tr[role=group] th {
+  border-top: 1px solid
+}
+
+.form-matrix-table tr:not([role=group])+tr[role=group] .form-matrix-row-headers {
+  border-radius: 4px 0 0
+}
+
+.form-matrix-table tr:not([role=group])+tr[role=group]:last-child .form-matrix-row-headers {
+  border-radius: 4px 0 0 4px
+}
+
+.form-matrix-column-headers,.form-matrix-row-headers {
+  background-color: #e5eaf4
+}
+
+.form-matrix-column-headers,.form-matrix-table td,.form-matrix-table td:last-child,.form-matrix-table th,.form-matrix-table th:last-child,.form-matrix-table tr:last-child td,.form-matrix-table tr:last-child th,.form-matrix-table tr:not([role=group])+tr[role=group] th {
+  border-color: #c3cad8
+}
+
+.form-matrix-values {
+  background-color: #fff
+}
+
+.form-matrix-values .form-checkbox,.form-matrix-values .form-radio {
+  height: 20px;
+  width: 20px;
+  clip: auto;
+  cursor: pointer
+}
+
+.form-matrix-values .form-checkbox+label,.form-matrix-values .form-checkbox+span,.form-matrix-values .form-radio+label,.form-matrix-values .form-radio+span {
+  pointer-events: none
+}
+
+.form-matrix-column-headers .form-matrix-row-headers {
+  padding: 12px 22px 12px 12px
+}
+
+.form-matrix-values label.matrix-choice-label {
+  padding-left: 20px;
+  vertical-align: text-bottom;
+  display: inline-block
+}
+
+@media (-ms-high-contrast:none),screen and (-ms-high-contrast:active) {
+  .form-matrix-values .form-checkbox,.form-matrix-values .form-radio {
+    left: calc(50% - 10px);
+    top: auto
+  }
+}

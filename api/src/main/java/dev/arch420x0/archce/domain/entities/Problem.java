@@ -118,7 +118,7 @@ public class Problem implements Serializable {
 		if (this.stakeholders == null) {
 			return "";
 		}
-		return this.stakeholders.stream().map(st -> st.getNome()).sorted().collect(Collectors.joining(", "));
+		return this.stakeholders.stream().map(st -> st.getName()).sorted().collect(Collectors.joining(", "));
 	}
 
 	@Override

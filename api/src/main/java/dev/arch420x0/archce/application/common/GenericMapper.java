@@ -1,6 +1,5 @@
 package dev.arch420x0.archce.application.common;
 
-import dev.arch420x0.archce.domain.entities.Viewpoint;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

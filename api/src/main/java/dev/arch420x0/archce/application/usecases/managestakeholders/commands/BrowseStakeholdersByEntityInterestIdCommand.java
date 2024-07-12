@@ -23,7 +23,7 @@ public class BrowseStakeholdersByEntityInterestIdCommand {
       stakeholder -> {
         BrowseStakeholdersByEntityInterestIdResponse stakeholdersResponse = new BrowseStakeholdersByEntityInterestIdResponse();
         stakeholdersResponse.setId(stakeholder.getId());
-        stakeholdersResponse.setName(stakeholder.getNome());
+        stakeholdersResponse.setName(stakeholder.getName());
         stakeholdersResponse.setType(stakeholder.getType());
         return stakeholdersResponse;
       }

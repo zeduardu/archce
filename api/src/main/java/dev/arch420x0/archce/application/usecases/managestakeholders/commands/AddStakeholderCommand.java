@@ -30,7 +30,7 @@ public class AddStakeholderCommand {
     Stakeholder createdStakeholder = stakeholderRepository.save(newStakeholder);
     return new AddStakeholderResponse(
       createdStakeholder.getId(),
-      createdStakeholder.getNome(),
+      createdStakeholder.getName(),
       createdStakeholder.getType()
       );
   }

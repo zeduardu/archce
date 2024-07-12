@@ -1,61 +1,77 @@
-import { NgFor } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { EntityInterest } from '@models/entity-interest';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { FieldsetModule } from 'primeng/fieldset';
-import { InputTextModule } from 'primeng/inputtext';
-import { ListboxModule } from 'primeng/listbox';
-import { PanelModule } from 'primeng/panel';
+import { Stakeholder } from '@models/stakeholder';
+import { EntityInterestService } from '@services/entity-interest.service';
+import {ViewpointService} from "@services/viewpoint.service";
 
 @Component({
   selector: 'app-register-viewpoint',
-  standalone: true,
-  imports: [
-    NgFor,
-    ReactiveFormsModule,
-    FieldsetModule,
-    ButtonModule,
-    InputTextModule,
-    ListboxModule,
-    DialogModule
-  ],
   templateUrl: './register-viewpoint.component.html',
   styleUrl: './register-viewpoint.component.css',
 })
-export class RegisterViewpointComponent {
+export class RegisterViewpointComponent implements OnInit {
   @Input() selectedEnityOfInterest!: EntityInterest;
 
-  registerForm = this.formBuilder.group({
-    concerns: this.formBuilder.array([this.formBuilder.control('')]),
+  viewpointFormGroup = this.formBuilder.group({
+    name: [''],
+    overview: [''],
+    concerns: this.formBuilder.array([
+      this.formBuilder.group({
+        matter: [''],
+        selectedStakeholders: ['']
+      }),
+    ]),
   });
 
   dialogAddStakeholder: boolean = false;
+  stakeholders!: Stakeholder[];
 
-  constructor(private formBuilder: FormBuilder) {
-    this.selectedEnityOfInterest = {
-      id: 0,
-      name: '',
-      background: '',
-      purpose: '',
-      scope: '',
-      approach: '',
-      schedule: '',
-      milestones: '',
-      stakeholders: [],
-    };
+  constructor(
+    private entityOfInterestService: EntityInterestService,
+    private viewpointService: ViewpointService,
+    private formBuilder: FormBuilder,
+  ) {}
+
+  ngOnInit(): void {
+    this.entityOfInterestService.getEntityInterest(2).subscribe({
+      next: (entityOfInterest) => {
+        this.selectedEnityOfInterest = entityOfInterest;
+        this.stakeholders = entityOfInterest.stakeholders;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   get concerns() {
-    return this.registerForm.get('concerns') as FormArray;
+    return this.viewpointFormGroup.get('concerns') as FormArray;
   }
 
   addConcern() {
-    this.concerns.push(this.formBuilder.control(''));
+    this.concerns.push(
+      this.formBuilder.group({
+        matter: [''],
+        selectedStakeholders: ['']
+      }),
+    );
   }
 
   openDialogAddStakeholder() {
     this.dialogAddStakeholder = true;
+  }
+
+  onUpload(event: any): void {
+    for (let file of event.files) {
+      this.uploadedFile(file);
+    }
+  }
+
+  uploadedFile(file: any): void {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    this.viewpointService.uploadFile(formData);
   }
 }

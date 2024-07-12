@@ -31,7 +31,7 @@ public class EntityInterestModelAssembler extends RepresentationModelAssemblerSu
     AddEntityInterestRes resource = createModelWithId(entity.getId(), entity);
     BeanUtils.copyProperties(entity, resource);
     resource.add(
-      linkTo(methodOn(EntityInterestController.class).getEntityInterestById(entity.getId().toString())).withSelfRel()
+      linkTo(methodOn(EntityInterestController.class).getEntityInterestById(entity.getId())).withSelfRel()
     );
     return resource;
   }

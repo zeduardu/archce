@@ -20,4 +20,7 @@ export class ViewpointService extends BaseService {
     return this.post<Viewpoint>('viewpoints', viewpoint);
   }
 
+  uploadFile(formData: FormData): void {
+    this.post('viewpoints/upload', formData);
+  }
 }

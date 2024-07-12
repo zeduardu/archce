@@ -21,8 +21,16 @@ export class StakeholderService extends BaseService{
     const newStakeholder = {
       nome: stakeholder.name,
       type: stakeholder.type,
-      entityInterestId: stakeholder.entityInterest!.id
+      entityInterestId: stakeholder.entityInterestId
     }
     return this.post<Stakeholder>('stakeholders', newStakeholder);
+  }
+
+  public editStakeholder(stakeholder: Stakeholder): Observable<Stakeholder> {
+    return this.put<Stakeholder>(`stakeholders/${stakeholder.id}`, stakeholder);
+  }
+
+  browseAllStakeholderTypes() {
+    return this.get<string[]>('stakeholders/types');
   }
 }

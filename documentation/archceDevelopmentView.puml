@@ -1,0 +1,40 @@
+@startuml
+
+node "Domain" <<layer>> {
+  package "entities" {
+    [Entity classes] as Entities
+  }
+}
+
+node "Application" <<layer>> {
+  package "usecases" {
+    [DTO's] as Dtos
+    [Use case classes] as Usecases
+    () "Use cases implementations" as UsecasesImpl
+  }
+}
+
+node "Persistence" <<layer>> {
+  package "repositories" {
+    () "Repositories implementation" as RepositoriesImpl
+  }
+}
+
+node "UI" <<layer>> {
+  package "controllers" {
+    [Controllers classes] as Controllers
+  }
+}
+
+node "Platform" <<layer>> {
+  [Springframework\nData JPA] as JPA
+} 
+
+Usecases --> Entities
+Usecases ..> RepositoriesImpl : use
+UsecasesImpl -- Usecases
+RepositoriesImpl -- JPA
+Controllers --> Dtos
+Controllers ..> UsecasesImpl : use
+
+@enduml

@@ -76,7 +76,7 @@ public class Viewpoint extends BaseAuditableEntity implements Serializable {
 			return "";
 		}
 		return this.concerns.stream().flatMap(c -> Stream.ofNullable(c.getStakeholders())).flatMap(st -> st.stream())
-				.map(st -> st.getNome()).distinct().sorted().collect(Collectors.joining(", "));
+				.map(st -> st.getName()).distinct().sorted().collect(Collectors.joining(", "));
 	}
 
 	@Override

@@ -31,7 +31,11 @@ import { StakeholderType } from '@models/stakeholder-type';
 import { ListboxModule } from 'primeng/listbox';
 import { RouterLink } from '@angular/router';
 import { FieldsetModule } from 'primeng/fieldset';
-import {ManageViewpointComponent} from "@modules/manage-viewpoint/manage-viewpoint.component";
+import { RegisterModule } from '@modules/register/register.module';
+import { View } from '@models/View';
+import { RegisterViewComponent } from '@modules/register/register-view/register-view.component';
+import { TabViewModule } from 'primeng/tabview';
+import {ViewService} from "@services/view.service";
 
 @Component({
   selector: 'app-elaboration',
@@ -57,6 +61,9 @@ import {ManageViewpointComponent} from "@modules/manage-viewpoint/manage-viewpoi
     ListboxModule,
     RouterLink,
     FieldsetModule,
+    RegisterModule,
+    RegisterViewComponent,
+    TabViewModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './elaboration.component.html',
@@ -96,7 +103,7 @@ export class ElaborationComponent implements OnInit {
     id: 0,
     name: '',
     type: '',
-    entityInterest: this.emptyEntityOfInterest,
+    entityInterestId: 0,
   };
 
   viewpointDialog: boolean = false;
@@ -116,7 +123,7 @@ export class ElaborationComponent implements OnInit {
             id: 0,
             name: '',
             type: '',
-            entityInterest: this.emptyEntityOfInterest,
+            entityInterestId: this.emptyEntityOfInterest.id,
           },
         ],
       },
@@ -126,6 +133,10 @@ export class ElaborationComponent implements OnInit {
     rationale: '',
     sources: '',
   };
+
+  views!: View[];
+  view!: View;
+  viewDialog: boolean = false;
 
   designingViewpointsForm = this.formBuilder.group({
     entity: [''],
@@ -140,6 +151,7 @@ export class ElaborationComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private viewpointService: ViewpointService,
+    private viewService: ViewService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
@@ -158,6 +170,9 @@ export class ElaborationComponent implements OnInit {
         this.entitiesOfInterest = data;
       },
     });
+
+    //TODO: Remove in the future, used to build screen design
+    this.views = this.viewService.browseAllViewsByENityInterest(1)
 
     this.designingViewpointsForm.valueChanges.subscribe((data) => {
       this.onArchPlanFormChange(data);
@@ -358,7 +373,7 @@ export class ElaborationComponent implements OnInit {
           life: 3000,
         });
       } else {
-        this.stakeholder.entityInterest = this.selectedEntityOfInterest;
+        this.stakeholder.entityInterestId = this.selectedEntityOfInterest.id;
         this.stakeholderService.addStakeholder(this.stakeholder).subscribe({
           next: (stakeholder) => {
             this.stakeholders = [...this.stakeholders, stakeholder];
@@ -411,5 +426,19 @@ export class ElaborationComponent implements OnInit {
     if (this.viewpointService.viewpoint) {
       this.viewpoint$.next(this.viewpointService.viewpoint);
     }
+  }
+
+  openNewViewDialog() {}
+  // returns a list of concerns framed by viewpoin using concatenate string list
+  getConcernsList(view: View) {
+    return view.viewpoint.concerns.map((concern) => concern.matter).join(', ');
+  }
+
+  getUniqueViewpointsForViews(): Viewpoint[] {
+    return this.views.map((view) => view.viewpoint)
+  }
+
+  getViewByViewpoint(viewpointName: string): View[]{
+    return this.views.filter((view) => view.viewpoint.name === viewpointName)
   }
 }

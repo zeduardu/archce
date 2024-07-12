@@ -2,15 +2,18 @@ package dev.arch420x0.archce.application.usecases.managestakeholders;
 
 import dev.arch420x0.archce.application.common.GenericMapper;
 import dev.arch420x0.archce.application.dtos.StakeholderRequest;
+import dev.arch420x0.archce.application.dtos.StakeholderResponse;
 import dev.arch420x0.archce.application.usecases.managestakeholders.commands.*;
 import dev.arch420x0.archce.application.usecases.managestakeholders.dtos.*;
+import dev.arch420x0.archce.domain.entities.Stakeholder;
+import dev.arch420x0.archce.domain.enums.StakeholderType;
 import dev.arch420x0.archce.infrastructure.shortbus.Request;
 import dev.arch420x0.archce.infrastructure.shortbus.RequestHandler;
 import dev.arch420x0.archce.persistence.repositories.StakeholderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ManageStakeholderUseCase implements RequestHandler<Request, Object> {
@@ -62,9 +65,20 @@ public class ManageStakeholderUseCase implements RequestHandler<Request, Object>
     }
   }
 
-  public List<StakeholderRequest> browseAllStakeholders() {
+  public List<StakeholderResponse> browseAllStakeholders() {
     return stakeholderRepository.findAll().stream().map(
-      stakeholder -> genericMapper.toDto(stakeholder, StakeholderRequest.class)
+      stakeholder -> genericMapper.toDto(stakeholder, StakeholderResponse.class)
     ).toList();
+  }
+
+  // List stakeholder types trough the StakeholdetType Enum class
+  public List<String> browseAllStakeholderTypes() {
+    return Stream.of(StakeholderType.values()).map(Enum::toString).toList();
+  }
+
+  public StakeholderResponse editStakeholer(StakeholderRequest request) {
+    Stakeholder editedStakeholder = genericMapper.toEntity(request, Stakeholder.class);
+    Stakeholder updatedStakeholder = stakeholderRepository.save(editedStakeholder);
+    return genericMapper.toDto(updatedStakeholder, StakeholderResponse.class);
   }
 }

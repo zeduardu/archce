@@ -1,5 +1,6 @@
 package dev.arch420x0.archce.ui.controller;
 
+import dev.arch420x0.archce.application.dtos.EntityInterestResponse;
 import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestReq;
 import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.AddEntityInterestRes;
 import dev.arch420x0.archce.application.usecases.manageentityinterest.dtos.BrowseAllEntitiesInterestReq;
@@ -87,8 +88,10 @@ public class EntityInterestController {
     value = "/{id}",
     produces = {"application/json"}
   )
-  public ResponseEntity<ReadEntityInterestByIdRes> getEntityInterestById(@Parameter(name = "id", description = "Entity identifier", required = true) @PathVariable("id") String id) {
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  public ResponseEntity<EntityInterestResponse> getEntityInterestById(@Parameter(name = "id", description = "Entity identifier", required = true) @PathVariable("id") Long id) {
+    EntityInterestResponse response = this.manageEntityInterestUseCase.readEntityOfInterestById(id);
+    if (response == null) return status(HttpStatus.NOT_FOUND).body(new EntityInterestResponse());
+    return status(HttpStatus.OK).body(response);
   }
 
   /**
@@ -111,8 +114,8 @@ public class EntityInterestController {
   }
 
   /**
-   * POST /api/v1/entities-interest : Creates a new entity of interest
-   * Creates a new entity od interest. Does nothing if entity already exists.
+   * POST /api/v1/entities-interest/register-entity : Register a only entity of interest
+   * Does nothing if entity already exists.
    *
    * @param request
    * @return For successful fetch. (status code 200)

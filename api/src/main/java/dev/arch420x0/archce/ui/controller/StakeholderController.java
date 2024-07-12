@@ -1,28 +1,24 @@
 package dev.arch420x0.archce.ui.controller;
 
-import static java.util.stream.StreamSupport.stream;
-import static org.springframework.http.ResponseEntity.status;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dev.arch420x0.archce.application.dtos.StakeholderRequest;
+import dev.arch420x0.archce.application.dtos.StakeholderResponse;
 import dev.arch420x0.archce.application.usecases.managestakeholders.ManageStakeholderUseCase;
 import dev.arch420x0.archce.application.usecases.managestakeholders.dtos.AddStakeholderRequest;
 import dev.arch420x0.archce.application.usecases.managestakeholders.dtos.AddStakeholderResponse;
 import dev.arch420x0.archce.application.usecases.managestakeholders.dtos.BrowseStakeholdersByEntityInterestIdRequest;
 import dev.arch420x0.archce.application.usecases.managestakeholders.dtos.BrowseStakeholdersByEntityInterestIdResponse;
+import dev.arch420x0.archce.domain.entities.Concern;
+import dev.arch420x0.archce.domain.entities.Problem;
+import dev.arch420x0.archce.domain.entities.Stakeholder;
 import dev.arch420x0.archce.persistence.repositories.ConcernRepository;
 import dev.arch420x0.archce.persistence.repositories.StakeholderRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,9 +26,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import dev.arch420x0.archce.domain.entities.Concern;
-import dev.arch420x0.archce.domain.entities.Problem;
-import dev.arch420x0.archce.domain.entities.Stakeholder;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.StreamSupport.stream;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api/v1/stakeholders")
@@ -40,15 +38,13 @@ import dev.arch420x0.archce.domain.entities.Stakeholder;
 @Controller
 public class StakeholderController {
   private final ManageStakeholderUseCase manageStakeholderUseCase;
+  private final StakeholderRepository stakeholderRepository;
+  private final ConcernRepository concernRepository;
 
-  @Autowired
-  private StakeholderRepository stakeholderRepository;
-
-  @Autowired
-  private ConcernRepository concernRepository;
-
-  public StakeholderController(ManageStakeholderUseCase manageStakeholderUseCase) {
+  public StakeholderController(ManageStakeholderUseCase manageStakeholderUseCase, StakeholderRepository stakeholderRepository, ConcernRepository concernRepository) {
     this.manageStakeholderUseCase = manageStakeholderUseCase;
+    this.stakeholderRepository = stakeholderRepository;
+    this.concernRepository = concernRepository;
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/cadastrostakeholder")
@@ -209,12 +205,12 @@ public class StakeholderController {
     summary = "Returns all stakeholders.",
     responses = {
       @ApiResponse(responseCode = "200", description = "For successful fetch.", content = {
-        @Content(mediaType = "application/json", schema = @Schema(implementation = StakeholderRequest.class))
+        @Content(mediaType = "application/json", schema = @Schema(implementation = StakeholderResponse.class))
       })
     }
   )
   @GetMapping()
-  public ResponseEntity<List<StakeholderRequest>> browseAllStakeholders() {
+  public ResponseEntity<List<StakeholderResponse>> browseAllStakeholders() {
     return status(HttpStatus.OK).body(
       manageStakeholderUseCase.browseAllStakeholders()
     );
@@ -232,6 +228,34 @@ public class StakeholderController {
   public ResponseEntity<AddStakeholderResponse> addStakeholder(@Parameter(description = "Necessary data to add one stakeholder") @Valid @RequestBody AddStakeholderRequest addStakeholderRequest) {
     return status(HttpStatus.CREATED).body(
       (AddStakeholderResponse) manageStakeholderUseCase.handle(addStakeholderRequest)
+    );
+  }
+
+  @Operation(
+    summary = "Updates a stakeholder based on given id.",
+    responses = {
+      @ApiResponse(responseCode = "202", description = "For successful update.", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = StakeholderRequest.class))
+      })
+    }
+  )
+  @PutMapping
+  public ResponseEntity<StakeholderResponse> editStakeholder(@Parameter(description = "Necessary data to edit one stakeholder") @Valid @RequestBody StakeholderRequest request) {
+    return status(HttpStatus.ACCEPTED).body(manageStakeholderUseCase.editStakeholer(request));
+  }
+
+  @Operation(
+    summary = "Returns all stakeholder types.",
+    responses = {
+      @ApiResponse(responseCode = "200", description = "For successful fetch.", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
+      })
+    }
+  )
+  @GetMapping("/types")
+  public ResponseEntity<List<String>> browseAllStakeholderTypes() {
+    return status(HttpStatus.OK).body(
+      manageStakeholderUseCase.browseAllStakeholderTypes()
     );
   }
 }

@@ -14,8 +14,8 @@ public interface StakeholderRepository extends GenericRepository<Stakeholder, Lo
 	//2 parametros @Query("select s from Stakeholder s where s.nome like %?1% and s.cargo like %?1%")
 	
 	//1 parametro
-	@Query("select s from Stakeholder s where s.nome like %?1%")
-	List<Stakeholder> findStakeholderByName(String nome);
+	@Query("select s from Stakeholder s where s.name like %?1%")
+	List<Stakeholder> findStakeholderByName(String name);
 	
 	@Query("from Stakeholder as s join s.concerns as c join s.problems as p  left join p.objectives as o ")
 	List<Stakeholder> findTodos();

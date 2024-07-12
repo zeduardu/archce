@@ -56,6 +56,16 @@ export class NavComponent implements OnInit {
             label: 'Register stakeholder',
             icon: 'pi pi-users',
             routerLink: '/arch/register/stakeholder',
+          },
+          {
+            label: 'Register viewpoint',
+            icon: 'pi pi-map',
+            routerLink: '/arch/register/viewpoint',
+          },
+          {
+            label: 'Register view',
+            icon: 'pi pi-eye',
+            routerLink: '/arch/register/viewpoint',
           }
         ],
       },

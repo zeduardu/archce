@@ -59,7 +59,7 @@ public class Concern extends BaseAuditableEntity implements Serializable {
 		if (this.stakeholders == null) {
 			return "";
 		}
-		return this.stakeholders.stream().map(st -> st.getNome()).distinct().sorted().collect(Collectors.joining(","));
+		return this.stakeholders.stream().map(st -> st.getName()).distinct().sorted().collect(Collectors.joining(","));
 	}
 
 }
