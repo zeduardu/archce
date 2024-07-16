@@ -1,0 +1,72 @@
+<div class="p-2">
+  <form [formGroup]="viewpointFormGroup">
+    <div class="field">
+      <label>Name:</label>
+      <input type="text" pInputText formControlName="name" class="w-full"/>
+    </div>
+    <div class="field">
+      <label>Overview:</label>
+      <input type="text" pInputText formControlName="overview" class="w-full"/>
+    </div>
+    <p-fieldset legend="Concerns" styleClass="mx-0 my-2 p-0">
+      <div formArrayName="concerns">
+        <div *ngFor="let concern of concerns.controls; let i=index" class="my-3 p-3 bg-gray-100 border-2 border-dashed border-gray-300">
+          <div [formGroupName]="i">
+            <div class="field">
+              <label for="input-matter-{{ i }}">Matter:</label>
+              <input id="input-matter-{{ i }}" pInputText class="w-full" formControlName="matter"/>
+              <small>A situation or subject that is being dealt with or considered.</small>
+            </div>
+            <div class="field">
+              <div class="mt-2 flex justify-content-between align-items-center">
+                <label for="input-stakeholder-{{ i }}">Stakeholders:</label>
+                <p-button label="Add Stakeholder" [text]="true" icon="pi pi-plus" (onClick)="openDialogAddStakeholder()"/>
+              </div>
+              <p-listbox [options]="stakeholders" formControlName="selectedStakeholders" optionLabel="name" [multiple]="true"/>
+              <small>Concerns are matters of interest or importance to one or more stakeholders. A concern can be shared by one or more stakeholders,
+                and a stakeholder can hold more than one concern. If you don't find the stakeholder desired, add it, clicking on “Add Stakeholder”
+                button.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 flex justify-content-end">
+        <p-button label="New concern" icon="pi pi-plus" (onClick)="addConcern()"/>
+      </div>
+    </p-fieldset>
+    <p-fieldset legend="Model kinds" styleClass="mx-0 my-2">
+      <p-fileUpload
+        accept="image/*"
+        maxFileSize="1000000"
+        fileLimit="1"
+      >
+      </p-fileUpload>
+      <small>
+        Conventions for a type of modeling, to address specific types of concerns (see ISO/IEC/IEEE 42010).
+        Insert here a image file that represents the model kind.
+      </small>
+    </p-fieldset>
+    <div class="field">
+      <label for="input-rationale">Rationale:</label>
+      <input id="input-rationale" type="text" pInputText formControlName="overview" class="w-full"/>
+    </div>
+    <div class="field">
+      <label for="input-source">Source:</label>
+      <input id="input-source" type="text" pInputText formControlName="overview" class="w-full"/>
+    </div>
+  </form>
+  <div class="py-2 flex justify-content-end">
+    <p-button label="Save" icon="pi pi-check" />
+  </div>
+</div>
+<p-dialog
+  header="Stakeholder Details"
+  [(visible)]="dialogAddStakeholder"
+  [modal]="true"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <app-register-stakeholder [selectedEntityOfInterest]="selectedEnityOfInterest"></app-register-stakeholder>
+</p-dialog>

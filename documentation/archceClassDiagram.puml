@@ -1,0 +1,78 @@
+@startuml
+
+class EntityInterest {
+    - name: String
+    - background: String
+    - purpose: String
+    - scope: String
+    - approach: String
+    - schedule: String
+}
+
+class Metric {
+    - value: String
+}
+
+class Objective {
+    - description: String
+}
+
+class Decision {
+    - element: String
+    - description: String
+    - solution: String
+}
+
+class Rationale {
+    - description: String
+    - consequences: String
+}
+
+class Tradeoff {
+  - type: String
+  - description: String
+}
+
+class Viewpoint {
+    - name: String
+    - overview: String
+    - source: String
+}
+
+class ModelKinds {
+    - metaModel: String
+    - templates: String
+    - language: String
+}
+
+class Concern {
+    - matter: String
+}
+
+class Stakeholder {
+    - nome: String
+    - type: String
+}
+
+class View {
+  - name: String
+}
+
+class Model {
+  - representation: String
+}
+
+EntityInterest "1" -- "1..*" Objective : > has
+EntityInterest "1" -right- "*" Stakeholder : < has interest in
+EntityInterest "1" -left- "*" Metric
+Stakeholder "*" -- "*" Concern : < is a matter of \nimportance to
+Concern "1..*" -- "1" Viewpoint : < frames
+Viewpoint "1" -- "1..*" View : > governs
+Viewpoint "1" -right- "1..*" ModelKinds : > include
+Objective "1" -- "*" Decision : > guide
+Rationale "1" -right- "1" Decision : > explain
+Decision "1" -down- "*" Tradeoff : > involves
+View "1" -right- "1..*" Model : > contains
+
+
+@enduml

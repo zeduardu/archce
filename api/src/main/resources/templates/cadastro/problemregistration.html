@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
+</head>
+
+<body>
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='Problem Registration',link='problemregistration')">
+		</header>
+
+		<div class="row">
+
+			<form action="#" th:action="@{/salvarproblem}" id="formproblem" method="post" th:object="${problemobj}"
+				class="col s12" onsubmit="return validarCampos()? true : false">
+
+				<div class="row">
+
+					<div class="input-field col s6">
+						<label for="title" class="active">Title</label>
+						<input name="title" th:field="*{title}" id="title" class="validate">
+						<input name="id" type="hidden" th:field="*{id}" id="id">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="area" class="active">Area</label>
+						<input name="area" th:field="*{area}" id="area" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="aspects" class="active">Aspects</label>
+						<input name="aspects" th:field="*{aspects}" id="aspects" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="risks" class="active">Risks</label>
+						<input name="risks" th:field="*{risks}" id="risks" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="opportunities" class="active">Opportunities</label>
+						<input name="opportunities" th:field="*{oportunities}" id="opportunities" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="constraints" class="active">Constraints</label>
+						<input name="constraints" th:field="*{constraints}" id="constraints" class="validate">
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<label for="stakeholder" class="active">Stakeholder</label>
+						<select multiple th:field="*{stakeholders}" id="stakeholder" name="stakeholder">
+							<option th:each="s : ${stakeholders}" th:value="${s.id}" th:text="${s.nome}" />
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class=" col s12">
+
+						<input th:if="${ problemobj.id  != null }" type="submit" value="Save Problem"
+							class="waves-effect waves-light btn">
+				 	<input th:if="${ problemobj.id  == null }" type="submit" value="Save Problem"
+							class="waves-effect waves-light btn">  
+					</div>
+				</div>
+			</form>
+			<div th:if="${ problemobj.id  != null }">
+				<form action="#" th:action="@{/salvarObjetivo}" id="formObjective" method="post"
+					th:object="${objetivoObj}" class="col s12">
+					<div class="row">
+						<div class=" col s12">
+							<h6>Objectives</h6>
+						</div>
+						<div class="input-field col s6">
+							<label for="description" class="active">Description</label>
+							<input required name="description" th:field="*{description}" id="description"
+								class="validate">
+						</div>
+						<div class="input-field col s6">
+							<label for="rationale" class="active">Rationale</label>
+							<input required name="rationale" th:field="*{rationale}" id="rationale" class="validate">
+						</div>
+					</div>
+					<div class="row">
+						<div class=" col s12">
+							<input name="problemId" type="hidden" th:value="${problemobj.id}" id="idproblem">
+							<input name="idObjective" type="hidden" th:field="*{id}" id="idproblem">
+							<input type="submit" value="Save Objective" class="waves-effect waves-light btn">
+						</div>
+					</div>
+
+				</form>
+				<div class="row">
+					<div class=" col s12">
+						<table class="col s12 striped">
+							<caption><strong><b>Objectives</b></strong> </caption>
+							<thead>
+								<tr>
+									<th>Description </th>
+									<th>Rationale </th>
+									<th>Edit Objectives/Add Decisions </th>
+									<th>Delete </th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr th:each="obj : ${problemobj.objectives}">
+									<td th:text="${obj.description}">  </td>
+									<td th:text="${obj.rationale}">    </td>
+									<td><a th:href="@{/editarobjective/{id}(id=${obj.id})}">Edit Objective/Add Decisions</a> </td>
+									<td><a th:href="@{/removerObjetivo/{id}(id=${obj.id})}">Delete</a> </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class=" col s12">
+				<table class="striped">
+					
+					<caption><strong><b>Problems</b></strong></caption>
+					<thead>
+						<tr>
+							<th> Title </th>
+							<th> Area </th>
+							<th> Aspects </th>
+							<th> Risks </th>
+							<th> Opportunities </th>
+							<th> Constraints </th>
+							
+							<th> Edit Problems / Add Objectives </th>
+							<th> Delete </th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="problem : ${problems}">
+							<td th:text="${problem.title}"></td>
+							<td th:text="${problem.area}"></td>
+							<td th:text="${problem.aspects}"></td>
+							<td th:text="${problem.risks}"></td>
+							<td th:text="${problem.oportunities}"></td>
+							<td th:text="${problem.constraints}"> </td>
+							
+							<td><a th:href="@{/editarproblem/{idproblem}(idproblem=${problem.id})}">Edit Problem / Add Objectives</a> </td>
+							<td><a th:href="@{/removerproblem/{idproblem}(idproblem=${problem.id})}">Delete</a> </td>
+							<!--   	<td><a th:href="@{/objective/{idproblem}(idproblem=${problem.id})}">Add Objective</a>  </td>  -->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		<script type="text/javascript">
+			function validarCampos() {
+				title = document.getElementById('title').value;
+				area = document.getElementById('area').value;
+				stakeholder = document.getElementById('stakeholder').value;
+
+
+				if (title === '') {
+					alert('Title must be informed');
+					return false;
+				}
+				else if (area === '') {
+					alert('Area must be informed');
+					return false;
+
+				}
+
+				else if (stakeholder === '') {
+					alert('Stakeholder must be informed');
+					return false;
+
+				}
+
+				return true;
+
+			}
+		</script>
+
+	</div>
+	<footer th:replace="fragments/base.html :: footer"></footer>
+
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" 	>
+<head>
+<meta charset="UTF-8">
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<style type="text/css">
+	table.striped>tbody>tr:nth-child(odd){
+	background-color: rgba(158, 154, 154, 0.5);
+	}
+	form input[type=submit] {
+		color: white;
+	}
+
+</style>
+
+<title>Architecture Conceptualization</title>
+
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">ArchConcept</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="/cadastrostakeholder">Stakeholder</a></li>
+        <li><a href="/cadastroconcern">Concern</a></li>
+        <li><a href="/viewpointregistration">Viewpoint</a></li>
+        <li><a href="/problemregistration">Problem</a></li>
+        <li><a href="/objectiveregistration">Objective</a></li>
+        <li><a href="/decisionregistration">Decision</a></li>
+        <li><a href="/tradeoffregistration">Tradeoff</a></li>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/report">Report</a></li>
+      </ul>
+    </div>
+  </nav>
+    
+</body>
+
+</head>
+<body>
+	<h3>Architecture Conceptualization</h3><br/>
+	
+	<h5>Searches</h5>
+
+
+	
+	
+	 <br/>
+    
+    
+    
+     <br/>
+	
+
+	<br/>
+	<br/>
+
+
+	<div class="row">
+		<form action="pesquisarstakeholder" method="post" id="pesquisarstakeholder"
+			th:object="${stakeholderobj}" class="col s12">
+
+			<div class="row">
+				<div class="input-field col s12">
+				
+											
+					<label for="nomepesquisa" class="active">Search by name</label>
+					<input name="nomepesquisa" id="nomepesquisa" class="validate">
+					
+					<input class="waves-effect waves-light btn" type="submit"
+						value="PDF" onclick="document.getElementById('pesquisarstakeholder').method = 'get'">
+					
+					<input class="waves-effect waves-light btn" type="submit"
+						value="Search Stakeholder">
+						
+					<a class="waves-effect waves-light btn" href="listarstakeholder">List Stakeholders</a>	
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	
+	
+
+	<div class="row">
+		<form action="pesquisarconcern" method="post" id="pesquisarconcern"
+			th:object="${concernobj}" class="col s12">
+
+			<div class="row">
+				<div class="input-field col s12">
+				
+											
+					<label for="concernpesquisa" class="active">Search by concern</label>
+					<input name="concernpesquisa" id="concernpesquisa" class="validate">
+					
+					<input class="waves-effect waves-light btn" type="submit"
+						value="Search Concern">
+						
+					<a class="waves-effect waves-light btn" href="listarconcern">List Concerns</a>	
+				</div>
+			</div>
+		</form>
+	</div>
+	
+		<div class="row">
+		<form action="pesquisarviewpoint" method="post" id="pesquisarviewpoint"
+			th:object="${viewpointobj}" class="col s12">
+
+			<div class="row">
+				<div class="input-field col s12">
+				
+											
+					<label for="viewpointpesquisa" class="active">Search by Viewpoint</label>
+					<input name="viewpointpesquisa" id="viewpointpesquisa" class="validate">
+					
+					<input class="waves-effect waves-light btn" type="submit"
+						value="Search Viewpoint">
+						
+					<a class="waves-effect waves-light btn" href="listarviewpoint">List Viewpoints</a>	
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<br/>
+	<br/>
+	
+		<table class="striped">
+	    <thead>
+	        <tr>
+	            <th> Name </th>
+	            <th> Position </th>
+	            
+	        </tr>
+	    </thead>
+	    <tbody>
+		
+	        <tr th:each="stakeholder : ${stakeholders}">
+	            <td><a th:href="@{/concern/{idstakeholder}(idstakeholder=${stakeholder.id})}"><span th:text="${stakeholder.nome}"> Name </span></a></td>
+	            <td><span th:text="${stakeholder.type}"> Type </span></td>
+	            
+	        </tr>
+	    </tbody>
+	</table>
+ 
+
+</body>
+</html>

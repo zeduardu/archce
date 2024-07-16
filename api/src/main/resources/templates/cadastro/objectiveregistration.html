@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
+</head>
+
+<body>
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='Objective Registration',link='objectiveregistration')">
+		</header>
+
+		<div class="row">
+			<h4>
+				<a th:text="${objectiveobj.problem.title}"
+					th:href="@{/editarproblem/{idproblem}(idproblem=${objectiveobj.problem.id})}">
+				</a>
+			</h4>
+		</div>
+		<div class="row">
+
+			<form action="#" th:action="@{/salvarObjetivo}" id="formobjective" method="post" th:object="${objectiveobj}"
+				class="col s12">
+
+				<div class="row">
+
+					<div class="input-field col s6">
+						<label for="description" class="active">Description</label>
+						<input name="description" th:field="*{description}" id="description" class="validate">
+						<input name="id" type="hidden" th:field="*{id}" id="id">
+						<input name="problemId" type="hidden" th:value="*{problem.id}" id="problemId">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="rationale" class="active">Rationale</label>
+						<input name="rationale" th:field="*{rationale}" id="rationale" class="validate">
+					</div>
+					<div class="input-field col s12">
+						<input type="submit" value="Save objective" class="waves-effect waves-light btn">
+					</div>
+				</div>
+
+			</form>
+
+			<div class="row" th:if="${  objectiveobj.id  != null }">
+				<form action="#" th:action="@{/salvarDecision}" id="formDecision" method="post" th:object="${decision}">
+					<div class=" col s12">
+						<h6 align=center><b>Decision</b></h6>
+					</div>
+					<div class="input-field col s6">
+						<label for="description" class="active">Description</label>
+						<input name="description" th:field="*{description}" id="description" class="validate">
+					</div>
+					
+					<div class="input-field col s6">
+						<label for="rationale" class="active">Rationale</label>
+						<input name="rationale" th:field="*{rationale}" id="rationale" class="validate">
+					</div>
+					
+					<div class="input-field col s6">
+						<label for="solution" class="active">Solution</label>
+						<input name="solution" th:field="*{solution}" id="solution" class="validate">
+					</div>
+					
+					<div class="input-field col s12">
+						<input name="id" type="hidden" th:field="*{id}" id="decisionid">
+						<input name="objectiveId" type="hidden" th:value="${objectiveobj.id}" id="objetiveId">
+						<input type="submit" value="Save Decision" class="waves-effect waves-light btn">
+					</div>
+				</form>
+			</div>
+			<!--decision_id-->
+			<div class="row" th:if="${  decision.id  != null }">
+				<form action="#" th:action="@{/salvarTradeoff}" id="formTradeoff" method="post" th:object="${tradeoff}">
+					<div class=" col s12">
+						<h6 align=center><b>Tradeoff</b></h6>
+					</div>
+					<div class="input-field col s6">
+						<label for="type" class="active">Type</label>
+						<input name="type" id="type" th:field="*{type}" class="validate">
+					</div>
+					<div class="input-field col s6">
+						<label for="rationale" class="active">Description</label>
+						<input name="description" id="description" th:field="*{description}" class="validate">
+					</div>
+					<div class="input-field col s6">
+						<label for="rationale" class="active">Rationale</label>
+						<input name="rationale" id="rationale" th:field="*{rationale}" class="validate">
+					</div>
+					<div class="input-field col s6">
+					</div>
+					<div class="input-field col s6">
+					</div>
+					<div class="input-field col s6">
+					</div>
+					<div class="row">
+						<input name="id" type="hidden" th:field="*{id}" id="tradeoffid">
+						<input name="decisionId" type="hidden" th:value="${decision.id}" id="decisionId">
+						<input type="submit" value="Save Tradeoff" class="waves-effect waves-light btn">
+					</div>
+					
+				</form>
+				<div class="row">
+					<table class=" col s12 striped">
+						<caption><strong><b>Tradeoff</b></strong> </caption>
+						<thead>
+							<tr>
+								<th>Type </th>
+								<th>Description </th>
+								<th>Rationale </th>
+								<th> </th>
+								<th> </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="tradeoff : ${decision.tradeoffs}">
+								<td th:text="${tradeoff.type}"> ajudar o cliente de alguma forma </td>
+								<td th:text="${tradeoff.description}">bla bla bla</td>
+								<td th:text="${tradeoff.rationale}">bla bla bla</td>
+								<td><a th:href="@{/editarTradeoff/{id}(id=${tradeoff.id})}">Edit</a> </td>
+								<td><a th:href="@{/removerTradeoff/{id}(id=${tradeoff.id})}">Delete</a> </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<table class="striped col s12">
+					<caption><strong><b>Decisions</b></strong> </caption>
+					<thead>
+						<tr>
+							<th>Description </th>
+							<th>Solution </th>
+							<th>Rationale </th>
+							<th>Edit Decisions / Add Tradeoffs </th>
+							<th>Delete </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="decision : ${objectiveobj.decisions}">
+							<td th:text="${decision.description}"> ajudar o cliente de alguma forma </td>
+							<td th:text="${decision.solution}">bla bla bla</td>
+							<td th:text="${decision.rationale}">bla bla bla</td>
+							<td><a th:href="@{/editarDecision/{id}(id=${decision.id})}">Edit Decision / Add Tradeoffs</a> </td>
+							<td><a th:href="@{/removerDecision/{id}(id=${decision.id})}">Delete</a> </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<table style="display: none;" class="striped">
+			<thead>
+				<tr>
+					<th> Problem </th>
+					<th> Description </th>
+					<th> Rationale </th>
+					<th> Edit Objectives / Add Decisions </th>
+					<th> Delete </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="objective : ${objectives}">
+					<td><span th:text="${objective.problem.title}"> Problem </span></td>
+					<td><span th:text="${objective.description}"> Description </span></td>
+					<td><span th:text="${objective.rationale}"> Rationale </span></td>
+					<td><a th:href="@{/editarobjective/{idobjective}(idobjective=${objective.id})}">Edit Objective / Add Decisions</a> </td>
+					<td><a th:href="@{/removerobjective/{idobjective}(idobjective=${objective.id})}">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<footer th:replace="fragments/base.html :: footer"></footer>
+
+</body>
+
+</html>

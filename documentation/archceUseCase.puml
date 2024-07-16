@@ -1,0 +1,19 @@
+@startuml General Use Case
+
+actor :Stakeholder User: as Stakeholder
+
+usecase (Register \nEntity of Interest) as REoI
+usecase (Manage \nEntity of Interest) as MEoI
+usecase (Manage \nArchitecture Viewpoint) as MAV
+usecase (Prepare Architecture \nElaboration Plan) as PAEP
+
+note right of MEoI
+  This use case is a CRUD use case
+  that can be used to manage any entity
+  of interest.
+end note
+
+
+PAEP <. REoI : <<extend>>
+
+@enduml

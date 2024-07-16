@@ -1,0 +1,8 @@
+<div class="card">
+  <p-menubar [model]="items" />
+</div>
+<app-register-entity-interest
+  [visible]="showDialog"
+  (onSave)="onSave()"
+  (onCancel)="onCancel()">
+</app-register-entity-interest>

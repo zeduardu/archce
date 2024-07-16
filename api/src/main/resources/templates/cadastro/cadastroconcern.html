@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
+</head>
+
+<body>
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='Concern Registration',link='cadastroconcern')">
+		</header>
+		<div class="row">
+			<form action="#" th:action="@{/salvarconcern}" id="formconcern" method="post" th:object="${concernobj}"
+				class="col s12" onsubmit="return validarCampos()? true : false">
+
+				<div class="row">
+				
+					<div class="input-field col s6">
+					<label for="description" class="active">Description</label>
+					<input name="id" type="hidden" th:field="*{id}" id="id">
+					<select class="browser-default" id="description" name="description" th:field="*{description}">
+					
+							<option value="Affordability">Affordability </option>
+							<option value="Agility">Agility </option>
+							<option value="Assurance">Assurance </option>
+							<option value="Autonomy">Autonomy </option>
+							<option value="Agility">Agility </option>
+							<option value="Behavior">Behavior </option>
+							<option value="Business goals">Business goals </option>
+							<option value="Complexity">Complexity  </option>
+							<option value="Compliance to regulation">Compliance to regulation </option>
+							<option value="Concurrency">Concurrency </option>
+							<option value="Control">Control </option>
+							<option value="Cost">Cost  </option>
+							<option value="Customer experience">Customer experience </option>
+							<option value="Data accessibility">Data accessibility  </option>
+							<option value="Deadlock">Deadlock  </option>
+							<option value="Disposability">Disposability </option>
+							<option value="Evolvability">Evolvability  </option>
+							<option value="Feasibility">Feasibility  </option>
+							<option value="Flexibility">Flexibility  </option>
+							<option value="Functionality">Functionality  </option>
+							<option value="Information assurance">Information assurance  </option>
+							<option value="Inter-process communication">Inter-process communication  </option>
+							<option value="Known limitations">Known limitations  </option>
+							<option value="Maintainability">Maintainability </option>
+							<option value="Modifiability">Modifiability  </option>
+							<option value="Modularity">Modularity </option>
+							<option value="Openness">Openness  </option>
+							<option value="Performance">Performance  </option>
+							<option value="Privacy">Privacy  </option>
+							<option value="Quality of service">Quality of service  </option>
+							<option value="Reliability">Reliability </option>
+							<option value="Resource utilization">Resource utilization  </option>
+							<option value="Schedule">Schedule  </option>
+							<option value="Security">Security  </option>
+							<option value="State change">State change  </option>
+							<option value="Strategies">Strategies  </option>
+							<option value="Structure">Structure  </option>
+							<option value="Subsystem integration">Subsystem integration </option>
+							<option value="System features">System features  </option>
+							<option value="System properties">System properties </option>
+							<option value="System purposes">System purposes  </option>
+							<option value="Usage ">Usage  </option>
+
+	
+					</select> 
+				</div>
+
+<!--  					<div class="input-field col s6">
+						<label for="priority" class="active">Priority</label>
+						<select required class="browser-default" id="priority" name="priority" th:field="*{priority}">
+							<option value="" disabled selected> --[Select]-- </option>
+							<option value="LOW">Low </option>
+							<option value="MED">Med </option>
+							<option value="HIGH">High </option>
+						</select>
+					</div>
+-->
+					
+					
+					<div class="input-field col s6">
+						<input type="submit" value="Add" class="waves-effect waves-light btn">
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+		<table class="striped">
+			<thead>
+				<tr>
+					<th> Description </th>
+<!-- 				<th> Priority </th>    -->
+					<th> Edit </th>
+					<th> Delete </th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="concern : ${concerns}">
+					<td th:text="${concern.description}">
+<!-- 				<td th:text="${concern.priority}">   -->
+					<td><a th:href="@{/editarconcern/{idconcern}(idconcern=${concern.id})}">Edit</a> </td>
+					<td><a th:href="@{/removerconcern/{idconcern}(idconcern=${concern.id})}">Delete</a> </td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		function validarCampos() {
+			descricao = document.getElementById('description').value;
+			priority = document.getElementById('priority').value;
+			stakeholder = document.getElementById('stakeholder').value;
+
+			if (description === '') {
+				alert('Description must be informed');
+				return false;
+			}
+			else if (priority === '') {
+				alert('Prioritiy must be informed');
+				return false;
+
+			}
+			else if (stakeholder === '') {
+				alert('Check if a stakeholder was previously registrated, if so, select one.');
+				return false;
+			}
+			return true;
+		}
+	</script>
+	<footer th:replace="fragments/base.html :: footer"></footer>
+</body>
+
+</html>

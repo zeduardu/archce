@@ -1,0 +1,622 @@
+<p-toast/>
+<p-confirmDialog [style]="{ width: '450px' }"/>
+<p-stepper [orientation]="screenWidth <= 768 ? 'vertical' : 'horizontal'" [activeStep]="3">
+  <!-- Of the 4 steps this is the first -->
+  <p-stepperPanel id="preparing-efforts-task" header="Preparing the efforts">
+    <ng-template let-index="index" let-nextCallback="nextCallback" pTemplate="content">
+      <div id="stepper1-content" class="border-2 border-dashed surface-border border-round surface-ground p-3">
+        <h1>Architecture Elaboration Plan</h1>
+        <p class="text-justify">Identify the need for architecture elaboration based on project requirements. Formulate
+          a team comprising roles like architect, developers, and domain experts. Clearly define the scope of the
+          architecture elaboration. Establish specific objectives and expected outcomes. Allocate responsibilities to
+          team members and roles. Develop a detailed plan outlining tasks, activities, and timelines.
+        </p>
+        <div class="grid">
+          <div id="form-preparing-efforts-task" class="col">
+            <div class="field">
+              <label for="selectEntityInterest" class="font-bold">Start selecting enitity of interest:</label>
+              <p-dropdown id="selectEntityInterest" [options]="entitiesOfInterest"
+                          [(ngModel)]="selectedEntityOfInterest" optionLabel="name" [showClear]="true"
+                          placeholder="Select a Entity of interest" (onChange)="fillObjectivesByEntityInterestId($event.value)"/>
+            </div>
+            <p-panel header="Entity Context">
+              <div class="field">
+                <label for="name">Name:</label>
+                <input pInputText id="name" [(ngModel)]="entityOfInterest.name" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="background">Background:</label>
+                <input pInputText id="background" [(ngModel)]="entityOfInterest.background" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="purpose">Purpose:</label>
+                <input pInputText id="purpose" [(ngModel)]="entityOfInterest.purpose" required class="w-full"/>
+              </div>
+              <div class="field">
+                <label for="scope">Scope:</label>
+                <input pInputText id="scope" [(ngModel)]="entityOfInterest.scope" required class="w-full"/>
+              </div>
+            </p-panel>
+            <p-panel header="Entity Objectives" styleClass="mt-3">
+              <div class="py-2 flex justify-content-end">
+                <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                          (click)="openNewObjectiveDialog();" onKeyDown="doSomething();" tabindex="0"
+                          [disabled]="!selectedEntityOfInterest"/>
+              </div>
+              <p-table [value]="objectives" [rows]="10" [paginator]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-objective>
+                  <tr>
+                    <td>{{ objective.description }}</td>
+                    <td>
+                      <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                severity="success" (click)="editObjective(objective)"/>
+                      <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteObjective(objective)"/>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between">
+                    In total there are
+                    {{ objectives ? objectives.length : 0 }}
+                    objective(s).
+                  </div>
+                </ng-template>
+              </p-table>
+              <p-dialog [(visible)]="objectiveDialog" header="Entity of Interest Objectives Details" [modal]="true"
+                        styleClass="p-fluid">
+                <ng-template pTemplate="content">
+                  <div class="field">
+                    <label>Entity of Interest:</label>
+                    <div>{{ selectedEntityOfInterest.name }}</div>
+                  </div>
+                  <div class="field">
+                    <label for="name">Description</label>
+                    <input pInputText id="input-entity-interest-name" [(ngModel)]="objective.description" required/>
+                  </div>
+                  <div class="field">
+                    <label for="description">Rationale</label>
+                    <input pInputText id="description" [(ngModel)]="objective.rationale" required/>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideObjectiveDialog()"/>
+                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addObjective()"/>
+                </ng-template>
+              </p-dialog>
+            </p-panel>
+            <p-panel header="Stakeholders" styleClass="mt-3">
+              <div id="buttonOpenStakeholderDialog" class="py-2 flex justify-content-end">
+                <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                          (click)="openNewStakeholderDialog()" [disabled]="!selectedEntityOfInterest"/>
+              </div>
+              <p-table id="tableStakeholderByEoI" [value]="stakeholders" [rows]="10" [paginator]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stakeholder>
+                  <tr>
+                    <td>{{ stakeholder.name }}</td>
+                    <td>
+                      <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                severity="success" disabled="true" (click)="editObjective(stakeholder)"/>
+                      <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                disabled="true" (click)="deleteObjective(stakeholder)"/>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  <div class="flex align-items-center justify-content-between">
+                    In total there are
+                    {{ stakeholders ? stakeholders.length : 0 }}
+                    objective(s).
+                  </div>
+                </ng-template>
+              </p-table>
+              <p-dialog id="stakeholderDialog" [(visible)]="stakeholderDialog"
+                        header="Entity of Interest Stakeholder Details" [modal]="true" styleClass="p-fluid">
+                <ng-template pTemplate="content">
+                  <div class="field">
+                    <label>Entity of Interest:</label>
+                    <div>{{ selectedEntityOfInterest.name }}</div>
+                  </div>
+                  <div class="field">
+                    <label for="input-stakeholder-name">Stakeholder name:</label>
+                    <input pInputText id="input-stakeholder-name" [(ngModel)]="stakeholder.name" required/>
+                  </div>
+                  <div class="field">
+                    <label for="dropdown-stakeholder-type">Stakeholder type:</label>
+                    <p-listbox id="dropdown-stakeholder-type" [options]="stakeholderTypes"
+                               [(ngModel)]="stakeholder.type"/>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideStakeholderDialog"/>
+                  <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="addStakeholder()"/>
+                </ng-template>
+              </p-dialog>
+            </p-panel>
+            <p-panel header="Approach" styleClass="mt-3">
+              <label>Techniques, methods and tools:</label>
+              <p-editor [(ngModel)]="entityOfInterest.approach" [style]="{ height: '160px' }">
+                <ng-template pTemplate="header">
+                  <span class="ql-formats">
+                    <button type="button" class="ql-bold" aria-label="Bold"></button>
+                    <button type="button" class="ql-italic" aria-label="Italic"></button>
+                    <button type="button" class="ql-underline" aria-label="Underline"></button>
+                    <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                    <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                    <select title="TextAlign" class="ql-align"></select>
+                  </span>
+                </ng-template>
+              </p-editor>
+              <small id="username-help"> Tip: Clearly define </small>
+            </p-panel>
+            <p-panel header="Progress Navigator" styleClass="mt-3">
+              <div class="field">
+                <label for="editorSchedule">Schedule:</label>
+                <p-editor id="editorSchedule" [(ngModel)]="entityOfInterest.schedule" [style]="{ height: '160px' }">
+                  <ng-template pTemplate="header">
+                    <span class="ql-formats">
+                      <button type="button" class="ql-bold" aria-label="Bold"></button>
+                      <button type="button" class="ql-italic" aria-label="Italic"></button>
+                      <button type="button" class="ql-underline" aria-label="Underline"></button>
+                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                      <select title="TextAlign" class="ql-align"></select>
+                    </span>
+                  </ng-template>
+                </p-editor>
+              </div>
+              <div class="field">
+                <label for="editorMilestones">Milestones:</label>
+                <p-editor id="editorMilestones" [(ngModel)]="entityOfInterest.milestones" [style]="{ height: '160px' }">
+                  <ng-template pTemplate="header">
+                    <span class="ql-formats">
+                      <button type="button" class="ql-bold" aria-label="Bold"></button>
+                      <button type="button" class="ql-italic" aria-label="Italic"></button>
+                      <button type="button" class="ql-underline" aria-label="Underline"></button>
+                      <button value="ordered" aria-label="Ordered List" type="button" class="ql-list"></button>
+                      <button value="bullet" aria-label="Unordered List" type="button" class="ql-list"></button>
+                      <select title="TextAlign" class="ql-align"></select>
+                    </span>
+                  </ng-template>
+                </p-editor>
+              </div>
+            </p-panel>
+          </div>
+          <!--          <div id="preview-preparing-efforts-task" class="col">-->
+          <!--            <div *ngIf="selectedEntityOfInterest" class="border-1 bg-white p-3">-->
+          <!--              <h1>{{ selectedEntityOfInterest.name }}</h1>-->
+          <!--              <h2>Background</h2>-->
+          <!--              <div id="backgroundContent" [innerHTML]="this.entityOfInterest.background"></div>-->
+          <!--              <h2>Purpose</h2>-->
+          <!--              <div id="purposeContent" [innerHTML]="this.entityOfInterest.purpose"></div>-->
+          <!--              <h2>Scope</h2>-->
+          <!--              <div id="scopeContent" [innerHTML]="this.entityOfInterest.scope"></div>-->
+          <!--              <h2>Objectives</h2>-->
+          <!--              <ul>-->
+          <!--                <li *ngFor="let objective of objectives">{{ objective.description }}</li>-->
+          <!--              </ul>-->
+          <!--              <h2>Stakeholders</h2>-->
+          <!--              <ul>-->
+          <!--                <li *ngFor="let stakeholder of stakeholders">{{ stakeholder.name }}</li>-->
+          <!--              </ul>-->
+          <!--              <h2>Approach</h2>-->
+          <!--              <div id="approachContent" [innerHTML]="this.entityOfInterest.approach"></div>-->
+          <!--              <h2>Schedule</h2>-->
+          <!--              <div id="scheduleContent" [innerHTML]="this.entityOfInterest.schedule"></div>-->
+          <!--              <h2>Milestones</h2>-->
+          <!--              <div id="milestonesContent" [innerHTML]="this.entityOfInterest.milestones"></div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+        </div>
+      </div>
+      <div id="stepper1-footer" class="flex pt-4 justify-content-end">
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+  <!-- Of the 4 steps this is the second -->
+  <p-stepperPanel id="designing-viewpoints-task" header="Designing the viewpoints">
+    <ng-template let-index="index" let-nextCallback="nextCallback" let-prevCallback="prevCallback" pTemplate="content">
+      <div id="stepper2-content" class="border-2 border-dashed surface-border border-round surface-ground p-3">
+        <h1>Architecture Viewpoint</h1>
+        <p class="text-justify">
+          This step involves the identification, adaptation, or creation of specific
+          perspectives or viewpoints through which the architecture of a system or
+          entity can be comprehensively understood and communicated. It involves identifying
+          relevant stakeholders, and their concerns, and tailoring viewpoints to
+          address those concerns. These viewpoints provide lenses through which different
+          stakeholders can understand and analyze the architecture, promoting a
+          comprehensive and well-rounded view that accommodates diverse perspectives.
+        </p>
+        <div class="grid">
+          <div id="archPlanForm" class="col">
+            <div class="mb-3">
+              <p-fieldset legend="Entity of Interest">
+                <p>{{ entityOfInterest.name }}</p>
+              </p-fieldset>
+            </div>
+            <div>
+              <p-fieldset legend="Viewpoints">
+                <div class="py-2 flex justify-content-end">
+                  <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2" (click)="openNewViewpointDialog()"
+                            onkeydown="doSomething();"/>
+                </div>
+                <p-table [value]="viewpoints" [paginator]="true" [rows]="5">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Name</th>
+                      <th>Overview</th>
+                      <th>Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-viewpoint>
+                    <tr>
+                      <td>{{ viewpoint.name }}</td>
+                      <td>{{ viewpoint.overview }}</td>
+                      <td>
+                        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                  severity="success"/>
+                        <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"/>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <p-dialog id="viewpoint-form" [(visible)]="viewpointDialog" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                  <app-register-viewpoint [selectedEnityOfInterest]="selectedEntityOfInterest"></app-register-viewpoint>
+                </p-dialog>
+              </p-fieldset>
+            </div>
+          </div>
+          <!--          <div id="design-viewpoint-preview" class="col">-->
+          <!--          </div>-->
+        </div>
+      </div>
+      <div id="stepper2-footer" class="flex pt-4 justify-content-between">
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
+        <p-button (onClick)="nextCallback.emit()" icon="pi pi-arrow-right" iconPos="right" label="Next"/>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+  <!-- Of the 4 steps this is tirth -->
+  <p-stepperPanel id="developing-views" header="Developing the views">
+    <ng-template let-index="index" let-nextCallback="nextCallback" let-prevCallback="prevCallback" pTemplate="content">
+      <div id="stepper3-content" class="border-2 border-dashed surface-border border-round surface-ground p-3">
+        <h1>Architecture Views</h1>
+        <p class="text-justify">
+          In this activity, the conceptualized architecture is translated into concrete views. It encompasses the creation of diagrams, charts, and
+          other visual representations that convey different facets of the architecture. The views serve as communication tools, aiding stakeholders
+          in understanding complex architectural structures, relationships, and behaviours.
+        </p>
+        <div class="grid">
+          <div id="architecture-views-form" class="col">
+            <div class="mb-3">
+              <p-fieldset legend="Entity of Interest">
+                <p>{{ entityOfInterest.name }}</p>
+              </p-fieldset>
+            </div>
+            <div>
+              <p-fieldset legend="Views">
+                <div class="py-2 flex justify-content-end">
+                  <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNewViewDialog()"/>
+                </div>
+                <p-table [value]="views" [paginator]="true" [rows]="5" rowGroupMode="subheader" groupRowsBy="viewpoint.name">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="groupheader" let-view>
+                    <tr pRowGroupHeader>
+                      <td colspan="2">
+                        <span class="font-bold">{{ view.viewpoint.name }}</span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-view>
+                    <tr>
+                      <td>{{ view.name }}</td>
+                      <td>
+                        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                  severity="success"/>
+                        <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"/>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <p-dialog id="view-dialog" [(visible)]="viewDialog" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                  <app-register-view [selectedViewpoint]="viewpoint"></app-register-view>
+                </p-dialog>
+              </p-fieldset>
+            </div>
+          </div>
+          <!--          <div id="design-view-preview" class="col">-->
+          <!--            <p-tabView>-->
+          <!--              <p-tabPanel *ngFor="let viewpoint of getUniqueViewpointsForViews()" header="{{ viewpoint.name }}">-->
+          <!--                <div *ngFor="let view of getViewByViewpoint(viewpoint.name)" class="border-2 border-dashed surface-border border-round surface-ground p-3">-->
+          <!--                  <h1>{{ entityOfInterest.name }}</h1>-->
+          <!--                  <div class="w-full border-1 text-center font-bold bg-gray-300">{{ view.name }}</div>-->
+          <!--                  <div class="border-1 flex">-->
+          <!--                    <div class="w-9rem border-right-1">Viewpoint: </div>-->
+          <!--                    <div class="w-full">{{view.viewpoint.name}}</div>-->
+          <!--                  </div>-->
+          <!--                  <div>-->
+          <!--                    <div class="w- border-right-1">Concern(s):</div>-->
+          <!--                    <div class="w-full">{{getConcernsList(view)}}</div>-->
+          <!--                  </div>-->
+
+          <!--                </div>-->
+          <!--              </p-tabPanel>-->
+          <!--            </p-tabView>-->
+          <!--          </div>-->
+        </div>
+      </div>
+      <div class="flex pt-4 justify-content-start">
+        <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+  <!-- Of the 4 steps this is fourth and last -->
+  <p-stepperPanel id="assessing-document" header="Assessing the document">
+    <ng-template let-index="index" let-prevCallback="prevCallback" pTemplate="content">
+      <div class="flex flex-column h-12rem">
+        <h1>Assessing the documenting</h1>
+        <p class="text-justify">
+          The assessment activity focuses on evaluating the completeness, consistency, and quality of the proposed architecture. It entails
+          systematically reviewing architecture views and models against predefined objectives, ensuring alignment with the intended
+          conceptualization. The assessment process identifies discrepancies, validates the architecture against its conceptual intent, and addresses
+          any gaps or inconsistencies, ultimately enhancing the overall robustness of the architecture.
+        </p>
+        <div class="grid">
+          <div id="assessing-documenting" class="col">
+            <div class="mb-3">
+              <p-fieldset legend="Entity of Interest">
+                <p>{{ entityOfInterest.name }}</p>
+              </p-fieldset>
+            </div>
+            <div>
+              <p-fieldset legend="Architecture Validation Checklist">
+                <div class="field">
+                  <label for="input-checklist-version">Version:</label>
+                  <input pInputText id="input-checklist-version" required class="w-full"/>
+                </div>
+                <table summary="" aria-labelledby="label_7" cellpadding="4" cellspacing="0" class="form-matrix-table" data-component="matrix"
+                       data-dynamic="true">
+                  <tr class="form-matrix-tr form-matrix-header-tr">
+                    <th class="form-matrix-th" style="border: none;">&nbsp;</th>
+                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_0" style="position: relative;">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Col Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Inspected
+                        </div>
+                      </div>
+                    </th>
+                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_1" style="position: relative;">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Col Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Status
+                        </div>
+                      </div>
+                    </th>
+                    <th scope="col" class="form-matrix-headers form-matrix-column-headers form-matrix-column_2" style="position: relative;">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Col Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Comments
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_0">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Have the architecture views and models been evaluated during architectural elaboration?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_0_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[0][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_0"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_0_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_0_1" class="form-dropdown" name="q7_preparation[0][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_0" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_0_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[0][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_0"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_1">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Have the architecture descriptions and work products been evaluated and verified?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_1_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[1][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_1"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_1_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_1_1" class="form-dropdown" name="q7_preparation[1][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_1" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_1_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[1][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_1"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_2">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Has the suitability of the architecture description been assessed?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_2_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[2][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_2"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_2_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_2_1" class="form-dropdown" name="q7_preparation[2][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_2" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_2_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[2][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_2"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_3">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Has the consistency of architecture work products been verified?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_3_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[3][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_3"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_3_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_3_1" class="form-dropdown" name="q7_preparation[3][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_3" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_3_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[3][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_3"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_4">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Has the architecture description been updated to address identified redundancies, gaps, and shortfalls?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[4][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_4"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_4_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_4_1" class="form-dropdown" name="q7_preparation[4][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_4" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[4][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_4"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_4">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Have views and models that can be generalized for reuse by other projects been identified?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[4][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_4"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_4_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_4_1" class="form-dropdown" name="q7_preparation[4][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_4" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[4][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_4"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                  <tr class="form-matrix-tr form-matrix-value-tr" aria-labelledby="label_7 label_7_row_4">
+                    <th scope="row" class="form-matrix-headers form-matrix-row-headers">
+                      <div class="editor-container editorHasText" style="display: inline-block;">
+                        <div class="inlineEditor " placeholder="Type Row Name" format="text" maxlength="1000" contenteditable="true"
+                             data-gramm="false">Has the updated architecture description been placed in the architecture repository and put under change control, when appropriate?
+                        </div>
+                      </div>
+                    </th>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_0" class="form-checkbox" type="checkbox"
+                                                          name="q7_preparation[4][0]" tabindex="-1" aria-labelledby="label_7_col_0 label_7_row_4"
+                                                          aria-label="Cells Check Box" value="Inspected"><label for="input_7_4_0"
+                                                                                                                class="matrix-choice-label matrix-checkbox-label"></label>
+                    </td>
+                    <td class="form-matrix-values"><select disabled="" id="input_7_4_1" class="form-dropdown" name="q7_preparation[4][1]"
+                                                           aria-labelledby="label_7_col_1 label_7_row_4" aria-label="Cells Select Box"
+                                                           style="width: 100%; box-sizing: border-box;">
+                      <option aria-label="Please select"></option>
+                      <option value="Correct">Correct</option>
+                      <option value="Needs Correction">Needs Correction</option>
+                    </select></td>
+                    <td class="form-matrix-values"><input readonly="" id="input_7_4_2" class="form-textbox" type="text" size="5"
+                                                          name="q7_preparation[4][2]" tabindex="-1" aria-labelledby="label_7_col_2 label_7_row_4"
+                                                          aria-label="Cells Text Box" value="" style="width: 100%; box-sizing: border-box;"></td>
+                  </tr>
+                </table>
+                <p-dialog id="view-dialog" [(visible)]="viewDialog" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                  <app-register-view [selectedViewpoint]="viewpoint"></app-register-view>
+                </p-dialog>
+              </p-fieldset>
+            </div>
+          </div>
+          <!--          <div id="design-view-preview" class="col">-->
+          <!--            <p-tabView>-->
+          <!--              <p-tabPanel *ngFor="let viewpoint of getUniqueViewpointsForViews()" header="{{ viewpoint.name }}">-->
+          <!--                <div *ngFor="let view of getViewByViewpoint(viewpoint.name)" class="border-2 border-dashed surface-border border-round surface-ground p-3">-->
+          <!--                  <h1>{{ entityOfInterest.name }}</h1>-->
+          <!--                  <div class="w-full border-1 text-center font-bold bg-gray-300">{{ view.name }}</div>-->
+          <!--                  <div class="border-1 flex">-->
+          <!--                    <div class="w-9rem border-right-1">Viewpoint: </div>-->
+          <!--                    <div class="w-full">{{view.viewpoint.name}}</div>-->
+          <!--                  </div>-->
+          <!--                  <div>-->
+          <!--                    <div class="w- border-right-1">Concern(s):</div>-->
+          <!--                    <div class="w-full">{{getConcernsList(view)}}</div>-->
+          <!--                  </div>-->
+
+          <!--                </div>-->
+          <!--              </p-tabPanel>-->
+          <!--            </p-tabView>-->
+          <!--          </div>-->
+        </div>
+        <div class="flex pt-4 justify-content-start">
+          <p-button (onClick)="prevCallback.emit()" icon="pi pi-arrow-left" label="Back"/>
+        </div>
+      </div>
+    </ng-template>
+  </p-stepperPanel>
+</p-stepper>

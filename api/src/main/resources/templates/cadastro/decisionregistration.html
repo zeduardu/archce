@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<th:block th:insert="fragments/base.html :: headconfig">
+	</th:block>
+</head>
+
+<body>
+	<div class="container">
+		<header th:replace="fragments/base.html :: header(page='Decision Registration',link='decisionregistration')">
+		</header>
+
+		<div class="row">
+
+
+			<form action="salvardecision" id="decisionobjective" method="post" th:object="${decisionobj}"
+				class="col s12" onsubmit="return validarCampos()? true : false">
+
+				<div class="row">
+
+					<div class="input-field col s6">
+						<label for="description" class="active">Description</label>
+						<input name="description" th:field="*{description}" id="description" class="validate">
+						<input name="id" type="hidden" th:field="*{id}" id="id">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="solution" class="active">Solution</label>
+						<input name="solution" th:field="*{solution}" id="solution" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="rationale" class="active">Rationale</label>
+						<input name="rationale" th:field="*{rationale}" id="rationale" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="objective" class="active">Objective</label>
+						<select class="browser-default" id="objective" name="objective" th:field="*{objective}">
+							<option value="" disabled selected> --[Select]-- </option>
+							<option th:each="o : ${objectives}" th:value="${o.id}" th:text="${o.description}"></option>
+						</select>
+					</div>
+
+					<div class="input-field col s6">
+						<input type="submit" value="Save Decision" class="waves-effect waves-light btn">
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+		<table class="striped">
+			<thead>
+				<tr>
+					<th> Objective </th>
+					<th> Description </th>
+					<th> Solution </th>
+					<th> Rationale </th>
+					<th> Edit Decisions / Add Tradeoffs </th>
+					<th> Delete </th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="decisions : ${decisions}">
+					<td th:text="${decisions.objective.description}"></td>
+					<td th:text="${decisions.description}"></td>
+					<td th:text="${decisions.solution}"></td>
+					<td th:text="${decisions.rationale}"></td>
+					<td><a th:href="@{/editardecision/{iddecision}(iddecision=${decisions.id})}">Edit Decision / Add Tradeoffs</a> </td>
+					<td><a th:href="@{/removerdecision/{iddecision}(iddecision=${decisions.id})}">Delete</a> </td>
+					<!--  <td><a th:href="@{/tradeoff/{iddecision}(iddecision=${decisions.id})}">Add Tradeoff</a>  </td> -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		function validarCampos() {
+			description = document.getElementById('description').value;
+			solution = document.getElementById('solution').value;
+			rationale = document.getElementById('rationale').value;
+			objective = document.getElementById('objective').value;
+
+			if (description === '') {
+				alert('Description must be informed');
+				return false;
+			} else if (solution === '') {
+				alert('Solution must be informed');
+				return false;
+			} else if (objective === '') {
+				alert('Check if an objective was previously registrated, if so, select one.');
+				return false;
+			}
+			return true;
+		}
+	</script>
+
+</body>
+
+</html>

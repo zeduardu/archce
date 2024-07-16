@@ -1,0 +1,18 @@
+<h1>Manage concerns</h1>
+<div class="field">
+  <label for="matter">Matter</label>
+  <textarea pInputTextarea id="matter" [(ngModel)]="concern.matter" rows="5" class="focus:border-primary w-full"></textarea>
+  <small id="matter-helo">
+    Please enter the matter of interest or importance to one or more stakeholders.
+  </small>
+</div>
+<div class="field">
+  <label for="stakeholders">Concern</label>
+  <!-- <p-pickList
+    id="stakeholders"
+    [source]="stakeholders"
+    [target]="concern.stakeholders"
+  /> -->
+  <small>A concern can be shared by one or more stakeholders and a stakeholder can hold more than one concern</small>
+</div>
+
