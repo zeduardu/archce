@@ -1,41 +1,43 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { EditorModule } from 'primeng/editor';
-import { InputTextModule } from 'primeng/inputtext';
-import { StepperModule } from 'primeng/stepper';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
 import { NgForOf, NgIf } from '@angular/common';
-import { PanelModule } from 'primeng/panel';
-import { RippleModule } from 'primeng/ripple';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AddObjectiveReq } from '@models/add-objective-req';
 import { BrowseAllEntitiesInterestRes } from '@models/BrowseAllEntitiesInterestRes';
-import { EntityInterest } from '@models/entity-interest';
 import { BrowseByEntityInterestIdObjectivesRes } from '@models/BrowseByEntityInterestIdObjectivesRes';
+import { EntityInterest } from '@models/entity-interest';
 import { Objective } from '@models/objective';
 import { Stakeholder } from '@models/stakeholder';
+import { StakeholderType } from '@models/stakeholder-type';
+import { View } from '@models/View';
+import { Viewpoint } from '@models/viewpoint';
+import { RegisterViewComponent } from '@modules/register/register-view/register-view.component';
+import { RegisterModule } from '@modules/register/register.module';
 import { EntityInterestService } from '@services/entity-interest.service';
 import { ObjectiveService } from '@services/objective.service';
 import { StakeholderService } from '@services/stakeholder.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AddObjectiveReq } from '@models/add-objective-req';
-import { InputGroupModule } from 'primeng/inputgroup';
+import { ViewService } from '@services/view.service';
 import { ViewpointService } from '@services/viewpoint.service';
-import { Subject } from 'rxjs';
-import { Viewpoint } from '@models/viewpoint';
-import { ToolbarModule } from 'primeng/toolbar';
-import { StakeholderType } from '@models/stakeholder-type';
-import { ListboxModule } from 'primeng/listbox';
-import { RouterLink } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { EditorModule } from 'primeng/editor';
 import { FieldsetModule } from 'primeng/fieldset';
-import { RegisterModule } from '@modules/register/register.module';
-import { View } from '@models/View';
-import { RegisterViewComponent } from '@modules/register/register-view/register-view.component';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputTextModule } from 'primeng/inputtext';
+import { ListboxModule } from 'primeng/listbox';
+import { PanelModule } from 'primeng/panel';
+import { RippleModule } from 'primeng/ripple';
+import { StepperModule } from 'primeng/stepper';
+import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
-import {ViewService} from "@services/view.service";
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import Quill from 'quill';
+import { Subject } from 'rxjs';
+import { PEditorCustomizedComponent } from '../../shared/component/p-editor-customized/p-editor-customized.component';
 
 @Component({
   selector: 'app-elaboration',
@@ -43,7 +45,6 @@ import {ViewService} from "@services/view.service";
   imports: [
     StepperModule,
     ButtonModule,
-    ReactiveFormsModule,
     InputTextModule,
     EditorModule,
     ConfirmDialogModule,
@@ -64,6 +65,7 @@ import {ViewService} from "@services/view.service";
     RegisterModule,
     RegisterViewComponent,
     TabViewModule,
+    PEditorCustomizedComponent,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './elaboration.component.html',
@@ -172,11 +174,7 @@ export class ElaborationComponent implements OnInit {
     });
 
     //TODO: Remove in the future, used to build screen design
-    this.views = this.viewService.browseAllViewsByENityInterest(1)
-
-    this.designingViewpointsForm.valueChanges.subscribe((data) => {
-      this.onArchPlanFormChange(data);
-    });
+    this.views = this.viewService.browseAllViewsByENityInterest(1);
 
     this.stakeholderTypes = [
       StakeholderType.ACQUIRER,
@@ -213,8 +211,14 @@ export class ElaborationComponent implements OnInit {
     });
   }
 
-  fillObjectivesByEntityInterestId(value: any) {
-    this.entityOfInterest = value;
+  fillFieldsWithEntityInterest(value: any) {
+
+    // Receber o valor do select com value, não cria uma nova instância.
+    // Há uma necessidade de comparar objetos para saber se houve alteração
+    // nos campos e quando houver alteração, exibir um modal de confirmação.
+    // Por isso a instancia de entityOfInterest com o valor do select.
+    this.entityOfInterest = { ...value };
+
     this.objectiveService.getObjectivesByEntityInterestId(value.id).subscribe({
       next: (objectives) => {
         this.objectives = objectives;
@@ -418,16 +422,6 @@ export class ElaborationComponent implements OnInit {
     return index;
   }
 
-  onArchPlanFormChange(data: any) {
-    this.viewpointService.viewpoint = {
-      ...this.viewpointService.viewpoint,
-      ...data,
-    };
-    if (this.viewpointService.viewpoint) {
-      this.viewpoint$.next(this.viewpointService.viewpoint);
-    }
-  }
-
   openNewViewDialog() {}
   // returns a list of concerns framed by viewpoin using concatenate string list
   getConcernsList(view: View) {
@@ -435,10 +429,39 @@ export class ElaborationComponent implements OnInit {
   }
 
   getUniqueViewpointsForViews(): Viewpoint[] {
-    return this.views.map((view) => view.viewpoint)
+    return this.views.map((view) => view.viewpoint);
   }
 
-  getViewByViewpoint(viewpointName: string): View[]{
-    return this.views.filter((view) => view.viewpoint.name === viewpointName)
+  getViewByViewpoint(viewpointName: string): View[] {
+    return this.views.filter((view) => view.viewpoint.name === viewpointName);
+  }
+
+  otherEvent() {
+    if (this.selectedEntityOfInterest) {
+      if (this.areEntitiesDifferent()) {
+        console.log('Editou formulário!!!');
+      } else {
+        console.log('Formulário ainda não editado!!!');
+      }
+    }
+  }
+
+  areEntitiesDifferent(): boolean {
+    return this.deepEqual(this.entityOfInterest, this.selectedEntityOfInterest);
+  }
+
+  deepEqual(obj1: any, obj2: any): boolean {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (const key of keys1) {
+      if (!keys2.includes(key) || obj1[key] !== obj2[key]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
